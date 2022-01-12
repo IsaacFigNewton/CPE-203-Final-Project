@@ -15,4 +15,8 @@ public final class Background
         this.id = id;
         this.images = images;
     }
+
+    //getters
+    //**************************************************************************
+    public PImage getCurrentImage() { return this.images.get(this.imageIndex);}
 }

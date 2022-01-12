@@ -45,4 +45,28 @@ public final class Entity
         this.health = health;
         this.healthLimit = healthLimit;
     }
+
+    //Getters
+    //************************************************************************
+    public PImage getCurrentImage() { return this.images.get(this.imageIndex);}
+
+    public int getAnimationPeriod() {
+        switch (this.kind) {
+            case DUDE_FULL:
+            case DUDE_NOT_FULL:
+            case OBSTACLE:
+            case FAIRY:
+            case SAPLING:
+            case TREE:
+                return this.animationPeriod;
+            default:
+                throw new UnsupportedOperationException(
+                        String.format("getAnimationPeriod not supported for %s",
+                                this.kind));
+        }
+    }
+
+    public void nextImage() {
+        this.imageIndex = (this.imageIndex + 1) % this.images.size();
+    }
 }
