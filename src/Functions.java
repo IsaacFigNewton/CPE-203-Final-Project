@@ -101,14 +101,14 @@ public final class Functions
     public static void executeAnimationAction(
             Action action, EventScheduler scheduler)
     {
-        nextImage(action.entity);
+        action.entity.nextImage();
 
         if (action.repeatCount != 1) {
             scheduleEvent(scheduler, action.entity,
                     createAnimationAction(action.entity,
                             Math.max(action.repeatCount - 1,
                                     0)),
-                    getAnimationPeriod(action.entity));
+                    action.entity.getAnimationPeriod());
         }
     }
 
@@ -259,7 +259,7 @@ public final class Functions
                         entity.actionPeriod);
                 scheduleEvent(scheduler, entity,
                         createAnimationAction(entity, 0),
-                        getAnimationPeriod(entity));
+                        entity.getAnimationPeriod());
                 break;
 
             case DUDE_NOT_FULL:
@@ -268,13 +268,13 @@ public final class Functions
                         entity.actionPeriod);
                 scheduleEvent(scheduler, entity,
                         createAnimationAction(entity, 0),
-                        getAnimationPeriod(entity));
+                        entity.getAnimationPeriod());
                 break;
 
             case OBSTACLE:
                 scheduleEvent(scheduler, entity,
                         createAnimationAction(entity, 0),
-                        getAnimationPeriod(entity));
+                        entity.getAnimationPeriod());
                 break;
 
             case FAIRY:
@@ -283,7 +283,7 @@ public final class Functions
                         entity.actionPeriod);
                 scheduleEvent(scheduler, entity,
                         createAnimationAction(entity, 0),
-                        getAnimationPeriod(entity));
+                        entity.getAnimationPeriod());
                 break;
 
             case SAPLING:
@@ -292,7 +292,7 @@ public final class Functions
                         entity.actionPeriod);
                 scheduleEvent(scheduler, entity,
                         createAnimationAction(entity, 0),
-                        getAnimationPeriod(entity));
+                        entity.getAnimationPeriod());
                 break;
 
             case TREE:
@@ -301,7 +301,7 @@ public final class Functions
                         entity.actionPeriod);
                 scheduleEvent(scheduler, entity,
                         createAnimationAction(entity, 0),
-                        getAnimationPeriod(entity));
+                        entity.getAnimationPeriod());
                 break;
 
             default:
@@ -964,7 +964,7 @@ public final class Functions
             WorldModel world, Point pos)
     {
         if (withinBounds(world, pos)) {
-            return Optional.of(getCurrentImage(getBackgroundCell(world, pos)));
+            return Optional.of(getBackgroundCell(world, pos).getCurrentImage());
         }
         else {
             return Optional.empty();
@@ -1049,7 +1049,7 @@ public final class Functions
 
             if (contains(view.viewport, pos)) {
                 Point viewPoint = worldToViewport(view.viewport, pos.x, pos.y);
-                view.screen.image(getCurrentImage(entity),
+                view.screen.image(entity.getCurrentImage(),
                         viewPoint.x * view.tileWidth,
                         viewPoint.y * view.tileHeight);
             }
