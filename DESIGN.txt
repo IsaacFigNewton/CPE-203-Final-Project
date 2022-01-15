@@ -1,0 +1,2 @@
+I put scheduleActions() in the EventScheduler class because it would be easier to just include the information for the
+action as parameters for it than it would be to create the action and then pass it to the method.

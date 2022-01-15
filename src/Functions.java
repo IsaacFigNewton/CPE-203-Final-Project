@@ -86,98 +86,8 @@ public final class Functions
     public static final int TREE_HEALTH_MAX = 3;
     public static final int TREE_HEALTH_MIN = 1;
 
-    public static void executeAction(Action action, EventScheduler scheduler) {
-        switch (action.kind) {
-            case ACTIVITY:
-                executeActivityAction(action, scheduler);
-                break;
 
-            case ANIMATION:
-                executeAnimationAction(action, scheduler);
-                break;
-        }
-    }
-
-    public static void executeAnimationAction(
-            Action action, EventScheduler scheduler)
-    {
-        action.entity.nextImage();
-
-        if (action.repeatCount != 1) {
-            scheduleEvent(scheduler, action.entity,
-                    createAnimationAction(action.entity,
-                            Math.max(action.repeatCount - 1,
-                                    0)),
-                    action.entity.getAnimationPeriod());
-        }
-    }
-
-    public static void executeActivityAction(
-            Action action, EventScheduler scheduler)
-    {
-        switch (action.entity.kind) {
-            case SAPLING:
-                executeSaplingActivity(action.entity, action.world,
-                        action.imageStore, scheduler);
-                break;
-
-            case TREE:
-                executeTreeActivity(action.entity, action.world,
-                        action.imageStore, scheduler);
-                break;
-
-            case FAIRY:
-                executeFairyActivity(action.entity, action.world,
-                        action.imageStore, scheduler);
-                break;
-
-            case DUDE_NOT_FULL:
-                executeDudeNotFullActivity(action.entity, action.world,
-                        action.imageStore, scheduler);
-                break;
-
-            case DUDE_FULL:
-                executeDudeFullActivity(action.entity, action.world,
-                        action.imageStore, scheduler);
-                break;
-
-            default:
-                throw new UnsupportedOperationException(String.format(
-                        "executeActivityAction not supported for %s",
-                        action.entity.kind));
-        }
-    }
-
-    public static void executeSaplingActivity(
-            Entity entity,
-            WorldModel world,
-            ImageStore imageStore,
-            EventScheduler scheduler)
-    {
-        entity.health++;
-        if (!transformPlant(entity, world, scheduler, imageStore))
-        {
-            scheduleEvent(scheduler, entity,
-                    createActivityAction(entity, world, imageStore),
-                    entity.actionPeriod);
-        }
-    }
-
-    public static void executeTreeActivity(
-            Entity entity,
-            WorldModel world,
-            ImageStore imageStore,
-            EventScheduler scheduler)
-    {
-
-        if (!transformPlant(entity, world, scheduler, imageStore)) {
-
-            scheduleEvent(scheduler, entity,
-                    createActivityAction(entity, world, imageStore),
-                    entity.actionPeriod);
-        }
-    }
-
+//revert
     public static void executeFairyActivity(
             Entity entity,
             WorldModel world,
@@ -195,13 +105,12 @@ public final class Functions
                         getImageList(imageStore, SAPLING_KEY));
 
                 addEntity(world, sapling);
-                scheduleActions(sapling, scheduler, world, imageStore);
+                scheduler.scheduleActions(sapling, world, imageStore);
             }
         }
 
-        scheduleEvent(scheduler, entity,
-                createActivityAction(entity, world, imageStore),
-                entity.actionPeriod);
+        scheduler.scheduleEvent(entity,
+                createActivityAction(entity, world, imageStore), entity.actionPeriod);
     }
 
     public static void executeDudeNotFullActivity(
@@ -213,12 +122,10 @@ public final class Functions
         Optional<Entity> target =
                 findNearest(world, entity.position, new ArrayList<>(Arrays.asList(EntityKind.TREE, EntityKind.SAPLING)));
 
-        if (!target.isPresent() || !moveToNotFull(entity, world,
-                target.get(),
-                scheduler)
+        if (!target.isPresent() || !moveToNotFull(entity, world, target.get(), scheduler)
                 || !transformNotFull(entity, world, scheduler, imageStore))
         {
-            scheduleEvent(scheduler, entity,
+            scheduler.scheduleEvent(entity,
                     createActivityAction(entity, world, imageStore),
                     entity.actionPeriod);
         }
@@ -239,74 +146,14 @@ public final class Functions
             transformFull(entity, world, scheduler, imageStore);
         }
         else {
-            scheduleEvent(scheduler, entity,
+            scheduler.scheduleEvent(entity,
                     createActivityAction(entity, world, imageStore),
                     entity.actionPeriod);
         }
     }
 
 
-    public static void scheduleActions(
-            Entity entity,
-            EventScheduler scheduler,
-            WorldModel world,
-            ImageStore imageStore)
-    {
-        switch (entity.kind) {
-            case DUDE_FULL:
-                scheduleEvent(scheduler, entity,
-                        createActivityAction(entity, world, imageStore),
-                        entity.actionPeriod);
-                scheduleEvent(scheduler, entity,
-                        createAnimationAction(entity, 0),
-                        entity.getAnimationPeriod());
-                break;
 
-            case DUDE_NOT_FULL:
-                scheduleEvent(scheduler, entity,
-                        createActivityAction(entity, world, imageStore),
-                        entity.actionPeriod);
-                scheduleEvent(scheduler, entity,
-                        createAnimationAction(entity, 0),
-                        entity.getAnimationPeriod());
-                break;
-
-            case OBSTACLE:
-                scheduleEvent(scheduler, entity,
-                        createAnimationAction(entity, 0),
-                        entity.getAnimationPeriod());
-                break;
-
-            case FAIRY:
-                scheduleEvent(scheduler, entity,
-                        createActivityAction(entity, world, imageStore),
-                        entity.actionPeriod);
-                scheduleEvent(scheduler, entity,
-                        createAnimationAction(entity, 0),
-                        entity.getAnimationPeriod());
-                break;
-
-            case SAPLING:
-                scheduleEvent(scheduler, entity,
-                        createActivityAction(entity, world, imageStore),
-                        entity.actionPeriod);
-                scheduleEvent(scheduler, entity,
-                        createAnimationAction(entity, 0),
-                        entity.getAnimationPeriod());
-                break;
-
-            case TREE:
-                scheduleEvent(scheduler, entity,
-                        createActivityAction(entity, world, imageStore),
-                        entity.actionPeriod);
-                scheduleEvent(scheduler, entity,
-                        createAnimationAction(entity, 0),
-                        entity.getAnimationPeriod());
-                break;
-
-            default:
-        }
-    }
 
     public static boolean transformNotFull(
             Entity entity,
@@ -322,10 +169,10 @@ public final class Functions
                     entity.images);
 
             removeEntity(world, entity);
-            unscheduleAllEvents(scheduler, entity);
+            scheduler.unscheduleAllEvents(entity);
 
             addEntity(world, dudeFull);
-            scheduleActions(dudeFull, scheduler, world, imageStore);
+            scheduler.scheduleActions(dudeFull, world, imageStore);
 
             return true;
         }
@@ -346,10 +193,10 @@ public final class Functions
                 entity.images);
 
         removeEntity(world, entity);
-        unscheduleAllEvents(scheduler, entity);
+        scheduler.unscheduleAllEvents(entity);
 
         addEntity(world, dudeNotFull);
-        scheduleActions(dudeNotFull, scheduler, world, imageStore);
+        scheduler.scheduleActions(dudeNotFull, world, imageStore);
     }
 
 
@@ -385,10 +232,10 @@ public final class Functions
                     getImageList(imageStore, STUMP_KEY));
 
             removeEntity(world, entity);
-            unscheduleAllEvents(scheduler, entity);
+            scheduler.unscheduleAllEvents(entity);
 
             addEntity(world, stump);
-            scheduleActions(stump, scheduler, world, imageStore);
+            scheduler.scheduleActions(stump, world, imageStore);
 
             return true;
         }
@@ -408,10 +255,10 @@ public final class Functions
                     getImageList(imageStore, STUMP_KEY));
 
             removeEntity(world, entity);
-            unscheduleAllEvents(scheduler, entity);
+            scheduler.unscheduleAllEvents(entity);
 
             addEntity(world, stump);
-            scheduleActions(stump, scheduler, world, imageStore);
+            scheduler.scheduleActions(stump, world, imageStore);
 
             return true;
         }
@@ -425,10 +272,10 @@ public final class Functions
                     getImageList(imageStore, TREE_KEY));
 
             removeEntity(world, entity);
-            unscheduleAllEvents(scheduler, entity);
+            scheduler.unscheduleAllEvents( entity);
 
             addEntity(world, tree);
-            scheduleActions(tree, scheduler, world, imageStore);
+            scheduler.scheduleActions(tree, world, imageStore);
 
             return true;
         }
@@ -444,7 +291,7 @@ public final class Functions
     {
         if (adjacent(fairy.position, target.position)) {
             removeEntity(world, target);
-            unscheduleAllEvents(scheduler, target);
+            scheduler.unscheduleAllEvents(target);
             return true;
         }
         else {
@@ -453,7 +300,7 @@ public final class Functions
             if (!fairy.position.equals(nextPos)) {
                 Optional<Entity> occupant = getOccupant(world, nextPos);
                 if (occupant.isPresent()) {
-                    unscheduleAllEvents(scheduler, occupant.get());
+                    scheduler.unscheduleAllEvents(occupant.get());
                 }
 
                 moveEntity(world, fairy, nextPos);
@@ -479,7 +326,7 @@ public final class Functions
             if (!dude.position.equals(nextPos)) {
                 Optional<Entity> occupant = getOccupant(world, nextPos);
                 if (occupant.isPresent()) {
-                    unscheduleAllEvents(scheduler, occupant.get());
+                    scheduler.unscheduleAllEvents(occupant.get());
                 }
 
                 moveEntity(world, dude, nextPos);
@@ -503,7 +350,7 @@ public final class Functions
             if (!dude.position.equals(nextPos)) {
                 Optional<Entity> occupant = getOccupant(world, nextPos);
                 if (occupant.isPresent()) {
-                    unscheduleAllEvents(scheduler, occupant.get());
+                    scheduler.unscheduleAllEvents(occupant.get());
                 }
 
                 moveEntity(world, dude, nextPos);
@@ -562,57 +409,6 @@ public final class Functions
                         - min);
     }
 
-    public static void scheduleEvent(
-            EventScheduler scheduler,
-            Entity entity,
-            Action action,
-            long afterPeriod)
-    {
-        long time = System.currentTimeMillis() + (long)(afterPeriod
-                * scheduler.timeScale);
-        Event event = new Event(action, time, entity);
-
-        scheduler.eventQueue.add(event);
-
-        // update list of pending events for the given entity
-        List<Event> pending = scheduler.pendingEvents.getOrDefault(entity,
-                new LinkedList<>());
-        pending.add(event);
-        scheduler.pendingEvents.put(entity, pending);
-    }
-
-    public static void unscheduleAllEvents(
-            EventScheduler scheduler, Entity entity)
-    {
-        List<Event> pending = scheduler.pendingEvents.remove(entity);
-
-        if (pending != null) {
-            for (Event event : pending) {
-                scheduler.eventQueue.remove(event);
-            }
-        }
-    }
-
-    public static void removePendingEvent(
-            EventScheduler scheduler, Event event)
-    {
-        List<Event> pending = scheduler.pendingEvents.get(event.entity);
-
-        if (pending != null) {
-            pending.remove(event);
-        }
-    }
-
-    public static void updateOnTime(EventScheduler scheduler, long time) {
-        while (!scheduler.eventQueue.isEmpty()
-                && scheduler.eventQueue.peek().time < time) {
-            Event next = scheduler.eventQueue.poll();
-
-            removePendingEvent(scheduler, next);
-
-            executeAction(next.action, scheduler);
-        }
-    }
 
     public static List<PImage> getImageList(ImageStore imageStore, String key) {
         return imageStore.images.getOrDefault(key, imageStore.defaultImages);

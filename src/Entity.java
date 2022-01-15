@@ -1,5 +1,4 @@
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 import processing.core.PImage;
 
@@ -69,4 +68,30 @@ public final class Entity
     public void nextImage() {
         this.imageIndex = (this.imageIndex + 1) % this.images.size();
     }
+
+
+    //Execute various kinds of activities
+    public void executeSaplingActivity(
+            WorldModel world,
+            ImageStore imageStore,
+            EventScheduler scheduler)
+    {
+        this.health++;
+        this.executeTreeActivity(world, imageStore, scheduler);
+    }
+
+    public void executeTreeActivity(
+            WorldModel world,
+            ImageStore imageStore,
+            EventScheduler scheduler)
+    {
+
+        if (!transformPlant(this, world, scheduler, imageStore)) {
+
+            scheduler.scheduleEvent(this,
+                    createActivityAction(this, world, imageStore),
+                    this.actionPeriod);
+        }
+    }
+
 }
