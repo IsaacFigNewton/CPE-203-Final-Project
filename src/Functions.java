@@ -87,7 +87,6 @@ public final class Functions
     public static final int TREE_HEALTH_MIN = 1;
 
 
-//revert
     public static void executeFairyActivity(
             Entity entity,
             WorldModel world,
@@ -110,7 +109,8 @@ public final class Functions
         }
 
         scheduler.scheduleEvent(entity,
-                createActivityAction(entity, world, imageStore), entity.actionPeriod);
+                createActivityAction(entity, world, imageStore),
+                entity.actionPeriod);
     }
 
     public static void executeDudeNotFullActivity(
@@ -122,7 +122,9 @@ public final class Functions
         Optional<Entity> target =
                 findNearest(world, entity.position, new ArrayList<>(Arrays.asList(EntityKind.TREE, EntityKind.SAPLING)));
 
-        if (!target.isPresent() || !moveToNotFull(entity, world, target.get(), scheduler)
+        if (!target.isPresent() || !moveToNotFull(entity, world,
+                target.get(),
+                scheduler)
                 || !transformNotFull(entity, world, scheduler, imageStore))
         {
             scheduler.scheduleEvent(entity,
@@ -151,8 +153,6 @@ public final class Functions
                     entity.actionPeriod);
         }
     }
-
-
 
 
     public static boolean transformNotFull(
@@ -197,90 +197,6 @@ public final class Functions
 
         addEntity(world, dudeNotFull);
         scheduler.scheduleActions(dudeNotFull, world, imageStore);
-    }
-
-
-    public static boolean transformPlant( Entity entity,
-                                          WorldModel world,
-                                          EventScheduler scheduler,
-                                          ImageStore imageStore)
-    {
-        if (entity.kind == EntityKind.TREE)
-        {
-            return transformTree(entity, world, scheduler, imageStore);
-        }
-        else if (entity.kind == EntityKind.SAPLING)
-        {
-            return transformSapling(entity, world, scheduler, imageStore);
-        }
-        else
-        {
-            throw new UnsupportedOperationException(
-                    String.format("transformPlant not supported for %s", entity));
-        }
-    }
-
-    public static boolean transformTree(
-            Entity entity,
-            WorldModel world,
-            EventScheduler scheduler,
-            ImageStore imageStore)
-    {
-        if (entity.health <= 0) {
-            Entity stump = createStump(entity.id,
-                    entity.position,
-                    getImageList(imageStore, STUMP_KEY));
-
-            removeEntity(world, entity);
-            scheduler.unscheduleAllEvents(entity);
-
-            addEntity(world, stump);
-            scheduler.scheduleActions(stump, world, imageStore);
-
-            return true;
-        }
-
-        return false;
-    }
-
-    public static boolean transformSapling(
-            Entity entity,
-            WorldModel world,
-            EventScheduler scheduler,
-            ImageStore imageStore)
-    {
-        if (entity.health <= 0) {
-            Entity stump = createStump(entity.id,
-                    entity.position,
-                    getImageList(imageStore, STUMP_KEY));
-
-            removeEntity(world, entity);
-            scheduler.unscheduleAllEvents(entity);
-
-            addEntity(world, stump);
-            scheduler.scheduleActions(stump, world, imageStore);
-
-            return true;
-        }
-        else if (entity.health >= entity.healthLimit)
-        {
-            Entity tree = createTree("tree_" + entity.id,
-                    entity.position,
-                    getNumFromRange(TREE_ACTION_MAX, TREE_ACTION_MIN),
-                    getNumFromRange(TREE_ANIMATION_MAX, TREE_ANIMATION_MIN),
-                    getNumFromRange(TREE_HEALTH_MAX, TREE_HEALTH_MIN),
-                    getImageList(imageStore, TREE_KEY));
-
-            removeEntity(world, entity);
-            scheduler.unscheduleAllEvents( entity);
-
-            addEntity(world, tree);
-            scheduler.scheduleActions(tree, world, imageStore);
-
-            return true;
-        }
-
-        return false;
     }
 
     public static boolean moveToFairy(

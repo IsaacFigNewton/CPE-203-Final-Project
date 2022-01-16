@@ -49,17 +49,17 @@ public final class Action
                 break;
 
             case FAIRY:
-                this.entity.executeFairyActivity(this.world,
+                Functions.executeFairyActivity(this.entity, this.world,
                         this.imageStore, scheduler);
                 break;
 
             case DUDE_NOT_FULL:
-                this.entity.executeDudeNotFullActivity(this.world,
+                Functions.executeDudeNotFullActivity(this.entity, this.world,
                         this.imageStore, scheduler);
                 break;
 
             case DUDE_FULL:
-                this.entity.executeDudeFullActivity(this.world,
+                Functions.executeDudeFullActivity(this.entity, this.world,
                         this.imageStore, scheduler);
                 break;
 
@@ -76,7 +76,7 @@ public final class Action
 
         if (this.repeatCount != 1) {
             scheduler.scheduleEvent(this.entity,
-                    createAnimationAction(this.entity,
+                    Functions.createAnimationAction(this.entity,
                             Math.max(this.repeatCount - 1,
                                     0)),
                     this.entity.getAnimationPeriod());
