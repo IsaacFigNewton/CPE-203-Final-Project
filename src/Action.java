@@ -49,17 +49,17 @@ public final class Action
                 break;
 
             case FAIRY:
-                Functions.executeFairyActivity(this.entity, this.world,
+                this.entity.executeFairyActivity(this.world,
                         this.imageStore, scheduler);
                 break;
 
             case DUDE_NOT_FULL:
-                Functions.executeDudeNotFullActivity(this.entity, this.world,
+                this.entity.executeDudeNotFullActivity(this.world,
                         this.imageStore, scheduler);
                 break;
 
             case DUDE_FULL:
-                Functions.executeDudeFullActivity(this.entity, this.world,
+                this.entity.executeDudeFullActivity(this.world,
                         this.imageStore, scheduler);
                 break;
 
