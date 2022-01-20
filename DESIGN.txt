@@ -1,2 +1,10 @@
 I put scheduleActions() in the EventScheduler class because it would be easier to just include the information for the
 action as parameters for it than it would be to create the action and then pass it to the method.
+
+I moved the following methods to the ImageStore class because they had to do with images, so I thought it would be
+easiest to remember them there.
+They didn't use any project-specific object types, so I didn't have much to guide my decision.
++processImageLine()                          <<static>>
++getImages(): List<PImage>                   <<static>>
++setAlpha()                                  <<static>>
+

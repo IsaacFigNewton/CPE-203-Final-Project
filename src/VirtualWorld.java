@@ -1,6 +1,5 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.PrintStream;
 import java.util.Scanner;
 import java.util.Optional;
 
@@ -123,8 +122,7 @@ public final class VirtualWorld extends PApplet
 
     public static Background createDefaultBackground(ImageStore imageStore) {
         return new Background(DEFAULT_IMAGE_NAME,
-                              Functions.getImageList(imageStore,
-                                                     DEFAULT_IMAGE_NAME));
+                              imageStore.getImageList(DEFAULT_IMAGE_NAME));
     }
 
     public static PImage createImageColored(int width, int height, int color) {
@@ -142,7 +140,7 @@ public final class VirtualWorld extends PApplet
     {
         try {
             Scanner in = new Scanner(new File(filename));
-            Functions.loadImages(in, imageStore, screen);
+            imageStore.loadImages(in, screen);
         }
         catch (FileNotFoundException e) {
             System.err.println(e.getMessage());

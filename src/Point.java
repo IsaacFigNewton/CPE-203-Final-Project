@@ -11,6 +11,11 @@ public final class Point
         this.y = y;
     }
 
+    public boolean adjacent(Point other) {
+        return (this.x == other.x && Math.abs(this.y - other.y) == 1) || (this.y == other.y
+                && Math.abs(this.x - other.x) == 1);
+    }
+
     public String toString() {
         return "(" + x + "," + y + ")";
     }

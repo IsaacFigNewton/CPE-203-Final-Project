@@ -120,7 +120,7 @@ public final class Entity
         if (entity.health <= 0) {
             Entity stump = Functions.createStump(entity.id,
                     entity.position,
-                    Functions.getImageList(imageStore, Functions.STUMP_KEY));
+                    imageStore.getImageList(Functions.STUMP_KEY));
 
             Functions.removeEntity(world, entity);
             scheduler.unscheduleAllEvents(entity);
@@ -143,7 +143,7 @@ public final class Entity
         if (entity.health <= 0) {
             Entity stump = Functions.createStump(entity.id,
                     entity.position,
-                    Functions.getImageList(imageStore, Functions.STUMP_KEY));
+                    imageStore.getImageList(Functions.STUMP_KEY));
 
             Functions.removeEntity(world, entity);
             scheduler.unscheduleAllEvents(entity);
@@ -160,7 +160,7 @@ public final class Entity
                     Functions.getNumFromRange(Functions.TREE_ACTION_MAX, Functions.TREE_ACTION_MIN),
                     Functions.getNumFromRange(Functions.TREE_ANIMATION_MAX, Functions.TREE_ANIMATION_MIN),
                     Functions.getNumFromRange(Functions.TREE_HEALTH_MAX, Functions.TREE_HEALTH_MIN),
-                    Functions.getImageList(imageStore, Functions.TREE_KEY));
+                    imageStore.getImageList(Functions.TREE_KEY));
 
             Functions.removeEntity(world, entity);
             scheduler.unscheduleAllEvents( entity);
@@ -188,7 +188,7 @@ public final class Entity
 
             if (this.moveToFairy(world, fairyTarget.get(), scheduler)) {
                 Entity sapling = Functions.createSapling("sapling_" + this.id, tgtPos,
-                        Functions.getImageList(imageStore, Functions.SAPLING_KEY));
+                        imageStore.getImageList(Functions.SAPLING_KEY));
 
                 Functions.addEntity(world, sapling);
                 scheduler.scheduleActions(sapling, world, imageStore);
@@ -286,7 +286,7 @@ public final class Entity
             Entity target,
             EventScheduler scheduler)
     {
-        if (Functions.adjacent(this.position, target.position)) {
+        if (this.position.adjacent(target.position)) {
             Functions.removeEntity(world, target);
             scheduler.unscheduleAllEvents(target);
             return true;
@@ -311,7 +311,7 @@ public final class Entity
             Entity target,
             EventScheduler scheduler)
     {
-        if (Functions.adjacent(this.position, target.position)) {
+        if (this.position.adjacent(target.position)) {
             this.resourceCount += 1;
             target.health--;
             return true;
@@ -336,7 +336,7 @@ public final class Entity
             Entity target,
             EventScheduler scheduler)
     {
-        if (Functions.adjacent(this.position, target.position)) {
+        if (this.position.adjacent(target.position)) {
             return true;
         }
         else {
