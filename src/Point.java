@@ -1,3 +1,8 @@
+import processing.core.PImage;
+
+import java.util.List;
+import java.util.Optional;
+
 /**
  * A simple class representing a location in 2D space.
  */
@@ -9,6 +14,106 @@ public final class Point
     public Point(int x, int y) {
         this.x = x;
         this.y = y;
+    }
+
+    public Optional<Entity> nearestEntity(List<Entity> entities)
+    {
+        if (entities.isEmpty()) {
+            return Optional.empty();
+        }
+        else {
+            Entity nearest = entities.get(0);
+            int nearestDistance = this.distanceSquared(nearest.position);
+
+            for (Entity other : entities) {
+                int otherDistance = this.distanceSquared(other.position);
+
+                if (otherDistance < nearestDistance) {
+                    nearest = other;
+                    nearestDistance = otherDistance;
+                }
+            }
+
+            return Optional.of(nearest);
+        }
+    }
+
+    public int distanceSquared(Point other) {
+        int deltaX = this.x - other.x;
+        int deltaY = this.y - other.y;
+
+        return deltaX * deltaX + deltaY * deltaY;
+    }
+
+    public Entity createHouse(
+            String id, List<PImage> images)
+    {
+        return new Entity(EntityKind.HOUSE, id, this, images, 0, 0, 0,
+                0, 0, 0);
+    }
+
+    public Entity createObstacle(
+            String id, int animationPeriod, List<PImage> images)
+    {
+        return new Entity(EntityKind.OBSTACLE, id, this, images, 0, 0, 0,
+                animationPeriod, 0, 0);
+    }
+
+    public Entity createTree(
+            String id,
+            int actionPeriod,
+            int animationPeriod,
+            int health,
+            List<PImage> images)
+    {
+        return new Entity(EntityKind.TREE, id, this, images, 0, 0,
+                actionPeriod, animationPeriod, health, 0);
+    }
+
+    public Entity createStump(String id, List<PImage> images)
+    {
+        return new Entity(EntityKind.STUMP, id, this, images, 0, 0,
+                0, 0, 0, 0);
+    }
+
+    // health starts at 0 and builds up until ready to convert to Tree
+    public Entity createSapling(String id, List<PImage> images)
+    {
+        return new Entity(EntityKind.SAPLING, id, this, images, 0, 0,
+                Functions.SAPLING_ACTION_ANIMATION_PERIOD, Functions.SAPLING_ACTION_ANIMATION_PERIOD, 0, Functions.SAPLING_HEALTH_LIMIT);
+    }
+
+    public Entity createFairy(
+            String id,
+            int actionPeriod,
+            int animationPeriod,
+            List<PImage> images)
+    {
+        return new Entity(EntityKind.FAIRY, id, this, images, 0, 0,
+                actionPeriod, animationPeriod, 0, 0);
+    }
+
+    // need resource count, though it always starts at 0
+    public Entity createDudeNotFull(
+            String id,
+            int actionPeriod,
+            int animationPeriod,
+            int resourceLimit,
+            List<PImage> images)
+    {
+        return new Entity(EntityKind.DUDE_NOT_FULL, id, this, images, resourceLimit, 0,
+                actionPeriod, animationPeriod, 0, 0);
+    }
+
+    // don't technically need resource count ... full
+    public Entity createDudeFull(
+            String id,
+            int actionPeriod,
+            int animationPeriod,
+            int resourceLimit,
+            List<PImage> images) {
+        return new Entity(EntityKind.DUDE_FULL, id, this, images, resourceLimit, 0,
+                actionPeriod, animationPeriod, 0, 0);
     }
 
     public boolean adjacent(Point other) {

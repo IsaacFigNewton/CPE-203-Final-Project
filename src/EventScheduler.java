@@ -66,10 +66,10 @@ public final class EventScheduler
 
     public void scheduleKindAction (Entity entity, WorldModel world, ImageStore imageStore) {
         this.scheduleEvent(entity,
-                Functions.createActivityAction(entity, world, imageStore),
+                entity.createActivityAction(world, imageStore),
                 entity.actionPeriod);
         this.scheduleEvent(entity,
-                Functions.createAnimationAction(entity, 0),
+                entity.createAnimationAction(0),
                 entity.getAnimationPeriod());
     }
 
@@ -85,7 +85,7 @@ public final class EventScheduler
 
             case OBSTACLE:
                 this.scheduleEvent(entity,
-                        Functions.createAnimationAction(entity, 0),
+                        entity.createAnimationAction(0),
                         entity.getAnimationPeriod());
                 break;
 

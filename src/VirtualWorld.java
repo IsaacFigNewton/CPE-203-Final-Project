@@ -75,7 +75,7 @@ public final class VirtualWorld extends PApplet
             nextTime = time + TIMER_ACTION_PERIOD;
         }
 
-        Functions.drawViewport(view);
+        view.drawViewport();
     }
 
     // Just for debugging and for P5
@@ -95,8 +95,9 @@ public final class VirtualWorld extends PApplet
 
     private Point mouseToPoint(int x, int y)
     {
-        return Functions.viewportToWorld(view.viewport, mouseX/TILE_WIDTH, mouseY/TILE_HEIGHT);
+        return view.viewport.viewportToWorld(mouseX/TILE_WIDTH, mouseY/TILE_HEIGHT);
     }
+
     public void keyPressed() {
         if (key == CODED) {
             int dx = 0;
@@ -116,7 +117,7 @@ public final class VirtualWorld extends PApplet
                     dx = 1;
                     break;
             }
-            Functions.shiftView(view, dx, dy);
+            view.shiftView(dx, dy);
         }
     }
 
@@ -152,7 +153,7 @@ public final class VirtualWorld extends PApplet
     {
         try {
             Scanner in = new Scanner(new File(filename));
-            Functions.load(in, world, imageStore);
+            world.load(in, imageStore);
         }
         catch (FileNotFoundException e) {
             System.err.println(e.getMessage());

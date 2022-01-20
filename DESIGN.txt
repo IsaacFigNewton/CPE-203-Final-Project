@@ -26,7 +26,6 @@ internal code and implementations.
 +moveEntity()
 +removeEntity()
 +removeEntityAt()
-
 +getBackgroundImage(): Optional<PImage>
 +setBackground()
 +getOccupant(): Optional<Entity>
@@ -34,3 +33,11 @@ internal code and implementations.
 +setOccupancyCell()
 +getBackgroundCell(): Background
 +setBackgroundCell()
+
+I moved createAnimationAction() and createActivityAction() to the Entity class because Entity instances almost always
+have a respective action, so it seemed only logical to move these action creation methods to this class, since they also
+take an instance of the Entity object as a parameter.
+
+I moved getNumFromRange() to the Entity class because the transformSapling() method was the only method to use it.
+
+I moved the contains() and clamp() methods to the WorldView class because it was the only class that used them.
