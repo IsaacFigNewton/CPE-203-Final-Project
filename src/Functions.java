@@ -130,135 +130,23 @@ public final class Functions
         if (properties.length > 0) {
             switch (properties[PROPERTY_KEY]) {
                 case BGND_KEY:
-                    return parseBackground(properties, world, imageStore);
+                    return world.parseBackground(properties, imageStore);
                 case DUDE_KEY:
-                    return parseDude(properties, world, imageStore);
+                    return world.parseDude(properties, imageStore);
                 case OBSTACLE_KEY:
-                    return parseObstacle(properties, world, imageStore);
+                    return world.parseObstacle(properties, imageStore);
                 case FAIRY_KEY:
-                    return parseFairy(properties, world, imageStore);
+                    return world.parseFairy(properties, imageStore);
                 case HOUSE_KEY:
-                    return parseHouse(properties, world, imageStore);
+                    return world.parseHouse(properties, imageStore);
                 case TREE_KEY:
-                    return parseTree(properties, world, imageStore);
+                    return world.parseTree(properties, imageStore);
                 case SAPLING_KEY:
-                    return parseSapling(properties, world, imageStore);
+                    return world.parseSapling(properties, imageStore);
             }
         }
 
         return false;
-    }
-
-    public static boolean parseBackground(
-            String[] properties, WorldModel world, ImageStore imageStore)
-    {
-        if (properties.length == BGND_NUM_PROPERTIES) {
-            Point pt = new Point(Integer.parseInt(properties[BGND_COL]),
-                    Integer.parseInt(properties[BGND_ROW]));
-            String id = properties[BGND_ID];
-            setBackground(world, pt,
-                    new Background(id, imageStore.getImageList(id)));
-        }
-
-        return properties.length == BGND_NUM_PROPERTIES;
-    }
-
-    public static boolean parseSapling(
-            String[] properties, WorldModel world, ImageStore imageStore)
-    {
-        if (properties.length == SAPLING_NUM_PROPERTIES) {
-            Point pt = new Point(Integer.parseInt(properties[SAPLING_COL]),
-                    Integer.parseInt(properties[SAPLING_ROW]));
-            String id = properties[SAPLING_ID];
-            int health = Integer.parseInt(properties[SAPLING_HEALTH]);
-            Entity entity = new Entity(EntityKind.SAPLING, id, pt, imageStore.getImageList(SAPLING_KEY), 0, 0,
-                    SAPLING_ACTION_ANIMATION_PERIOD, SAPLING_ACTION_ANIMATION_PERIOD, health, SAPLING_HEALTH_LIMIT);
-            tryAddEntity(world, entity);
-        }
-
-        return properties.length == SAPLING_NUM_PROPERTIES;
-    }
-
-    public static boolean parseDude(
-            String[] properties, WorldModel world, ImageStore imageStore)
-    {
-        if (properties.length == DUDE_NUM_PROPERTIES) {
-            Point pt = new Point(Integer.parseInt(properties[DUDE_COL]),
-                    Integer.parseInt(properties[DUDE_ROW]));
-            Entity entity = createDudeNotFull(properties[DUDE_ID],
-                    pt,
-                    Integer.parseInt(properties[DUDE_ACTION_PERIOD]),
-                    Integer.parseInt(properties[DUDE_ANIMATION_PERIOD]),
-                    Integer.parseInt(properties[DUDE_LIMIT]),
-                    imageStore.getImageList(DUDE_KEY));
-            tryAddEntity(world, entity);
-        }
-
-        return properties.length == DUDE_NUM_PROPERTIES;
-    }
-
-    public static boolean parseFairy(
-            String[] properties, WorldModel world, ImageStore imageStore)
-    {
-        if (properties.length == FAIRY_NUM_PROPERTIES) {
-            Point pt = new Point(Integer.parseInt(properties[FAIRY_COL]),
-                    Integer.parseInt(properties[FAIRY_ROW]));
-            Entity entity = createFairy(properties[FAIRY_ID],
-                    pt,
-                    Integer.parseInt(properties[FAIRY_ACTION_PERIOD]),
-                    Integer.parseInt(properties[FAIRY_ANIMATION_PERIOD]),
-                    imageStore.getImageList(FAIRY_KEY));
-            tryAddEntity(world, entity);
-        }
-
-        return properties.length == FAIRY_NUM_PROPERTIES;
-    }
-
-    public static boolean parseTree(
-            String[] properties, WorldModel world, ImageStore imageStore)
-    {
-        if (properties.length == TREE_NUM_PROPERTIES) {
-            Point pt = new Point(Integer.parseInt(properties[TREE_COL]),
-                    Integer.parseInt(properties[TREE_ROW]));
-            Entity entity = createTree(properties[TREE_ID],
-                    pt,
-                    Integer.parseInt(properties[TREE_ACTION_PERIOD]),
-                    Integer.parseInt(properties[TREE_ANIMATION_PERIOD]),
-                    Integer.parseInt(properties[TREE_HEALTH]),
-                    imageStore.getImageList(TREE_KEY));
-            tryAddEntity(world, entity);
-        }
-
-        return properties.length == TREE_NUM_PROPERTIES;
-    }
-
-    public static boolean parseObstacle(
-            String[] properties, WorldModel world, ImageStore imageStore)
-    {
-        if (properties.length == OBSTACLE_NUM_PROPERTIES) {
-            Point pt = new Point(Integer.parseInt(properties[OBSTACLE_COL]),
-                    Integer.parseInt(properties[OBSTACLE_ROW]));
-            Entity entity = createObstacle(properties[OBSTACLE_ID], pt,
-                    Integer.parseInt(properties[OBSTACLE_ANIMATION_PERIOD]),
-                    imageStore.getImageList(OBSTACLE_KEY));
-            tryAddEntity(world, entity);
-        }
-
-        return properties.length == OBSTACLE_NUM_PROPERTIES;
-    }
-
-    public static boolean parseHouse(
-            String[] properties, WorldModel world, ImageStore imageStore)
-    {
-        if (properties.length == HOUSE_NUM_PROPERTIES) {
-            Point pt = new Point(Integer.parseInt(properties[HOUSE_COL]),
-                    Integer.parseInt(properties[HOUSE_ROW]));
-            Entity entity = createHouse(properties[HOUSE_ID], pt,
-                    imageStore.getImageList(HOUSE_KEY));
-            tryAddEntity(world, entity);
-        }
-
-        return properties.length == HOUSE_NUM_PROPERTIES;
     }
 
     public static void tryAddEntity(WorldModel world, Entity entity) {

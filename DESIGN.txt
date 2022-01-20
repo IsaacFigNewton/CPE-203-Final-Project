@@ -8,3 +8,14 @@ They didn't use any project-specific object types, so I didn't have much to guid
 +getImages(): List<PImage>                   <<static>>
 +setAlpha()                                  <<static>>
 
+I moved the following methods to the WorldModel class because I felt like the ImageStore class was starting to get too
+many methods and the WorldModel class had too few. Also, a lot of the code in the methods have to do with manipulating
+stuff in the world, so I felt like it was appropriate.
++parseBackground(): boolean
++parseSapling(): boolean
++parseDude(): boolean
++parseFairy(): boolean
++parseTree(): boolean
++parseObstacle(): boolean
++parseHouse(): boolean
+
