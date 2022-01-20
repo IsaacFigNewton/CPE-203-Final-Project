@@ -19,3 +19,18 @@ stuff in the world, so I felt like it was appropriate.
 +parseObstacle(): boolean
 +parseHouse(): boolean
 
+I moved the following methods to the WorldModel class because it seemed like the most logical choice based on their
+internal code and implementations.
++findNearest(): Optional<Entity>
++addEntity()
++moveEntity()
++removeEntity()
++removeEntityAt()
+
++getBackgroundImage(): Optional<PImage>
++setBackground()
++getOccupant(): Optional<Entity>
++getOccupancyCell(): Entity
++setOccupancyCell()
++getBackgroundCell(): Background
++setBackgroundCell()
