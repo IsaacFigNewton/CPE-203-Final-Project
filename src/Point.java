@@ -1,20 +1,25 @@
 import processing.core.PImage;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.PriorityQueue;
 
 /**
  * A simple class representing a location in 2D space.
  */
 public final class Point
 {
-    public final int x;
-    public final int y;
+    private final int x;
+    private final int y;
 
     public Point(int x, int y) {
         this.x = x;
         this.y = y;
     }
+
+    public int getX() { return x;}
+    public int getY() { return y;}
 
     public Optional<Entity> nearestEntity(List<Entity> entities)
     {
@@ -23,10 +28,10 @@ public final class Point
         }
         else {
             Entity nearest = entities.get(0);
-            int nearestDistance = this.distanceSquared(nearest.position);
+            int nearestDistance = this.distanceSquared(nearest.getPosition());
 
             for (Entity other : entities) {
-                int otherDistance = this.distanceSquared(other.position);
+                int otherDistance = this.distanceSquared(other.getPosition());
 
                 if (otherDistance < nearestDistance) {
                     nearest = other;

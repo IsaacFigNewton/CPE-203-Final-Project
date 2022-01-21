@@ -3,11 +3,11 @@
  */
 public final class Action
 {
-    public ActionKind kind;
-    public Entity entity;
-    public WorldModel world;
-    public ImageStore imageStore;
-    public int repeatCount;
+    private ActionKind kind;
+    private Entity entity;
+    private WorldModel world;
+    private ImageStore imageStore;
+    private int repeatCount;
 
     public Action(
             ActionKind kind,
@@ -21,6 +21,26 @@ public final class Action
         this.world = world;
         this.imageStore = imageStore;
         this.repeatCount = repeatCount;
+    }
+
+    public ActionKind getKind() {
+        return kind;
+    }
+
+    public Entity getEntity() {
+        return entity;
+    }
+
+    public WorldModel getWorld() {
+        return world;
+    }
+
+    public ImageStore getImageStore() {
+        return imageStore;
+    }
+
+    public int getRepeatCount() {
+        return repeatCount;
     }
 
     public void executeAction(EventScheduler scheduler) {
@@ -37,7 +57,7 @@ public final class Action
 
     public void executeActivityAction(EventScheduler scheduler)
     {
-        switch (this.entity.kind) {
+        switch (this.entity.getKind()) {
             case SAPLING:
                 this.entity.executeSaplingActivity(this.world,
                         this.imageStore, scheduler);
@@ -66,7 +86,7 @@ public final class Action
             default:
                 throw new UnsupportedOperationException(String.format(
                         "executeActivityAction not supported for %s",
-                        this.entity.kind));
+                        this.entity.getKind()));
         }
     }
 

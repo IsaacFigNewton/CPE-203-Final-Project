@@ -5,15 +5,19 @@ import java.util.*;
  */
 public final class EventScheduler
 {
-    public PriorityQueue<Event> eventQueue;
-    public Map<Entity, List<Event>> pendingEvents;
-    public double timeScale;
+    private final PriorityQueue<Event> eventQueue;
+    private final Map<Entity, List<Event>> pendingEvents;
+    private final double timeScale;
 
     public EventScheduler(double timeScale) {
         this.eventQueue = new PriorityQueue<>(new EventComparator());
         this.pendingEvents = new HashMap<>();
         this.timeScale = timeScale;
     }
+
+    public PriorityQueue<Event> geteventQueue() { return eventQueue;}
+    public Map<Entity, List<Event>> getpendingEvents() { return pendingEvents;}
+    public double gettimeScale() { return timeScale;}
 
     public void scheduleEvent(
             Entity entity,
@@ -46,7 +50,7 @@ public final class EventScheduler
 
     public void removePendingEvent(Event event)
     {
-        List<Event> pending = this.pendingEvents.get(event.entity);
+        List<Event> pending = this.pendingEvents.get(event.getEntity());
 
         if (pending != null) {
             pending.remove(event);
@@ -55,26 +59,26 @@ public final class EventScheduler
 
     public void updateOnTime(long time) {
         while (!this.eventQueue.isEmpty()
-                && this.eventQueue.peek().time < time) {
+                && this.eventQueue.peek().getTime() < time) {
             Event next = this.eventQueue.poll();
 
             this.removePendingEvent(next);
 
-            next.action.executeAction(this);
+            next.getAction().executeAction(this);
         }
     }
 
     public void scheduleKindAction (Entity entity, WorldModel world, ImageStore imageStore) {
         this.scheduleEvent(entity,
                 entity.createActivityAction(world, imageStore),
-                entity.actionPeriod);
+                entity.getActionPeriod());
         this.scheduleEvent(entity,
                 entity.createAnimationAction(0),
                 entity.getAnimationPeriod());
     }
 
     public void scheduleActions (Entity entity, WorldModel world, ImageStore imageStore) {
-        switch (entity.kind) {
+        switch (entity.getKind()) {
             case DUDE_FULL:
                 this.scheduleKindAction(entity, world, imageStore);
                 break;

@@ -10,14 +10,17 @@ public final class ImageStore
     private static final int KEYED_RED_IDX = 2;
     private static final int KEYED_GREEN_IDX = 3;
     private static final int KEYED_BLUE_IDX = 4;
-    public Map<String, List<PImage>> images;
-    public List<PImage> defaultImages;
+    private final Map<String, List<PImage>> images;
+    private final List<PImage> defaultImages;
 
     public ImageStore(PImage defaultImage) {
         this.images = new HashMap<>();
         defaultImages = new LinkedList<>();
         defaultImages.add(defaultImage);
     }
+
+    public Map<String, List<PImage>> getImages() { return images;}
+    public List<PImage> getDefaultImages() { return defaultImages;}
 
     public List<PImage> getImageList(String key) {
         return this.images.getOrDefault(key, this.defaultImages);

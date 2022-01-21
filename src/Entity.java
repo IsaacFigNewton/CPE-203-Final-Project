@@ -8,17 +8,17 @@ import processing.core.PImage;
  */
 public final class Entity
 {
-    public EntityKind kind;
-    public String id;
-    public Point position;
-    public List<PImage> images;
-    public int imageIndex;
-    public int resourceLimit;
-    public int resourceCount;
-    public int actionPeriod;
-    public int animationPeriod;
-    public int health;
-    public int healthLimit;
+    private EntityKind kind;
+    private String id;
+    private Point position;
+    private List<PImage> images;
+    private int imageIndex;
+    private int resourceLimit;
+    private int resourceCount;
+    private int actionPeriod;
+    private int animationPeriod;
+    private int health;
+    private int healthLimit;
 
     public Entity(
             EntityKind kind,
@@ -43,6 +43,50 @@ public final class Entity
         this.animationPeriod = animationPeriod;
         this.health = health;
         this.healthLimit = healthLimit;
+    }
+
+    public EntityKind getKind() {
+        return kind;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public Point getPosition() {
+        return position;
+    }
+
+    public void setPosition(Point position) {
+        this.position = position;
+    }
+
+    public List<PImage> getImages() {
+        return images;
+    }
+
+    public int getImageIndex() {
+        return imageIndex;
+    }
+
+    public int getResourceLimit() {
+        return resourceLimit;
+    }
+
+    public int getResourceCount() {
+        return resourceCount;
+    }
+
+    public int getActionPeriod() {
+        return actionPeriod;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public int getHealthLimit() {
+        return healthLimit;
     }
 
     private static int getNumFromRange(int max, int min)
@@ -369,12 +413,12 @@ public final class Entity
 
     public Point nextPositionFairy(WorldModel world, Point destPos)
     {
-        int horiz = Integer.signum(destPos.x - this.position.x);
-        Point newPos = new Point(this.position.x + horiz, this.position.y);
+        int horiz = Integer.signum(destPos.getX() - this.position.getX());
+        Point newPos = new Point(this.position.getX() + horiz, this.position.getY());
 
         if (horiz == 0 || world.isOccupied(newPos)) {
-            int vert = Integer.signum(destPos.y - this.position.y);
-            newPos = new Point(this.position.x, this.position.y + vert);
+            int vert = Integer.signum(destPos.getY() - this.position.getY());
+            newPos = new Point(this.position.getX(), this.position.getY() + vert);
 
             if (vert == 0 || world.isOccupied(newPos)) {
                 newPos = this.position;
@@ -386,12 +430,12 @@ public final class Entity
 
     public Point nextPositionDude(WorldModel world, Point destPos)
     {
-        int horiz = Integer.signum(destPos.x - this.position.x);
-        Point newPos = new Point(this.position.x + horiz, this.position.y);
+        int horiz = Integer.signum(destPos.getX() - this.position.getX());
+        Point newPos = new Point(this.position.getX() + horiz, this.position.getY());
 
         if (horiz == 0 || world.isOccupied(newPos) && world.getOccupancyCell(newPos).kind != EntityKind.STUMP) {
-            int vert = Integer.signum(destPos.y - this.position.y);
-            newPos = new Point(this.position.x, this.position.y + vert);
+            int vert = Integer.signum(destPos.getY() - this.position.getY());
+            newPos = new Point(this.position.getX(), this.position.getY() + vert);
 
             if (vert == 0 || world.isOccupied(newPos) &&  world.getOccupancyCell(newPos).kind != EntityKind.STUMP) {
                 newPos = this.position;
