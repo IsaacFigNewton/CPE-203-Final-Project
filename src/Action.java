@@ -55,7 +55,7 @@ public final class Action
         }
     }
 
-    public void executeActivityAction(EventScheduler scheduler)
+    private void executeActivityAction(EventScheduler scheduler)
     {
         switch (this.entity.getKind()) {
             case SAPLING:
@@ -90,7 +90,7 @@ public final class Action
         }
     }
 
-    public void executeAnimationAction(EventScheduler scheduler)
+    private void executeAnimationAction(EventScheduler scheduler)
     {
         this.entity.nextImage();
 

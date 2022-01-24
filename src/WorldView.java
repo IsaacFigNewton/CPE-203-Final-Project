@@ -26,19 +26,19 @@ public final class WorldView
         this.viewport = new Viewport(numRows, numCols);
     }
 
-    public PApplet getScreen() {
+    private PApplet getScreen() {
         return screen;
     }
 
-    public WorldModel getWorld() {
+    private WorldModel getWorld() {
         return world;
     }
 
-    public int getTileWidth() {
+    private int getTileWidth() {
         return tileWidth;
     }
 
-    public int getTileHeight() {
+    private int getTileHeight() {
         return tileHeight;
     }
 
@@ -55,7 +55,7 @@ public final class WorldView
         return Math.min(high, Math.max(value, low));
     }
 
-    public void drawEntities() {
+    private void drawEntities() {
         for (Entity entity : this.world.entities) {
             Point pos = entity.getPosition();
 
@@ -82,7 +82,7 @@ public final class WorldView
         this.viewport.shift(newCol, newRow);
     }
 
-    public void drawBackground() {
+    private void drawBackground() {
         for (int row = 0; row < this.viewport.getNumRows(); row++) {
             for (int col = 0; col < this.viewport.getNumCols(); col++) {
                 Point worldPoint = this.viewport.viewportToWorld(col, row);

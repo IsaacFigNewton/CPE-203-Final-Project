@@ -154,7 +154,7 @@ public final class Entity
         }
     }
 
-    public boolean transformPlant( WorldModel world,
+    private boolean transformPlant( WorldModel world,
                                           EventScheduler scheduler,
                                           ImageStore imageStore)
     {
@@ -173,7 +173,7 @@ public final class Entity
         }
     }
 
-    public static boolean transformTree(
+    private static boolean transformTree(
             Entity entity,
             WorldModel world,
             EventScheduler scheduler,
@@ -194,7 +194,7 @@ public final class Entity
         return false;
     }
 
-    public static boolean transformSapling(
+    private static boolean transformSapling(
             Entity entity,
             WorldModel world,
             EventScheduler scheduler,
@@ -296,7 +296,7 @@ public final class Entity
         }
     }
 
-    public boolean transformNotFull(
+    private boolean transformNotFull(
             WorldModel world,
             EventScheduler scheduler,
             ImageStore imageStore)
@@ -320,7 +320,7 @@ public final class Entity
         return false;
     }
 
-    public void transformFull(
+    private void transformFull(
             WorldModel world,
             EventScheduler scheduler,
             ImageStore imageStore)
@@ -338,7 +338,7 @@ public final class Entity
         scheduler.scheduleActions(dudeNotFull, world, imageStore);
     }
 
-    public boolean moveToFairy(
+    private boolean moveToFairy(
             WorldModel world,
             Entity target,
             EventScheduler scheduler)
@@ -363,7 +363,7 @@ public final class Entity
         }
     }
 
-    public boolean moveToNotFull(
+    private boolean moveToNotFull(
             WorldModel world,
             Entity target,
             EventScheduler scheduler)
@@ -388,7 +388,7 @@ public final class Entity
         }
     }
 
-    public boolean moveToFull(
+    private boolean moveToFull(
             WorldModel world,
             Entity target,
             EventScheduler scheduler)
@@ -411,7 +411,7 @@ public final class Entity
         }
     }
 
-    public Point nextPositionFairy(WorldModel world, Point destPos)
+    private Point nextPositionFairy(WorldModel world, Point destPos)
     {
         int horiz = Integer.signum(destPos.getX() - this.position.getX());
         Point newPos = new Point(this.position.getX() + horiz, this.position.getY());
@@ -428,7 +428,7 @@ public final class Entity
         return newPos;
     }
 
-    public Point nextPositionDude(WorldModel world, Point destPos)
+    private Point nextPositionDude(WorldModel world, Point destPos)
     {
         int horiz = Integer.signum(destPos.getX() - this.position.getX());
         Point newPos = new Point(this.position.getX() + horiz, this.position.getY());

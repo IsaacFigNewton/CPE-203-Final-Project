@@ -9,10 +9,10 @@ import java.util.*;
  */
 public final class WorldModel
 {
-    public int numRows;
-    public int numCols;
-    public Background background[][];
-    public Entity occupancy[][];
+    private int numRows;
+    private int numCols;
+    private Background background[][];
+    private Entity occupancy[][];
     public Set<Entity> entities;
 
     public WorldModel(int numRows, int numCols, Background defaultBackground) {
@@ -51,7 +51,7 @@ public final class WorldModel
         }
     }
 
-    public boolean processLine(
+    private boolean processLine(
             String line, ImageStore imageStore)
     {
         String[] properties = line.split("\\s");
@@ -77,7 +77,7 @@ public final class WorldModel
         return false;
     }
 
-    public void tryAddEntity(Entity entity) {
+    private void tryAddEntity(Entity entity) {
         if (this.isOccupied(entity.getPosition())) {
             // arguably the wrong type of exception, but we are not
             // defining our own exceptions yet
@@ -87,7 +87,7 @@ public final class WorldModel
         this.addEntity(entity);
     }
 
-    public boolean withinBounds(Point pos) {
+    private boolean withinBounds(Point pos) {
         return pos.getY() >= 0 && pos.getY() < this.numRows && pos.getX() >= 0
                 && pos.getX() < this.numCols;
     }
@@ -136,7 +136,7 @@ public final class WorldModel
         this.removeEntityAt(entity.getPosition());
     }
 
-    public void removeEntityAt(Point pos) {
+    private void removeEntityAt(Point pos) {
         if (this.withinBounds(pos) && this.getOccupancyCell(pos) != null) {
             Entity entity = this.getOccupancyCell(pos);
 
@@ -158,7 +158,7 @@ public final class WorldModel
         }
     }
 
-    public void setBackground(Point pos, Background background)
+    private void setBackground(Point pos, Background background)
     {
         if (this.withinBounds(pos)) {
             this.setBackgroundCell(pos, background);
@@ -178,21 +178,21 @@ public final class WorldModel
         return this.occupancy[pos.getY()][pos.getX()];
     }
 
-    public void setOccupancyCell(Point pos, Entity entity)
+    private void setOccupancyCell(Point pos, Entity entity)
     {
         this.occupancy[pos.getY()][pos.getX()] = entity;
     }
 
-    public Background getBackgroundCell(Point pos) {
+    private Background getBackgroundCell(Point pos) {
         return this.background[pos.getY()][pos.getX()];
     }
 
-    public void setBackgroundCell(Point pos, Background background)
+    private void setBackgroundCell(Point pos, Background background)
     {
         this.background[pos.getY()][pos.getX()] = background;
     }
 
-    public boolean parseBackground(
+    private boolean parseBackground(
             String[] properties, ImageStore imageStore)
     {
         if (properties.length == Functions.BGND_NUM_PROPERTIES) {
@@ -205,7 +205,7 @@ public final class WorldModel
         return properties.length == Functions.BGND_NUM_PROPERTIES;
     }
 
-    public boolean parseSapling(
+    private boolean parseSapling(
             String[] properties, ImageStore imageStore)
     {
         if (properties.length == Functions.SAPLING_NUM_PROPERTIES) {
@@ -221,7 +221,7 @@ public final class WorldModel
         return properties.length == Functions.SAPLING_NUM_PROPERTIES;
     }
 
-    public boolean parseDude(
+    private boolean parseDude(
             String[] properties, ImageStore imageStore)
     {
         if (properties.length == Functions.DUDE_NUM_PROPERTIES) {
@@ -238,7 +238,7 @@ public final class WorldModel
         return properties.length == Functions.DUDE_NUM_PROPERTIES;
     }
 
-    public boolean parseFairy(
+    private boolean parseFairy(
             String[] properties, ImageStore imageStore)
     {
         if (properties.length == Functions.FAIRY_NUM_PROPERTIES) {
@@ -254,7 +254,7 @@ public final class WorldModel
         return properties.length == Functions.FAIRY_NUM_PROPERTIES;
     }
 
-    public boolean parseTree(
+    private boolean parseTree(
             String[] properties, ImageStore imageStore)
     {
         if (properties.length == Functions.TREE_NUM_PROPERTIES) {
@@ -271,7 +271,7 @@ public final class WorldModel
         return properties.length == Functions.TREE_NUM_PROPERTIES;
     }
 
-    public boolean parseObstacle(
+    private boolean parseObstacle(
             String[] properties, ImageStore imageStore)
     {
         if (properties.length == Functions.OBSTACLE_NUM_PROPERTIES) {
@@ -286,7 +286,7 @@ public final class WorldModel
         return properties.length == Functions.OBSTACLE_NUM_PROPERTIES;
     }
 
-    public boolean parseHouse(
+    private boolean parseHouse(
             String[] properties, ImageStore imageStore)
     {
         if (properties.length == Functions.HOUSE_NUM_PROPERTIES) {
