@@ -46,11 +46,6 @@ public final class WorldView
         return viewport;
     }
 
-    private static boolean contains(Viewport viewport, Point p) {
-        return p.getY() >= viewport.getRow() && p.getY() < viewport.getRow() + viewport.getNumRows()
-                && p.getX() >= viewport.getCol() && p.getX() < viewport.getCol() + viewport.getNumCols();
-    }
-
     private static int clamp(int value, int low, int high) {
         return Math.min(high, Math.max(value, low));
     }
@@ -59,7 +54,7 @@ public final class WorldView
         for (Entity entity : this.world.entities) {
             Point pos = entity.getPosition();
 
-            if (contains(this.viewport, pos)) {
+            if (this.viewport.contains(pos)) {
                 Point viewPoint = this.viewport.worldToViewport(pos.getX(), pos.getY());
                 this.screen.image(entity.getCurrentImage(),
                         viewPoint.getX() * this.tileWidth,

@@ -186,7 +186,7 @@ public final class Entity
             scheduler.unscheduleAllEvents(entity);
 
             world.addEntity(stump);
-            scheduler.scheduleActions(stump, world, imageStore);
+            stump.scheduleActions(scheduler, world, imageStore);
 
             return true;
         }
@@ -207,7 +207,7 @@ public final class Entity
             scheduler.unscheduleAllEvents(entity);
 
             world.addEntity(stump);
-            scheduler.scheduleActions(stump, world, imageStore);
+            stump.scheduleActions(scheduler, world, imageStore);
 
             return true;
         }
@@ -223,7 +223,7 @@ public final class Entity
             scheduler.unscheduleAllEvents( entity);
 
             world.addEntity(tree);
-            scheduler.scheduleActions(tree, world, imageStore);
+            tree.scheduleActions(scheduler, world, imageStore);
 
             return true;
         }
@@ -248,7 +248,7 @@ public final class Entity
                         imageStore.getImageList(Functions.SAPLING_KEY));
 
                 world.addEntity(sapling);
-                scheduler.scheduleActions(sapling, world, imageStore);
+                sapling.scheduleActions(scheduler, world, imageStore);
             }
         }
 
@@ -312,7 +312,7 @@ public final class Entity
             scheduler.unscheduleAllEvents(this);
 
             world.addEntity(dudeFull);
-            scheduler.scheduleActions(dudeFull, world, imageStore);
+            dudeFull.scheduleActions(scheduler, world, imageStore);
 
             return true;
         }
@@ -335,7 +335,7 @@ public final class Entity
         scheduler.unscheduleAllEvents(this);
 
         world.addEntity(dudeNotFull);
-        scheduler.scheduleActions(dudeNotFull, world, imageStore);
+        dudeNotFull.scheduleActions(scheduler, world, imageStore);
     }
 
     private boolean moveToFairy(
@@ -445,4 +445,44 @@ public final class Entity
         return newPos;
     }
 
+    public void scheduleKindAction (EventScheduler eventScheduler, WorldModel world, ImageStore imageStore) {
+        eventScheduler.scheduleEvent(this,
+                this.createActivityAction(world, imageStore),
+                this.getActionPeriod());
+        eventScheduler.scheduleEvent(this,
+                this.createAnimationAction(0),
+                this.getAnimationPeriod());
+    }
+
+    public void scheduleActions (EventScheduler eventScheduler, WorldModel world, ImageStore imageStore) {
+        switch (this.getKind()) {
+            case DUDE_FULL:
+                this.scheduleKindAction(eventScheduler, world, imageStore);
+                break;
+
+            case DUDE_NOT_FULL:
+                this.scheduleKindAction(eventScheduler, world, imageStore);
+                break;
+
+            case OBSTACLE:
+                eventScheduler.scheduleEvent(this,
+                        this.createAnimationAction(0),
+                        this.getAnimationPeriod());
+                break;
+
+            case FAIRY:
+                this.scheduleKindAction(eventScheduler, world, imageStore);
+                break;
+
+            case SAPLING:
+                this.scheduleKindAction(eventScheduler, world, imageStore);
+                break;
+
+            case TREE:
+                this.scheduleKindAction(eventScheduler, world, imageStore);
+                break;
+
+            default:
+        }
+    }
 }

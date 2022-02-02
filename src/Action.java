@@ -88,6 +88,7 @@ public final class Action
                         "executeActivityAction not supported for %s",
                         this.entity.getKind()));
         }
+
     }
 
     private void executeAnimationAction(EventScheduler scheduler)

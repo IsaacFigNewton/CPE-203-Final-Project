@@ -68,44 +68,5 @@ public final class EventScheduler
         }
     }
 
-    public void scheduleKindAction (Entity entity, WorldModel world, ImageStore imageStore) {
-        this.scheduleEvent(entity,
-                entity.createActivityAction(world, imageStore),
-                entity.getActionPeriod());
-        this.scheduleEvent(entity,
-                entity.createAnimationAction(0),
-                entity.getAnimationPeriod());
-    }
 
-    public void scheduleActions (Entity entity, WorldModel world, ImageStore imageStore) {
-        switch (entity.getKind()) {
-            case DUDE_FULL:
-                this.scheduleKindAction(entity, world, imageStore);
-                break;
-
-            case DUDE_NOT_FULL:
-                this.scheduleKindAction(entity, world, imageStore);
-                break;
-
-            case OBSTACLE:
-                this.scheduleEvent(entity,
-                        entity.createAnimationAction(0),
-                        entity.getAnimationPeriod());
-                break;
-
-            case FAIRY:
-                this.scheduleKindAction(entity, world, imageStore);
-                break;
-
-            case SAPLING:
-                this.scheduleKindAction(entity, world, imageStore);
-                break;
-
-            case TREE:
-                this.scheduleKindAction(entity, world, imageStore);
-                break;
-
-            default:
-        }
-    }
 }

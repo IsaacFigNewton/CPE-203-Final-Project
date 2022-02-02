@@ -10,6 +10,11 @@ public final class Viewport
         this.numCols = numCols;
     }
 
+    public boolean contains(Point p) {
+        return p.getY() >= this.getRow() && p.getY() < this.getRow() + this.getNumRows()
+                && p.getX() >= this.getCol() && p.getX() < this.getCol() + this.getNumCols();
+    }
+
     public int getRow() {
         return row;
     }
