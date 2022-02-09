@@ -6,7 +6,7 @@ import processing.core.PImage;
  * An entity that exists in the world. See EntityKind for the
  * different kinds of entities that exist.
  */
-public final class Entity
+public final class Entity implements EntityInterface
 {
     private EntityKind kind;
     private String id;
@@ -154,7 +154,7 @@ public final class Entity
         }
     }
 
-    private boolean transformPlant( WorldModel world,
+    public boolean transformPlant( WorldModel world,
                                           EventScheduler scheduler,
                                           ImageStore imageStore)
     {
@@ -296,7 +296,7 @@ public final class Entity
         }
     }
 
-    private boolean transformNotFull(
+    public boolean transformNotFull(
             WorldModel world,
             EventScheduler scheduler,
             ImageStore imageStore)
@@ -320,7 +320,7 @@ public final class Entity
         return false;
     }
 
-    private void transformFull(
+    public void transformFull(
             WorldModel world,
             EventScheduler scheduler,
             ImageStore imageStore)
@@ -338,7 +338,7 @@ public final class Entity
         dudeNotFull.scheduleActions(scheduler, world, imageStore);
     }
 
-    private boolean moveToFairy(
+    public boolean moveToFairy(
             WorldModel world,
             Entity target,
             EventScheduler scheduler)
@@ -363,7 +363,7 @@ public final class Entity
         }
     }
 
-    private boolean moveToNotFull(
+    public boolean moveToNotFull(
             WorldModel world,
             Entity target,
             EventScheduler scheduler)
@@ -388,7 +388,7 @@ public final class Entity
         }
     }
 
-    private boolean moveToFull(
+    public boolean moveToFull(
             WorldModel world,
             Entity target,
             EventScheduler scheduler)
@@ -411,7 +411,7 @@ public final class Entity
         }
     }
 
-    private Point nextPositionFairy(WorldModel world, Point destPos)
+    public Point nextPositionFairy(WorldModel world, Point destPos)
     {
         int horiz = Integer.signum(destPos.getX() - this.position.getX());
         Point newPos = new Point(this.position.getX() + horiz, this.position.getY());
@@ -428,7 +428,7 @@ public final class Entity
         return newPos;
     }
 
-    private Point nextPositionDude(WorldModel world, Point destPos)
+    public Point nextPositionDude(WorldModel world, Point destPos)
     {
         int horiz = Integer.signum(destPos.getX() - this.position.getX());
         Point newPos = new Point(this.position.getX() + horiz, this.position.getY());

@@ -27,6 +27,9 @@ public final class WorldModel
         }
     }
 
+    public int getNumCols() { return this.numCols;}
+    public int getNumRows() { return this.numRows;}
+
     public void load(
             Scanner in, ImageStore imageStore)
     {
