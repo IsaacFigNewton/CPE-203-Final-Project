@@ -7,34 +7,19 @@ public class Obstacle implements Animated{
     private Point position;
     private List<PImage> images;
     private int imageIndex;
-    private int resourceLimit;
-    private int resourceCount;
-    private int actionPeriod;
     private int animationPeriod;
-    private int health;
-    private int healthLimit;
 
     public Obstacle(
     String id,
     Point position,
     List<PImage> images,
-    int resourceLimit,
-    int resourceCount,
-    int actionPeriod,
-    int animationPeriod,
-    int health,
-    int healthLimit)
+    int animationPeriod)
     {
         this.id = id;
         this.position = position;
         this.images = images;
         this.imageIndex = 0;
-        this.resourceLimit = resourceLimit;
-        this.resourceCount = resourceCount;
-        this.actionPeriod = actionPeriod;
         this.animationPeriod = animationPeriod;
-        this.health = health;
-        this.healthLimit = healthLimit;
     }
 
 
@@ -50,26 +35,6 @@ public class Obstacle implements Animated{
         return imageIndex;
     }
 
-    public int getResourceLimit() {
-        return resourceLimit;
-    }
-
-    public int getResourceCount() {
-        return resourceCount;
-    }
-
-    public int getActionPeriod() {
-        return actionPeriod;
-    }
-
-    public int getHealthLimit() {
-        return healthLimit;
-    }
-
-    public int getHealth() {
-        return health;
-    }
-
     public Point getPosition() {
         return position;
     }
@@ -77,8 +42,6 @@ public class Obstacle implements Animated{
     public void setPosition(Point newPosition) {
         this.position = newPosition;
     }
-
-    public void decrementHealth() { health--; }
 
     public void setImageIndex(int index) { this.imageIndex = index; }
 
@@ -89,11 +52,6 @@ public class Obstacle implements Animated{
         eventScheduler.scheduleEvent(this,
                 this.createAnimationAction(0),
                 this.getAnimationPeriod());
-    }
-
-    @Override
-    public void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler) {
-
     }
 
 }

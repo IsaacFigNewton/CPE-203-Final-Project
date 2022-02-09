@@ -51,15 +51,12 @@ public final class Point
     public Entity createHouse(
             String id, List<PImage> images)
     {
-        return new House(id, this, images, 0, 0, 0,
-                0, 0, 0);
+        return new House(id, this, images);
     }
 
-    public Entity createObstacle(
-            String id, int animationPeriod, List<PImage> images)
+    public Entity createObstacle(String id, int animationPeriod, List<PImage> images)
     {
-        return new Obstacle(id, this, images, 0, 0, 0,
-                animationPeriod, 0, 0);
+        return new Obstacle(id, this, images, animationPeriod);
     }
 
     public Entity createTree(
@@ -69,21 +66,19 @@ public final class Point
             int health,
             List<PImage> images)
     {
-        return new Tree(id, this, images, 0, 0,
-                actionPeriod, animationPeriod, health, 0);
+        return new Tree(id, this, images, actionPeriod, animationPeriod, health, 0);
     }
 
     public Entity createStump(String id, List<PImage> images)
     {
-        return new Stump(id, this, images, 0, 0,
-                0, 0, 0, 0);
+        return new Stump(id, this, images);
     }
 
     // health starts at 0 and builds up until ready to convert to Tree
     public Entity createSapling(String id, List<PImage> images)
     {
-        return new Sapling(id, this, images, 0, 0,
-                Functions.SAPLING_ACTION_ANIMATION_PERIOD, Functions.SAPLING_ACTION_ANIMATION_PERIOD, 0, Functions.SAPLING_HEALTH_LIMIT);
+        return new Sapling(id, this, images, Functions.SAPLING_ACTION_ANIMATION_PERIOD,
+                Functions.SAPLING_ACTION_ANIMATION_PERIOD, 0, Functions.SAPLING_HEALTH_LIMIT);
     }
 
     public Entity createFairy(
@@ -92,8 +87,7 @@ public final class Point
             int animationPeriod,
             List<PImage> images)
     {
-        return new Fairy(id, this, images, 0, 0,
-                actionPeriod, animationPeriod, 0, 0);
+        return new Fairy(id, this, images, actionPeriod, animationPeriod);
     }
 
     // need resource count, though it always starts at 0
@@ -105,7 +99,7 @@ public final class Point
             List<PImage> images)
     {
         return new DudeNotFull(id, this, images, resourceLimit, 0,
-                actionPeriod, animationPeriod, 0, 0);
+                actionPeriod, animationPeriod);
     }
 
     // don't technically need resource count ... full
@@ -116,7 +110,7 @@ public final class Point
             int resourceLimit,
             List<PImage> images) {
         return new DudeFull(id, this, images, resourceLimit, 0,
-                actionPeriod, animationPeriod, 0, 0);
+                actionPeriod, animationPeriod);
     }
 
     public boolean adjacent(Point other) {

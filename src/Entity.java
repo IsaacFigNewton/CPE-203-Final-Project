@@ -4,8 +4,6 @@ import java.util.*;
 
 interface Entity {
 
-    //getters/setters for entity-wide variables
-
     String getId();
 
     List<PImage> getImages();
@@ -14,22 +12,9 @@ interface Entity {
 
     void setImageIndex(int index);
 
-    int getHealthLimit();
-
-    int getHealth();
-
-    void decrementHealth();
-
     Point getPosition();
 
     void setPosition(Point newPosition);
-
-
-    //review for possible refactoring
-
-    int getResourceLimit();
-
-    int getResourceCount();
 
 
     static int getNumFromRange(int max, int min) {
@@ -38,10 +23,5 @@ interface Entity {
     }
 
     default PImage getCurrentImage() { return this.getImages().get(this.getImageIndex());}
-
-    //Execute various kinds of activities
-    void executeActivity(WorldModel world,
-                             ImageStore imageStore,
-                             EventScheduler scheduler);
 
 }

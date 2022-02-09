@@ -7,8 +7,6 @@ public class Tree implements Animated, Transformable {
     private Point position;
     private List<PImage> images;
     private int imageIndex;
-    private int resourceLimit;
-    private int resourceCount;
     private int actionPeriod;
     private int animationPeriod;
     private int health;
@@ -18,8 +16,6 @@ public class Tree implements Animated, Transformable {
     String id,
     Point position,
     List<PImage> images,
-    int resourceLimit,
-    int resourceCount,
     int actionPeriod,
     int animationPeriod,
     int health,
@@ -29,8 +25,6 @@ public class Tree implements Animated, Transformable {
         this.position = position;
         this.images = images;
         this.imageIndex = 0;
-        this.resourceLimit = resourceLimit;
-        this.resourceCount = resourceCount;
         this.actionPeriod = actionPeriod;
         this.animationPeriod = animationPeriod;
         this.health = health;
@@ -50,20 +44,8 @@ public class Tree implements Animated, Transformable {
         return imageIndex;
     }
 
-    public int getResourceLimit() {
-        return resourceLimit;
-    }
-
-    public int getResourceCount() {
-        return resourceCount;
-    }
-
     public int getActionPeriod() {
         return actionPeriod;
-    }
-
-    public int getHealthLimit() {
-        return healthLimit;
     }
 
     public int getHealth() {
@@ -113,8 +95,8 @@ public class Tree implements Animated, Transformable {
             scheduler.unscheduleAllEvents(this);
 
             world.addEntity(stump);
-            if (stump instanceof Animated)
-                ((Animated)stump).scheduleAction(scheduler, world, imageStore);
+            if (stump instanceof Active)
+                ((Active)stump).scheduleAction(scheduler, world, imageStore);
 
             return true;
         }

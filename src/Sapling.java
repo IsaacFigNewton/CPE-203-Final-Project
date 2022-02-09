@@ -2,13 +2,11 @@ import processing.core.PImage;
 
 import java.util.List;
 
-public class Sapling implements Active, Transformable {
+public class Sapling implements Active, ActivityEnjoyer, Transformable {
     private String id;
     private Point position;
     private List<PImage> images;
     private int imageIndex;
-    private int resourceLimit;
-    private int resourceCount;
     private int actionPeriod;
     private int animationPeriod;
     private int health;
@@ -18,8 +16,6 @@ public class Sapling implements Active, Transformable {
     String id,
     Point position,
     List<PImage> images,
-    int resourceLimit,
-    int resourceCount,
     int actionPeriod,
     int animationPeriod,
     int health,
@@ -29,8 +25,6 @@ public class Sapling implements Active, Transformable {
         this.position = position;
         this.images = images;
         this.imageIndex = 0;
-        this.resourceLimit = resourceLimit;
-        this.resourceCount = resourceCount;
         this.actionPeriod = actionPeriod;
         this.animationPeriod = animationPeriod;
         this.health = health;
@@ -48,14 +42,6 @@ public class Sapling implements Active, Transformable {
 
     public int getImageIndex() {
         return imageIndex;
-    }
-
-    public int getResourceLimit() {
-        return resourceLimit;
-    }
-
-    public int getResourceCount() {
-        return resourceCount;
     }
 
     public int getActionPeriod() {
@@ -77,10 +63,6 @@ public class Sapling implements Active, Transformable {
     public void setPosition(Point newPosition) {
         this.position = newPosition;
     }
-
-    public void incrementHealth() { health++; }
-
-    public void decrementHealth() { health--; }
 
     public void setImageIndex(int index) { this.imageIndex = index; }
 
@@ -114,8 +96,8 @@ public class Sapling implements Active, Transformable {
             scheduler.unscheduleAllEvents(this);
 
             world.addEntity(stump);
-            if (stump instanceof Animated)
-                ((Animated)stump).scheduleAction(scheduler, world, imageStore);
+            if (stump instanceof Active)
+                ((Active)stump).scheduleAction(scheduler, world, imageStore);
 
             return true;
         }
@@ -131,8 +113,8 @@ public class Sapling implements Active, Transformable {
             scheduler.unscheduleAllEvents( this);
 
             world.addEntity(tree);
-            if (tree instanceof Animated)
-                ((Animated)tree).scheduleAction(scheduler, world, imageStore);
+            if (tree instanceof Active)
+                ((Active)tree).scheduleAction(scheduler, world, imageStore);
 
             return true;
         }

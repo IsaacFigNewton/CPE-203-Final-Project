@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class DudeNotFull implements Movable, Transformable {
+public class DudeNotFull implements Dude, ActivityEnjoyer, Transformable {
     private String id;
     private Point position;
     private List<PImage> images;
@@ -14,8 +14,6 @@ public class DudeNotFull implements Movable, Transformable {
     private int resourceCount;
     private int actionPeriod;
     private int animationPeriod;
-    private int health;
-    private int healthLimit;
 
     public DudeNotFull(
             String id,
@@ -24,9 +22,7 @@ public class DudeNotFull implements Movable, Transformable {
             int resourceLimit,
             int resourceCount,
             int actionPeriod,
-            int animationPeriod,
-            int health,
-            int healthLimit)
+            int animationPeriod)
     {
         this.id = id;
         this.position = position;
@@ -36,8 +32,6 @@ public class DudeNotFull implements Movable, Transformable {
         this.resourceCount = resourceCount;
         this.actionPeriod = actionPeriod;
         this.animationPeriod = animationPeriod;
-        this.health = health;
-        this.healthLimit = healthLimit;
     }
 
     public String getId() {
@@ -64,14 +58,6 @@ public class DudeNotFull implements Movable, Transformable {
         return actionPeriod;
     }
 
-    public int getHealthLimit() {
-        return healthLimit;
-    }
-
-    public int getHealth() {
-        return health;
-    }
-
     public Point getPosition() {
         return position;
     }
@@ -79,8 +65,6 @@ public class DudeNotFull implements Movable, Transformable {
     public void setPosition(Point newPosition) {
         this.position = newPosition;
     }
-
-    public void decrementHealth() { health--; }
 
     public void setImageIndex(int index) { this.imageIndex = index; }
 
@@ -114,7 +98,8 @@ public class DudeNotFull implements Movable, Transformable {
     {
         if (this.position.adjacent(target.getPosition())) {
             this.resourceCount++;
-                target.decrementHealth();
+                if (target.getClass() == Tree.class)
+                    ((Tree)target).decrementHealth();
             return true;
         }
         else {
@@ -165,8 +150,8 @@ public class DudeNotFull implements Movable, Transformable {
             scheduler.unscheduleAllEvents(this);
 
             world.addEntity(dudeFull);
-            if (dudeFull instanceof Animated)
-                ((Animated)dudeFull).scheduleAction(scheduler, world, imageStore);
+            if (dudeFull instanceof Active)
+                ((Active)dudeFull).scheduleAction(scheduler, world, imageStore);
 
             return true;
         }

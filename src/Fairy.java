@@ -5,39 +5,27 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class Fairy implements Movable{
+public class Fairy implements Movable, ActivityEnjoyer{
     private String id;
     private Point position;
     private List<PImage> images;
     private int imageIndex;
-    private int resourceLimit;
-    private int resourceCount;
     private int actionPeriod;
     private int animationPeriod;
-    private int health;
-    private int healthLimit;
 
     public Fairy(
             String id,
             Point position,
             List<PImage> images,
-            int resourceLimit,
-            int resourceCount,
             int actionPeriod,
-            int animationPeriod,
-            int health,
-            int healthLimit)
+            int animationPeriod)
     {
         this.id = id;
         this.position = position;
         this.images = images;
         this.imageIndex = 0;
-        this.resourceLimit = resourceLimit;
-        this.resourceCount = resourceCount;
         this.actionPeriod = actionPeriod;
         this.animationPeriod = animationPeriod;
-        this.health = health;
-        this.healthLimit = healthLimit;
     }
 
     public String getId() {
@@ -52,24 +40,8 @@ public class Fairy implements Movable{
         return imageIndex;
     }
 
-    public int getResourceLimit() {
-        return resourceLimit;
-    }
-
-    public int getResourceCount() {
-        return resourceCount;
-    }
-
     public int getActionPeriod() {
         return actionPeriod;
-    }
-
-    public int getHealthLimit() {
-        return healthLimit;
-    }
-
-    public int getHealth() {
-        return health;
     }
 
     public Point getPosition() {
@@ -79,9 +51,6 @@ public class Fairy implements Movable{
     public void setPosition(Point newPosition) {
         this.position = newPosition;
     }
-
-    public void decrementHealth() { health--; }
-
     public void setImageIndex(int index) { this.imageIndex = index; }
 
     public int getAnimationPeriod() {
@@ -104,8 +73,8 @@ public class Fairy implements Movable{
                         imageStore.getImageList(Functions.SAPLING_KEY));
 
                 world.addEntity(sapling);
-                if (sapling instanceof Animated)
-                    ((Animated)sapling).scheduleAction(scheduler, world, imageStore);
+                if (sapling instanceof Active)
+                    ((Active)sapling).scheduleAction(scheduler, world, imageStore);
             }
         }
 

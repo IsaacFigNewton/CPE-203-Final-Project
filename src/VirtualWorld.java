@@ -5,6 +5,9 @@ import java.util.Optional;
 
 import processing.core.*;
 
+//how to convert drawio file to graphml one
+//does everything have to have health?
+
 public final class VirtualWorld extends PApplet
 {
     private static final int TIMER_ACTION_PERIOD = 100;
@@ -88,7 +91,11 @@ public final class VirtualWorld extends PApplet
         if (entityOptional.isPresent())
         {
             Entity entity = entityOptional.get();
-            System.out.println(entity.getId() + ": " + entity.getClass() + " : " + entity.getHealth());
+            String stringToPrint = entity.getId() + ": " + entity.getClass() + " : ";
+            if (entity instanceof Tree)
+                stringToPrint += ((Tree)entity).getHealth();
+
+            System.out.println(stringToPrint);
         }
 
     }
@@ -164,8 +171,8 @@ public final class VirtualWorld extends PApplet
             WorldModel world, EventScheduler scheduler, ImageStore imageStore)
     {
         for (Entity entity : world.entities) {
-            if (entity instanceof Animated)
-                ((Animated)entity).scheduleAction(scheduler, world, imageStore);
+            if (entity instanceof Active)
+                ((Active)entity).scheduleAction(scheduler, world, imageStore);
         }
     }
 

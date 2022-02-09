@@ -221,7 +221,7 @@ public final class WorldModel
                     Integer.parseInt(properties[Functions.SAPLING_ROW]));
             String id = properties[Functions.SAPLING_ID];
             int health = Integer.parseInt(properties[Functions.SAPLING_HEALTH]);
-            Entity entity = new Sapling(id, pt, imageStore.getImageList(Functions.SAPLING_KEY), 0, 0,
+            Entity entity = new Sapling(id, pt, imageStore.getImageList(Functions.SAPLING_KEY),
                     Functions.SAPLING_ACTION_ANIMATION_PERIOD, Functions.SAPLING_ACTION_ANIMATION_PERIOD, health, Functions.SAPLING_HEALTH_LIMIT);
             this.tryAddEntity(entity);
         }

@@ -23,10 +23,6 @@ public final class Action
         this.repeatCount = repeatCount;
     }
 
-    public ActionKind getKind() {
-        return kind;
-    }
-
     public Entity getEntity() {
         return entity;
     }
@@ -37,10 +33,6 @@ public final class Action
 
     public ImageStore getImageStore() {
         return imageStore;
-    }
-
-    public int getRepeatCount() {
-        return repeatCount;
     }
 
     public void executeAction(EventScheduler scheduler) {
@@ -56,7 +48,10 @@ public final class Action
     }
 
     private void executeActivityAction(EventScheduler scheduler)
-    { this.entity.executeActivity(this.world, this.imageStore, scheduler); }
+    {
+        if (this.entity instanceof ActivityEnjoyer)
+            ((ActivityEnjoyer) this.entity).executeActivity(this.world, this.imageStore, scheduler);
+    }
 
     private void executeAnimationAction(EventScheduler scheduler)
     {
