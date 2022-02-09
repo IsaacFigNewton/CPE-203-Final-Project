@@ -37,6 +37,38 @@ public class Stump implements Entity {
         this.healthLimit = healthLimit;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public List<PImage> getImages() {
+        return images;
+    }
+
+    public int getImageIndex() {
+        return imageIndex;
+    }
+
+    public int getResourceLimit() {
+        return resourceLimit;
+    }
+
+    public int getResourceCount() {
+        return resourceCount;
+    }
+
+    public int getActionPeriod() {
+        return actionPeriod;
+    }
+
+    public int getHealthLimit() {
+        return healthLimit;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
     public Point getPosition() {
         return position;
     }
@@ -45,16 +77,12 @@ public class Stump implements Entity {
         this.position = newPosition;
     }
 
-    @Override
     public void incrementHealth() { health++; }
 
-    @Override
     public void decrementHealth() { health--; }
 
-    @Override
     public void setImageIndex(int index) { this.imageIndex = index; }
 
-    @Override
     public void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler) {
 
     }

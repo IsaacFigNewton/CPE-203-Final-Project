@@ -1,11 +1,9 @@
 public interface Animated extends Entity {
 
-    default int getAnimationPeriod() {
-        return this.animationPeriod;
-    };
+    int getAnimationPeriod();
 
     default void nextImage() {
-        this.setImageIndex((this.imageIndex + 1) % this.images.size());
+        this.setImageIndex((this.getImageIndex() + 1) % this.getImages().size());
     }
 
     default void scheduleAction (EventScheduler eventScheduler, WorldModel world, ImageStore imageStore) {

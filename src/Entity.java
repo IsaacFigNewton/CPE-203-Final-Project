@@ -3,58 +3,33 @@ import processing.core.PImage;
 import java.util.*;
 
 interface Entity {
-    String id = "";
-    List<PImage> images = new ArrayList<>();
-    int imageIndex = 0;
-    int resourceLimit = 0;
-    int resourceCount = 0;
-    int actionPeriod = 0;
-    int animationPeriod = 0;
-    int health = 0;
-    int healthLimit = 0;
 
+    String getId();
 
-    default String getId() {
-        return id;
-    }
+    List<PImage> getImages();
 
-    default List<PImage> getImages() {
-        return images;
-    }
+    int getImageIndex();
 
-    default int getImageIndex() {
-        return imageIndex;
-    }
+    void setImageIndex(int index);
 
-    default int getResourceLimit() {
-        return resourceLimit;
-    }
+    int getResourceLimit();
 
-    default int getResourceCount() {
-        return resourceCount;
-    }
+    int getResourceCount();
 
-    default int getActionPeriod() {
-        return actionPeriod;
-    }
+    int getActionPeriod();
 
-    default int getHealth() {
-        return health;
-    }
+    int getHealthLimit();
 
-    default int getHealthLimit() {
-        return healthLimit;
-    }
-
-    Point getPosition();
-
-    void setPosition(Point newPosition);
+    int getHealth();
 
     void incrementHealth();
 
     void decrementHealth();
 
-    void setImageIndex(int index);
+    Point getPosition();
+
+    void setPosition(Point newPosition);
+
 
     static int getNumFromRange(int max, int min) {
         Random rand = new Random();
@@ -79,7 +54,7 @@ interface Entity {
         return new Action(ActionKind.ACTIVITY, this, world, imageStore, 0);
     }
 
-    default PImage getCurrentImage() { return this.images.get(this.imageIndex);}
+    default PImage getCurrentImage() { return this.getImages().get(this.getImageIndex());}
     
     //void nextImage();
 

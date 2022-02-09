@@ -40,6 +40,38 @@ public class DudeNotFull implements Movable, Transformable {
         this.healthLimit = healthLimit;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public List<PImage> getImages() {
+        return images;
+    }
+
+    public int getImageIndex() {
+        return imageIndex;
+    }
+
+    public int getResourceLimit() {
+        return resourceLimit;
+    }
+
+    public int getResourceCount() {
+        return resourceCount;
+    }
+
+    public int getActionPeriod() {
+        return actionPeriod;
+    }
+
+    public int getHealthLimit() {
+        return healthLimit;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
     public Point getPosition() {
         return position;
     }
@@ -48,14 +80,15 @@ public class DudeNotFull implements Movable, Transformable {
         this.position = newPosition;
     }
 
-    @Override
     public void incrementHealth() { health++; }
 
-    @Override
     public void decrementHealth() { health--; }
 
-    @Override
     public void setImageIndex(int index) { this.imageIndex = index; }
+
+    public int getAnimationPeriod() {
+        return this.animationPeriod;
+    };
 
     public void executeActivity(
             WorldModel world,
