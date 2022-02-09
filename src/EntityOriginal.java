@@ -1,50 +1,50 @@
-import java.util.*;
-
-import processing.core.PImage;
-
-/**
- * An entity that exists in the world. See EntityKind for the
- * different kinds of entities that exist.
- */
-public final class EntityOriginal
-{
-    private EntityKind kind;
-    private String id;
-    private Point position;
-    private List<PImage> images;
-    private int imageIndex;
-    private int resourceLimit;
-    private int resourceCount;
-    private int actionPeriod;
-    private int animationPeriod;
-    private int health;
-    private int healthLimit;
-
-    public EntityOriginal(
-            EntityKind kind,
-            String id,
-            Point position,
-            List<PImage> images,
-            int resourceLimit,
-            int resourceCount,
-            int actionPeriod,
-            int animationPeriod,
-            int health,
-            int healthLimit)
-    {
-        this.kind = kind;
-        this.id = id;
-        this.position = position;
-        this.images = images;
-        this.imageIndex = 0;
-        this.resourceLimit = resourceLimit;
-        this.resourceCount = resourceCount;
-        this.actionPeriod = actionPeriod;
-        this.animationPeriod = animationPeriod;
-        this.health = health;
-        this.healthLimit = healthLimit;
-    }
-
+//import java.util.*;
+//
+//import processing.core.PImage;
+//
+///**
+// * An entity that exists in the world. See EntityKind for the
+// * different kinds of entities that exist.
+// */
+//public final class EntityOriginal
+//{
+//    private EntityKind kind;
+//    private String id;
+//    private Point position;
+//    private List<PImage> images;
+//    private int imageIndex;
+//    private int resourceLimit;
+//    private int resourceCount;
+//    private int actionPeriod;
+//    private int animationPeriod;
+//    private int health;
+//    private int healthLimit;
+//
+//    public EntityOriginal(
+//            EntityKind kind,
+//            String id,
+//            Point position,
+//            List<PImage> images,
+//            int resourceLimit,
+//            int resourceCount,
+//            int actionPeriod,
+//            int animationPeriod,
+//            int health,
+//            int healthLimit)
+//    {
+//        this.kind = kind;
+//        this.id = id;
+//        this.position = position;
+//        this.images = images;
+//        this.imageIndex = 0;
+//        this.resourceLimit = resourceLimit;
+//        this.resourceCount = resourceCount;
+//        this.actionPeriod = actionPeriod;
+//        this.animationPeriod = animationPeriod;
+//        this.health = health;
+//        this.healthLimit = healthLimit;
+//    }
+//
 //    public EntityKind getKind() {
 //        return kind;
 //    }
@@ -88,7 +88,7 @@ public final class EntityOriginal
 //    public int getHealthLimit() {
 //        return healthLimit;
 //    }
-
+//
 //    private static int getNumFromRange(int max, int min)
 //    {
 //        Random rand = new Random();
@@ -96,7 +96,7 @@ public final class EntityOriginal
 //                max
 //                        - min);
 //    }
-
+//
 //    public Action createAnimationAction(int repeatCount) {
 //        return new Action(ActionKind.ANIMATION, this, null, null,
 //                repeatCount);
@@ -108,7 +108,7 @@ public final class EntityOriginal
 //    }
 //
 //    public PImage getCurrentImage() { return this.images.get(this.imageIndex);}
-
+//
 //    public int getAnimationPeriod() {
 //        switch (this.kind) {
 //            case DUDE_FULL:
@@ -128,11 +128,11 @@ public final class EntityOriginal
 //    public void nextImage() {
 //        this.imageIndex = (this.imageIndex + 1) % this.images.size();
 //    }
-
-
-    //Execute various kinds of activities
-
-
+//
+//
+//    Execute various kinds of activities
+//
+//
 //
 //    public boolean transformPlant( WorldModel world,
 //                                          EventScheduler scheduler,
@@ -152,7 +152,7 @@ public final class EntityOriginal
 //                    String.format("transformPlant not supported for %s", this));
 //        }
 //    }
-
+//
 //    private static boolean transformTree(
 //            Entity entity,
 //            WorldModel world,
@@ -173,7 +173,7 @@ public final class EntityOriginal
 //
 //        return false;
 //    }
-
+//
 //    private static boolean transformSapling(
 //            Entity entity,
 //            WorldModel world,
@@ -210,8 +210,8 @@ public final class EntityOriginal
 //
 //        return false;
 //    }
-
-
+//
+//
 //    public void executeFairyActivity(
 //            WorldModel world,
 //            ImageStore imageStore,
@@ -236,7 +236,7 @@ public final class EntityOriginal
 //                this.createActivityAction(world, imageStore),
 //                this.actionPeriod);
 //    }
-
+//
 //    public void executeDudeNotFullActivity(
 //            WorldModel world,
 //            ImageStore imageStore,
@@ -255,7 +255,7 @@ public final class EntityOriginal
 //                    this.actionPeriod);
 //        }
 //    }
-
+//
 //    public void executeDudeFullActivity(
 //            WorldModel world,
 //            ImageStore imageStore,
@@ -275,7 +275,7 @@ public final class EntityOriginal
 //                    this.actionPeriod);
 //        }
 //    }
-
+//
 //    public boolean transformNotFull(
 //            WorldModel world,
 //            EventScheduler scheduler,
@@ -299,7 +299,7 @@ public final class EntityOriginal
 //
 //        return false;
 //    }
-
+//
 //    public void transformFull(
 //            WorldModel world,
 //            EventScheduler scheduler,
@@ -317,7 +317,7 @@ public final class EntityOriginal
 //        world.addEntity(dudeNotFull);
 //        dudeNotFull.scheduleActions(scheduler, world, imageStore);
 //    }
-
+//
 //    public boolean moveToFairy(
 //            WorldModel world,
 //            Entity target,
@@ -342,7 +342,7 @@ public final class EntityOriginal
 //            return false;
 //        }
 //    }
-
+//
 //    public boolean moveToNotFull(
 //            WorldModel world,
 //            Entity target,
@@ -367,7 +367,7 @@ public final class EntityOriginal
 //            return false;
 //        }
 //    }
-
+//
 //    public boolean moveToFull(
 //            WorldModel world,
 //            Entity target,
@@ -390,7 +390,7 @@ public final class EntityOriginal
 //            return false;
 //        }
 //    }
-
+//
 //    public Point nextPositionFairy(WorldModel world, Point destPos)
 //    {
 //        int horiz = Integer.signum(destPos.getX() - this.position.getX());
@@ -407,7 +407,7 @@ public final class EntityOriginal
 //
 //        return newPos;
 //    }
-
+//
 //    public Point nextPositionDude(WorldModel world, Point destPos)
 //    {
 //        int horiz = Integer.signum(destPos.getX() - this.position.getX());
@@ -424,7 +424,7 @@ public final class EntityOriginal
 //
 //        return newPos;
 //    }
-
+//
 //    public void scheduleActions (EventScheduler eventScheduler, WorldModel world, ImageStore imageStore) {
 //        switch (this.getKind()) {
 //            case DUDE_FULL:
@@ -456,4 +456,4 @@ public final class EntityOriginal
 //            default:
 //        }
 //    }
-}
+//}

@@ -1,20 +1,74 @@
+import processing.core.PImage;
+
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 public class DudeNotFull implements Movable, Transformable {
+    private String id;
+    private Point position;
+    private List<PImage> images;
+    private int imageIndex;
+    private int resourceLimit;
+    private int resourceCount;
+    private int actionPeriod;
+    private int animationPeriod;
+    private int health;
+    private int healthLimit;
+
+    public DudeNotFull(
+            String id,
+            Point position,
+            List<PImage> images,
+            int resourceLimit,
+            int resourceCount,
+            int actionPeriod,
+            int animationPeriod,
+            int health,
+            int healthLimit)
+    {
+        this.id = id;
+        this.position = position;
+        this.images = images;
+        this.imageIndex = 0;
+        this.resourceLimit = resourceLimit;
+        this.resourceCount = resourceCount;
+        this.actionPeriod = actionPeriod;
+        this.animationPeriod = animationPeriod;
+        this.health = health;
+        this.healthLimit = healthLimit;
+    }
+
+    public Point getPosition() {
+        return position;
+    }
+
+    public void setPosition(Point newPosition) {
+        this.position = newPosition;
+    }
+
+    @Override
+    public void incrementHealth() { health++; }
+
+    @Override
+    public void decrementHealth() { health--; }
+
+    @Override
+    public void setImageIndex(int index) { this.imageIndex = index; }
+
     public void executeActivity(
             WorldModel world,
             ImageStore imageStore,
             EventScheduler scheduler)
     {
-        Optional<EntityOriginal> target =
-                world.findNearest(this.position, new ArrayList<>(Arrays.asList(EntityKind.TREE, EntityKind.SAPLING)));
+        Optional<Entity> target =
+                world.findNearest(this.position, new ArrayList<>(Arrays.asList(Tree.class, Sapling.class)));
 
-        if (!target.isPresent() || !this.moveToNotFull(world,
+        if (!target.isPresent() || !this.moveTo(world,
                 target.get(),
                 scheduler)
-                || !this.transformNotFull(world, scheduler, imageStore))
+                || !this.transform(world, scheduler, imageStore))
         {
             scheduler.scheduleEvent(this,
                     this.createActivityAction(world, imageStore),
@@ -24,19 +78,19 @@ public class DudeNotFull implements Movable, Transformable {
 
     public boolean moveTo(
             WorldModel world,
-            EntityOriginal target,
+            Entity target,
             EventScheduler scheduler)
     {
         if (this.position.adjacent(target.getPosition())) {
             this.resourceCount++;
-            target.health--;
+            target.decrementHealth();
             return true;
         }
         else {
-            Point nextPos = this.nextPositionDude(world, target.getPosition());
+            Point nextPos = this.nextPosition(world, target.getPosition());
 
             if (!this.position.equals(nextPos)) {
-                Optional<EntityOriginal> occupant = world.getOccupant(nextPos);
+                Optional<Entity> occupant = world.getOccupant(nextPos);
                 if (occupant.isPresent()) {
                     scheduler.unscheduleAllEvents(occupant.get());
                 }
@@ -52,11 +106,11 @@ public class DudeNotFull implements Movable, Transformable {
         int horiz = Integer.signum(destPos.getX() - this.position.getX());
         Point newPos = new Point(this.position.getX() + horiz, this.position.getY());
 
-        if (horiz == 0 || world.isOccupied(newPos) && world.getOccupancyCell(newPos).kind != EntityKind.STUMP) {
+        if (horiz == 0 || world.isOccupied(newPos) && !(world.getOccupancyCell(newPos) instanceof Stump)) {
             int vert = Integer.signum(destPos.getY() - this.position.getY());
             newPos = new Point(this.position.getX(), this.position.getY() + vert);
 
-            if (vert == 0 || world.isOccupied(newPos) &&  world.getOccupancyCell(newPos).kind != EntityKind.STUMP) {
+            if (vert == 0 || world.isOccupied(newPos) &&  !(world.getOccupancyCell(newPos) instanceof Stump)) {
                 newPos = this.position;
             }
         }
@@ -70,7 +124,7 @@ public class DudeNotFull implements Movable, Transformable {
             ImageStore imageStore)
     {
         if (this.resourceCount >= this.resourceLimit) {
-            EntityOriginal dudeFull = this.position.createDudeFull(this.id,
+            Entity dudeFull = this.position.createDudeFull(this.id,
                     this.actionPeriod,
                     this.animationPeriod,
                     this.resourceLimit,
@@ -80,7 +134,7 @@ public class DudeNotFull implements Movable, Transformable {
             scheduler.unscheduleAllEvents(this);
 
             world.addEntity(dudeFull);
-            dudeFull.scheduleActions(scheduler, world, imageStore);
+            dudeFull.scheduleAction(scheduler, world, imageStore);
 
             return true;
         }

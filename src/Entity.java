@@ -4,7 +4,6 @@ import java.util.*;
 
 interface Entity {
     String id = "";
-    Point position = new Point(0, 0);
     List<PImage> images = new ArrayList<>();
     int imageIndex = 0;
     int resourceLimit = 0;
@@ -14,16 +13,9 @@ interface Entity {
     int health = 0;
     int healthLimit = 0;
 
+
     default String getId() {
         return id;
-    }
-
-    default Point getPosition() {
-        return position;
-    }
-
-    default void setPosition(Point position) {
-        this.position = position;
     }
 
     default List<PImage> getImages() {
@@ -53,6 +45,16 @@ interface Entity {
     default int getHealthLimit() {
         return healthLimit;
     }
+
+    Point getPosition();
+
+    void setPosition(Point newPosition);
+
+    void incrementHealth();
+
+    void decrementHealth();
+
+    void setImageIndex(int index);
 
     static int getNumFromRange(int max, int min) {
         Random rand = new Random();

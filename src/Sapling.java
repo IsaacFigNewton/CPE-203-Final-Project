@@ -37,6 +37,23 @@ public class Sapling implements Active, Transformable {
         this.healthLimit = healthLimit;
     }
 
+    public Point getPosition() {
+        return position;
+    }
+
+    public void setPosition(Point newPosition) {
+        this.position = newPosition;
+    }
+
+    @Override
+    public void incrementHealth() { health++; }
+
+    @Override
+    public void decrementHealth() { health--; }
+
+    @Override
+    public void setImageIndex(int index) { this.imageIndex = index; }
+
     public void executeActivity(
             WorldModel world,
             ImageStore imageStore,
@@ -63,7 +80,7 @@ public class Sapling implements Active, Transformable {
             scheduler.unscheduleAllEvents(this);
 
             world.addEntity(stump);
-            stump.scheduleActions(scheduler, world, imageStore);
+            stump.scheduleAction(scheduler, world, imageStore);
 
             return true;
         }

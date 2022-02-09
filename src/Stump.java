@@ -37,6 +37,23 @@ public class Stump implements Entity {
         this.healthLimit = healthLimit;
     }
 
+    public Point getPosition() {
+        return position;
+    }
+
+    public void setPosition(Point newPosition) {
+        this.position = newPosition;
+    }
+
+    @Override
+    public void incrementHealth() { health++; }
+
+    @Override
+    public void decrementHealth() { health--; }
+
+    @Override
+    public void setImageIndex(int index) { this.imageIndex = index; }
+
     @Override
     public void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler) {
 

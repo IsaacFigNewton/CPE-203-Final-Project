@@ -37,6 +37,23 @@ public class Tree implements Animated, Transformable {
         this.healthLimit = healthLimit;
     }
 
+    public Point getPosition() {
+        return position;
+    }
+
+    public void setPosition(Point newPosition) {
+        this.position = newPosition;
+    }
+
+    @Override
+    public void incrementHealth() { health++; }
+
+    @Override
+    public void decrementHealth() { health--; }
+
+    @Override
+    public void setImageIndex(int index) { this.imageIndex = index; }
+
     public void executeActivity(
             WorldModel world,
             ImageStore imageStore,

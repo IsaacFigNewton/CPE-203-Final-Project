@@ -40,23 +40,40 @@ public class Fairy implements Movable{
         this.healthLimit = healthLimit;
     }
 
+    public Point getPosition() {
+        return position;
+    }
+
+    public void setPosition(Point newPosition) {
+        this.position = newPosition;
+    }
+
+    @Override
+    public void incrementHealth() { health++; }
+
+    @Override
+    public void decrementHealth() { health--; }
+
+    @Override
+    public void setImageIndex(int index) { this.imageIndex = index; }
+
     public void executeActivity(
             WorldModel world,
             ImageStore imageStore,
             EventScheduler scheduler)
     {
         Optional<Entity> fairyTarget =
-                world.findNearest(this.position, new ArrayList<>(Arrays.asList(EntityKind.STUMP)));
+                world.findNearest(this.position, new ArrayList<>(Arrays.asList(Stump.class)));
 
         if (fairyTarget.isPresent()) {
             Point tgtPos = fairyTarget.get().getPosition();
 
-            if (this.moveToFairy(world, fairyTarget.get(), scheduler)) {
+            if (this.moveTo(world, fairyTarget.get(), scheduler)) {
                 Entity sapling = tgtPos.createSapling("sapling_" + this.id,
                         imageStore.getImageList(Functions.SAPLING_KEY));
 
                 world.addEntity(sapling);
-                sapling.scheduleActions(scheduler, world, imageStore);
+                sapling.scheduleAction(scheduler, world, imageStore);
             }
         }
 
@@ -76,7 +93,7 @@ public class Fairy implements Movable{
             return true;
         }
         else {
-            Point nextPos = this.nextPositionFairy(world, target.getPosition());
+            Point nextPos = this.nextPosition(world, target.getPosition());
 
             if (!this.position.equals(nextPos)) {
                 Optional<Entity> occupant = world.getOccupant(nextPos);

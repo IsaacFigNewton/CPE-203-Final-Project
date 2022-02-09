@@ -19,16 +19,16 @@ public final class Point
     public int getX() { return x;}
     public int getY() { return y;}
 
-    public Optional<EntityOriginal> nearestEntity(List<EntityOriginal> entities)
+    public Optional<Entity> nearestEntity(List<Entity> entities)
     {
         if (entities.isEmpty()) {
             return Optional.empty();
         }
         else {
-            EntityOriginal nearest = entities.get(0);
+            Entity nearest = entities.get(0);
             int nearestDistance = this.distanceSquared(nearest.getPosition());
 
-            for (EntityOriginal other : entities) {
+            for (Entity other : entities) {
                 int otherDistance = this.distanceSquared(other.getPosition());
 
                 if (otherDistance < nearestDistance) {
@@ -48,74 +48,74 @@ public final class Point
         return deltaX * deltaX + deltaY * deltaY;
     }
 
-    public EntityOriginal createHouse(
+    public Entity createHouse(
             String id, List<PImage> images)
     {
-        return new EntityOriginal(EntityKind.HOUSE, id, this, images, 0, 0, 0,
+        return new House(id, this, images, 0, 0, 0,
                 0, 0, 0);
     }
 
-    public EntityOriginal createObstacle(
+    public Entity createObstacle(
             String id, int animationPeriod, List<PImage> images)
     {
-        return new EntityOriginal(EntityKind.OBSTACLE, id, this, images, 0, 0, 0,
+        return new Obstacle(id, this, images, 0, 0, 0,
                 animationPeriod, 0, 0);
     }
 
-    public EntityOriginal createTree(
+    public Entity createTree(
             String id,
             int actionPeriod,
             int animationPeriod,
             int health,
             List<PImage> images)
     {
-        return new EntityOriginal(EntityKind.TREE, id, this, images, 0, 0,
+        return new Tree(id, this, images, 0, 0,
                 actionPeriod, animationPeriod, health, 0);
     }
 
-    public EntityOriginal createStump(String id, List<PImage> images)
+    public Entity createStump(String id, List<PImage> images)
     {
-        return new EntityOriginal(EntityKind.STUMP, id, this, images, 0, 0,
+        return new Stump(id, this, images, 0, 0,
                 0, 0, 0, 0);
     }
 
     // health starts at 0 and builds up until ready to convert to Tree
-    public EntityOriginal createSapling(String id, List<PImage> images)
+    public Entity createSapling(String id, List<PImage> images)
     {
-        return new EntityOriginal(EntityKind.SAPLING, id, this, images, 0, 0,
+        return new Sapling(id, this, images, 0, 0,
                 Functions.SAPLING_ACTION_ANIMATION_PERIOD, Functions.SAPLING_ACTION_ANIMATION_PERIOD, 0, Functions.SAPLING_HEALTH_LIMIT);
     }
 
-    public EntityOriginal createFairy(
+    public Entity createFairy(
             String id,
             int actionPeriod,
             int animationPeriod,
             List<PImage> images)
     {
-        return new EntityOriginal(EntityKind.FAIRY, id, this, images, 0, 0,
+        return new Fairy(id, this, images, 0, 0,
                 actionPeriod, animationPeriod, 0, 0);
     }
 
     // need resource count, though it always starts at 0
-    public EntityOriginal createDudeNotFull(
+    public Entity createDudeNotFull(
             String id,
             int actionPeriod,
             int animationPeriod,
             int resourceLimit,
             List<PImage> images)
     {
-        return new EntityOriginal(EntityKind.DUDE_NOT_FULL, id, this, images, resourceLimit, 0,
+        return new DudeNotFull(id, this, images, resourceLimit, 0,
                 actionPeriod, animationPeriod, 0, 0);
     }
 
     // don't technically need resource count ... full
-    public EntityOriginal createDudeFull(
+    public Entity createDudeFull(
             String id,
             int actionPeriod,
             int animationPeriod,
             int resourceLimit,
             List<PImage> images) {
-        return new EntityOriginal(EntityKind.DUDE_FULL, id, this, images, resourceLimit, 0,
+        return new DudeFull(id, this, images, resourceLimit, 0,
                 actionPeriod, animationPeriod, 0, 0);
     }
 

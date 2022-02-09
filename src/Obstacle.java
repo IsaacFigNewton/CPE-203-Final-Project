@@ -37,6 +37,23 @@ public class Obstacle implements Animated{
         this.healthLimit = healthLimit;
     }
 
+    public Point getPosition() {
+        return position;
+    }
+
+    public void setPosition(Point newPosition) {
+        this.position = newPosition;
+    }
+
+    @Override
+    public void incrementHealth() { health++; }
+
+    @Override
+    public void decrementHealth() { health--; }
+
+    @Override
+    public void setImageIndex(int index) { this.imageIndex = index; }
+
     public void scheduleAction (EventScheduler eventScheduler, WorldModel world, ImageStore imageStore) {
         eventScheduler.scheduleEvent(this,
                 this.createAnimationAction(0),

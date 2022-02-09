@@ -2,7 +2,7 @@ import processing.core.PImage;
 
 import java.util.List;
 
-public class House extends Entity {
+public class House implements Entity {
     private String id;
     private Point position;
     private List<PImage> images;
@@ -37,4 +37,25 @@ public class House extends Entity {
         this.healthLimit = healthLimit;
     }
 
+    public Point getPosition() {
+        return position;
+    }
+
+    public void setPosition(Point newPosition) {
+        this.position = newPosition;
+    }
+
+    @Override
+    public void incrementHealth() { health++; }
+
+    @Override
+    public void decrementHealth() { health--; }
+
+    @Override
+    public void setImageIndex(int index) { this.imageIndex = index; }
+
+    @Override
+    public void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler) {
+
+    }
 }
