@@ -80,8 +80,6 @@ public class Fairy implements Movable{
         this.position = newPosition;
     }
 
-    public void incrementHealth() { health++; }
-
     public void decrementHealth() { health--; }
 
     public void setImageIndex(int index) { this.imageIndex = index; }
@@ -106,7 +104,8 @@ public class Fairy implements Movable{
                         imageStore.getImageList(Functions.SAPLING_KEY));
 
                 world.addEntity(sapling);
-                sapling.scheduleAction(scheduler, world, imageStore);
+                if (sapling instanceof Animated)
+                    ((Animated)sapling).scheduleAction(scheduler, world, imageStore);
             }
         }
 

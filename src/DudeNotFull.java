@@ -80,8 +80,6 @@ public class DudeNotFull implements Movable, Transformable {
         this.position = newPosition;
     }
 
-    public void incrementHealth() { health++; }
-
     public void decrementHealth() { health--; }
 
     public void setImageIndex(int index) { this.imageIndex = index; }
@@ -116,7 +114,7 @@ public class DudeNotFull implements Movable, Transformable {
     {
         if (this.position.adjacent(target.getPosition())) {
             this.resourceCount++;
-            target.decrementHealth();
+                target.decrementHealth();
             return true;
         }
         else {
@@ -167,7 +165,8 @@ public class DudeNotFull implements Movable, Transformable {
             scheduler.unscheduleAllEvents(this);
 
             world.addEntity(dudeFull);
-            dudeFull.scheduleAction(scheduler, world, imageStore);
+            if (dudeFull instanceof Animated)
+                ((Animated)dudeFull).scheduleAction(scheduler, world, imageStore);
 
             return true;
         }

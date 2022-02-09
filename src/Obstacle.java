@@ -78,8 +78,6 @@ public class Obstacle implements Animated{
         this.position = newPosition;
     }
 
-    public void incrementHealth() { health++; }
-
     public void decrementHealth() { health--; }
 
     public void setImageIndex(int index) { this.imageIndex = index; }

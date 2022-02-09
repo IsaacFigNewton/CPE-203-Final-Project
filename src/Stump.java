@@ -77,8 +77,6 @@ public class Stump implements Entity {
         this.position = newPosition;
     }
 
-    public void incrementHealth() { health++; }
-
     public void decrementHealth() { health--; }
 
     public void setImageIndex(int index) { this.imageIndex = index; }

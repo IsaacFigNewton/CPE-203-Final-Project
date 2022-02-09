@@ -1,5 +1,16 @@
 public interface Animated extends Entity {
 
+    int getActionPeriod();
+
+    default Action createAnimationAction(int repeatCount) {
+        return new Action(ActionKind.ANIMATION, this, null, null,
+                repeatCount);
+    }
+
+    default Action createActivityAction(WorldModel world, ImageStore imageStore)
+    {
+        return new Action(ActionKind.ACTIVITY, this, world, imageStore, 0);
+    }
     int getAnimationPeriod();
 
     default void nextImage() {

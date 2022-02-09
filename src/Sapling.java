@@ -114,7 +114,8 @@ public class Sapling implements Active, Transformable {
             scheduler.unscheduleAllEvents(this);
 
             world.addEntity(stump);
-            stump.scheduleAction(scheduler, world, imageStore);
+            if (stump instanceof Animated)
+                ((Animated)stump).scheduleAction(scheduler, world, imageStore);
 
             return true;
         }
@@ -130,7 +131,8 @@ public class Sapling implements Active, Transformable {
             scheduler.unscheduleAllEvents( this);
 
             world.addEntity(tree);
-            tree.scheduleAction(scheduler, world, imageStore);
+            if (tree instanceof Animated)
+                ((Animated)tree).scheduleAction(scheduler, world, imageStore);
 
             return true;
         }
