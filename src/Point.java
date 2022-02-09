@@ -1,9 +1,7 @@
 import processing.core.PImage;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.PriorityQueue;
 
 /**
  * A simple class representing a location in 2D space.
@@ -21,16 +19,16 @@ public final class Point
     public int getX() { return x;}
     public int getY() { return y;}
 
-    public Optional<Entity> nearestEntity(List<Entity> entities)
+    public Optional<EntityOriginal> nearestEntity(List<EntityOriginal> entities)
     {
         if (entities.isEmpty()) {
             return Optional.empty();
         }
         else {
-            Entity nearest = entities.get(0);
+            EntityOriginal nearest = entities.get(0);
             int nearestDistance = this.distanceSquared(nearest.getPosition());
 
-            for (Entity other : entities) {
+            for (EntityOriginal other : entities) {
                 int otherDistance = this.distanceSquared(other.getPosition());
 
                 if (otherDistance < nearestDistance) {
@@ -50,74 +48,74 @@ public final class Point
         return deltaX * deltaX + deltaY * deltaY;
     }
 
-    public Entity createHouse(
+    public EntityOriginal createHouse(
             String id, List<PImage> images)
     {
-        return new Entity(EntityKind.HOUSE, id, this, images, 0, 0, 0,
+        return new EntityOriginal(EntityKind.HOUSE, id, this, images, 0, 0, 0,
                 0, 0, 0);
     }
 
-    public Entity createObstacle(
+    public EntityOriginal createObstacle(
             String id, int animationPeriod, List<PImage> images)
     {
-        return new Entity(EntityKind.OBSTACLE, id, this, images, 0, 0, 0,
+        return new EntityOriginal(EntityKind.OBSTACLE, id, this, images, 0, 0, 0,
                 animationPeriod, 0, 0);
     }
 
-    public Entity createTree(
+    public EntityOriginal createTree(
             String id,
             int actionPeriod,
             int animationPeriod,
             int health,
             List<PImage> images)
     {
-        return new Entity(EntityKind.TREE, id, this, images, 0, 0,
+        return new EntityOriginal(EntityKind.TREE, id, this, images, 0, 0,
                 actionPeriod, animationPeriod, health, 0);
     }
 
-    public Entity createStump(String id, List<PImage> images)
+    public EntityOriginal createStump(String id, List<PImage> images)
     {
-        return new Entity(EntityKind.STUMP, id, this, images, 0, 0,
+        return new EntityOriginal(EntityKind.STUMP, id, this, images, 0, 0,
                 0, 0, 0, 0);
     }
 
     // health starts at 0 and builds up until ready to convert to Tree
-    public Entity createSapling(String id, List<PImage> images)
+    public EntityOriginal createSapling(String id, List<PImage> images)
     {
-        return new Entity(EntityKind.SAPLING, id, this, images, 0, 0,
+        return new EntityOriginal(EntityKind.SAPLING, id, this, images, 0, 0,
                 Functions.SAPLING_ACTION_ANIMATION_PERIOD, Functions.SAPLING_ACTION_ANIMATION_PERIOD, 0, Functions.SAPLING_HEALTH_LIMIT);
     }
 
-    public Entity createFairy(
+    public EntityOriginal createFairy(
             String id,
             int actionPeriod,
             int animationPeriod,
             List<PImage> images)
     {
-        return new Entity(EntityKind.FAIRY, id, this, images, 0, 0,
+        return new EntityOriginal(EntityKind.FAIRY, id, this, images, 0, 0,
                 actionPeriod, animationPeriod, 0, 0);
     }
 
     // need resource count, though it always starts at 0
-    public Entity createDudeNotFull(
+    public EntityOriginal createDudeNotFull(
             String id,
             int actionPeriod,
             int animationPeriod,
             int resourceLimit,
             List<PImage> images)
     {
-        return new Entity(EntityKind.DUDE_NOT_FULL, id, this, images, resourceLimit, 0,
+        return new EntityOriginal(EntityKind.DUDE_NOT_FULL, id, this, images, resourceLimit, 0,
                 actionPeriod, animationPeriod, 0, 0);
     }
 
     // don't technically need resource count ... full
-    public Entity createDudeFull(
+    public EntityOriginal createDudeFull(
             String id,
             int actionPeriod,
             int animationPeriod,
             int resourceLimit,
             List<PImage> images) {
-        return new Entity(EntityKind.DUDE_FULL, id, this, images, resourceLimit, 0,
+        return new EntityOriginal(EntityKind.DUDE_FULL, id, this, images, resourceLimit, 0,
                 actionPeriod, animationPeriod, 0, 0);
     }
 

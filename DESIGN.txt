@@ -21,23 +21,23 @@ stuff in the world, so I felt like it was appropriate.
 
 I moved the following methods to the WorldModel class because it seemed like the most logical choice based on their
 internal code and implementations.
-+findNearest(): Optional<Entity>
++findNearest(): Optional<EntityOriginal>
 +addEntity()
 +moveEntity()
 +removeEntity()
 +removeEntityAt()
 +getBackgroundImage(): Optional<PImage>
 +setBackground()
-+getOccupant(): Optional<Entity>
-+getOccupancyCell(): Entity
++getOccupant(): Optional<EntityOriginal>
++getOccupancyCell(): EntityOriginal
 +setOccupancyCell()
 +getBackgroundCell(): Background
 +setBackgroundCell()
 
-I moved createAnimationAction() and createActivityAction() to the Entity class because Entity instances almost always
+I moved createAnimationAction() and createActivityAction() to the EntityOriginal class because EntityOriginal instances almost always
 have a respective action, so it seemed only logical to move these action creation methods to this class, since they also
-take an instance of the Entity object as a parameter.
+take an instance of the EntityOriginal object as a parameter.
 
-I moved getNumFromRange() to the Entity class because the transformSapling() method was the only method to use it.
+I moved getNumFromRange() to the EntityOriginal class because the transformSapling() method was the only method to use it.
 
 I moved the contains() and clamp() methods to the WorldView class because it was the only class that used them.

@@ -1,2 +1,3 @@
-public interface Active {
+public interface Active extends Animated{
+
 }

@@ -2,7 +2,7 @@ import processing.core.PImage;
 
 import java.util.List;
 
-public class Sapling implements Active, Transformable {
+public class Tree implements Animated, Transformable {
     private String id;
     private Point position;
     private List<PImage> images;
@@ -14,7 +14,7 @@ public class Sapling implements Active, Transformable {
     private int health;
     private int healthLimit;
 
-    public Sapling(
+    public Tree(
     String id,
     Point position,
     List<PImage> images,
@@ -42,7 +42,7 @@ public class Sapling implements Active, Transformable {
             ImageStore imageStore,
             EventScheduler scheduler)
     {
-        this.health++;
+
         if (!this.transform(world, scheduler, imageStore)) {
 
             scheduler.scheduleEvent(this,
@@ -63,23 +63,7 @@ public class Sapling implements Active, Transformable {
             scheduler.unscheduleAllEvents(this);
 
             world.addEntity(stump);
-            stump.scheduleActions(scheduler, world, imageStore);
-
-            return true;
-        }
-        else if (this.getHealth() >= this.getHealthLimit())
-        {
-            Entity tree = this.getPosition().createTree("tree_" + this.getId(),
-                    Entity.getNumFromRange(Functions.TREE_ACTION_MAX, Functions.TREE_ACTION_MIN),
-                    Entity.getNumFromRange(Functions.TREE_ANIMATION_MAX, Functions.TREE_ANIMATION_MIN),
-                    Entity.getNumFromRange(Functions.TREE_HEALTH_MAX, Functions.TREE_HEALTH_MIN),
-                    imageStore.getImageList(Functions.TREE_KEY));
-
-            world.removeEntity(this);
-            scheduler.unscheduleAllEvents( this);
-
-            world.addEntity(tree);
-            tree.scheduleAction(scheduler, world, imageStore);
+            stump.scheduleAction(scheduler, world, imageStore);
 
             return true;
         }
