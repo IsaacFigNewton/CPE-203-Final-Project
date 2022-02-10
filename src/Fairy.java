@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class Fairy implements Movable, ActivityEnjoyer{
+public class Fairy implements Movable {
     private String id;
     private Point position;
     private List<PImage> images;
@@ -53,6 +53,14 @@ public class Fairy implements Movable, ActivityEnjoyer{
     }
     public void setImageIndex(int index) { this.imageIndex = index; }
 
+    public Action createAnimationAction(int repeatCount) {
+        return new Animation(this, repeatCount);
+    }
+
+    public Action createActivityAction(WorldModel world, ImageStore imageStore) {
+        return new Activity(this, world, imageStore);
+    }
+
     public int getAnimationPeriod() {
         return this.animationPeriod;
     }
@@ -69,8 +77,12 @@ public class Fairy implements Movable, ActivityEnjoyer{
             Point tgtPos = fairyTarget.get().getPosition();
 
             if (this.moveTo(world, fairyTarget.get(), scheduler)) {
-                Entity sapling = tgtPos.createSapling("sapling_" + this.id,
-                        imageStore.getImageList(Functions.SAPLING_KEY));
+                // health starts at 0 and builds up until ready to convert to Tree
+                Entity sapling = new Sapling("sapling_" + this.id, tgtPos,
+                        imageStore.getImageList(Functions.SAPLING_KEY),
+                        Functions.SAPLING_ACTION_ANIMATION_PERIOD,
+                        Functions.SAPLING_ACTION_ANIMATION_PERIOD,
+                        0, Functions.SAPLING_HEALTH_LIMIT);
 
                 world.addEntity(sapling);
                 if (sapling instanceof Active)
@@ -123,5 +135,24 @@ public class Fairy implements Movable, ActivityEnjoyer{
         }
 
         return newPos;
+    }
+
+    @Override
+    public void scheduleAction(EventScheduler eventScheduler, WorldModel world, ImageStore imageStore) {
+        eventScheduler.scheduleEvent(this,
+                this.createActivityAction(world, imageStore),
+                this.getActionPeriod());
+
+        eventScheduler.scheduleEvent(this,
+                this.createAnimationAction(0),
+                0);
+    }
+
+    public int getResourceLimit() {
+        return 0;
+    }
+
+    public int getResourceCount() {
+        return 0;
     }
 }

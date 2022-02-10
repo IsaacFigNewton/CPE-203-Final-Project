@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class DudeNotFull implements Dude, ActivityEnjoyer, Transformable {
+public class DudeNotFull implements Transformable, Movable {
     private String id;
     private Point position;
     private List<PImage> images;
@@ -58,12 +58,30 @@ public class DudeNotFull implements Dude, ActivityEnjoyer, Transformable {
         return actionPeriod;
     }
 
+    public Action createAnimationAction(int repeatCount) {
+        return new Animation(this, repeatCount);
+    }
+
+    public Action createActivityAction(WorldModel world, ImageStore imageStore) {
+        return new Activity(this, world, imageStore);
+    }
+
     public Point getPosition() {
         return position;
     }
 
     public void setPosition(Point newPosition) {
         this.position = newPosition;
+    }
+
+    public void scheduleAction(EventScheduler eventScheduler, WorldModel world, ImageStore imageStore) {
+        eventScheduler.scheduleEvent(this,
+                this.createActivityAction(world, imageStore),
+                this.getActionPeriod());
+
+        eventScheduler.scheduleEvent(this,
+                this.createAnimationAction(0),
+                0);
     }
 
     public void setImageIndex(int index) { this.imageIndex = index; }
@@ -140,18 +158,19 @@ public class DudeNotFull implements Dude, ActivityEnjoyer, Transformable {
             ImageStore imageStore)
     {
         if (this.resourceCount >= this.resourceLimit) {
-            Entity dudeFull = this.position.createDudeFull(this.id,
+            Dynamic dudeFull = new DudeFull(
+                    this.id,
+                    this.position,
+                    this.images,
+                    this.resourceLimit, 0,
                     this.actionPeriod,
-                    this.animationPeriod,
-                    this.resourceLimit,
-                    this.images);
+                    this.animationPeriod);
 
             world.removeEntity(this);
             scheduler.unscheduleAllEvents(this);
 
             world.addEntity(dudeFull);
-            if (dudeFull instanceof Active)
-                ((Active)dudeFull).scheduleAction(scheduler, world, imageStore);
+            dudeFull.scheduleAction(scheduler, world, imageStore);
 
             return true;
         }

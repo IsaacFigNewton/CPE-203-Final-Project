@@ -6,7 +6,6 @@ public class Stump implements Entity {
     private String id;
     private Point position;
     private List<PImage> images;
-    private int imageIndex;
 
     public Stump(
     String id,
@@ -16,7 +15,6 @@ public class Stump implements Entity {
         this.id = id;
         this.position = position;
         this.images = images;
-        this.imageIndex = 0;
     }
 
     public String getId() {
@@ -28,7 +26,7 @@ public class Stump implements Entity {
     }
 
     public int getImageIndex() {
-        return imageIndex;
+        return 0;
     }
 
     public Point getPosition() {
@@ -39,5 +37,13 @@ public class Stump implements Entity {
         this.position = newPosition;
     }
 
-    public void setImageIndex(int index) { this.imageIndex = index; }
+//    public void scheduleAction(EventScheduler eventScheduler, WorldModel world, ImageStore imageStore) {
+//
+//    }
+//
+//    public void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler) {
+//
+//    }
+//
+//    public void setImageIndex(int index) { }
 }

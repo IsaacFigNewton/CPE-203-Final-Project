@@ -2,7 +2,7 @@ import processing.core.PImage;
 
 import java.util.List;
 
-public class Tree implements Animated, Transformable {
+public class Tree implements Plant, Transformable {
     private String id;
     private Point position;
     private List<PImage> images;
@@ -68,6 +68,25 @@ public class Tree implements Animated, Transformable {
         return this.animationPeriod;
     }
 
+    public Action createAnimationAction(int repeatCount) {
+        return new Animation(this, repeatCount);
+    }
+
+    public Action createActivityAction(WorldModel world, ImageStore imageStore) {
+        return new Activity(this, world, imageStore);
+    }
+
+    @Override
+    public void scheduleAction(EventScheduler eventScheduler, WorldModel world, ImageStore imageStore) {
+        eventScheduler.scheduleEvent(this,
+                this.createActivityAction(world, imageStore),
+                0);
+
+        eventScheduler.scheduleEvent(this,
+                this.createAnimationAction(0),
+                this.getAnimationPeriod());
+    }
+
 
     public void executeActivity(
             WorldModel world,
@@ -89,14 +108,12 @@ public class Tree implements Animated, Transformable {
             ImageStore imageStore)
     {
         if (this.getHealth() <= 0) {
-            Entity stump = this.getPosition().createStump(this.getId(), imageStore.getImageList(Functions.STUMP_KEY));
+            Entity stump = new Stump(this.getId(), this.getPosition(), imageStore.getImageList(Functions.STUMP_KEY));
 
             world.removeEntity(this);
             scheduler.unscheduleAllEvents(this);
 
             world.addEntity(stump);
-            if (stump instanceof Active)
-                ((Active)stump).scheduleAction(scheduler, world, imageStore);
 
             return true;
         }

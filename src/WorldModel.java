@@ -235,11 +235,11 @@ public final class WorldModel
         if (properties.length == Functions.DUDE_NUM_PROPERTIES) {
             Point pt = new Point(Integer.parseInt(properties[Functions.DUDE_COL]),
                     Integer.parseInt(properties[Functions.DUDE_ROW]));
-            Entity entity = pt.createDudeNotFull(properties[Functions.DUDE_ID],
+            Entity entity = new DudeNotFull(properties[Functions.DUDE_ID], pt,
+                    imageStore.getImageList(Functions.DUDE_KEY),
+                    Integer.parseInt(properties[Functions.DUDE_LIMIT]), 0,
                     Integer.parseInt(properties[Functions.DUDE_ACTION_PERIOD]),
-                    Integer.parseInt(properties[Functions.DUDE_ANIMATION_PERIOD]),
-                    Integer.parseInt(properties[Functions.DUDE_LIMIT]),
-                    imageStore.getImageList(Functions.DUDE_KEY));
+                    Integer.parseInt(properties[Functions.DUDE_ANIMATION_PERIOD]));
             this.tryAddEntity(entity);
         }
 
@@ -252,10 +252,10 @@ public final class WorldModel
         if (properties.length == Functions.FAIRY_NUM_PROPERTIES) {
             Point pt = new Point(Integer.parseInt(properties[Functions.FAIRY_COL]),
                     Integer.parseInt(properties[Functions.FAIRY_ROW]));
-            Entity entity = pt.createFairy(properties[Functions.FAIRY_ID],
+            Entity entity = new Fairy(properties[Functions.FAIRY_ID], pt,
+                    imageStore.getImageList(Functions.FAIRY_KEY),
                     Integer.parseInt(properties[Functions.FAIRY_ACTION_PERIOD]),
-                    Integer.parseInt(properties[Functions.FAIRY_ANIMATION_PERIOD]),
-                    imageStore.getImageList(Functions.FAIRY_KEY));
+                    Integer.parseInt(properties[Functions.FAIRY_ANIMATION_PERIOD]));
             this.tryAddEntity(entity);
         }
 
@@ -268,11 +268,11 @@ public final class WorldModel
         if (properties.length == Functions.TREE_NUM_PROPERTIES) {
             Point pt = new Point(Integer.parseInt(properties[Functions.TREE_COL]),
                     Integer.parseInt(properties[Functions.TREE_ROW]));
-            Entity entity = pt.createTree(properties[Functions.TREE_ID],
+            Entity entity = new Tree(properties[Functions.TREE_ID], pt,
+                    imageStore.getImageList(Functions.TREE_KEY),
                     Integer.parseInt(properties[Functions.TREE_ACTION_PERIOD]),
                     Integer.parseInt(properties[Functions.TREE_ANIMATION_PERIOD]),
-                    Integer.parseInt(properties[Functions.TREE_HEALTH]),
-                    imageStore.getImageList(Functions.TREE_KEY));
+                    Integer.parseInt(properties[Functions.TREE_HEALTH]), 0);
             this.tryAddEntity(entity);
         }
 
@@ -285,9 +285,9 @@ public final class WorldModel
         if (properties.length == Functions.OBSTACLE_NUM_PROPERTIES) {
             Point pt = new Point(Integer.parseInt(properties[Functions.OBSTACLE_COL]),
                     Integer.parseInt(properties[Functions.OBSTACLE_ROW]));
-            Entity entity = pt.createObstacle(properties[Functions.OBSTACLE_ID],
-                    Integer.parseInt(properties[Functions.OBSTACLE_ANIMATION_PERIOD]),
-                    imageStore.getImageList(Functions.OBSTACLE_KEY));
+            Entity entity = new Obstacle(properties[Functions.OBSTACLE_ID], pt,
+                    imageStore.getImageList(Functions.OBSTACLE_KEY),
+                    Integer.parseInt(properties[Functions.OBSTACLE_ANIMATION_PERIOD]));
             this.tryAddEntity(entity);
         }
 
@@ -300,7 +300,7 @@ public final class WorldModel
         if (properties.length == Functions.HOUSE_NUM_PROPERTIES) {
             Point pt = new Point(Integer.parseInt(properties[Functions.HOUSE_COL]),
                     Integer.parseInt(properties[Functions.HOUSE_ROW]));
-            Entity entity = pt.createHouse(properties[Functions.HOUSE_ID],
+            Entity entity = new House(properties[Functions.HOUSE_ID], pt,
                     imageStore.getImageList(Functions.HOUSE_KEY));
             this.tryAddEntity(entity);
         }

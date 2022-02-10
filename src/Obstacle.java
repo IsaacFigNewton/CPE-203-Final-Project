@@ -2,7 +2,7 @@ import processing.core.PImage;
 
 import java.util.List;
 
-public class Obstacle implements Animated{
+public class Obstacle implements Dynamic {
     private String id;
     private Point position;
     private List<PImage> images;
@@ -21,7 +21,6 @@ public class Obstacle implements Animated{
         this.imageIndex = 0;
         this.animationPeriod = animationPeriod;
     }
-
 
     public String getId() {
         return id;
@@ -45,13 +44,21 @@ public class Obstacle implements Animated{
 
     public void setImageIndex(int index) { this.imageIndex = index; }
 
+    public Action createAnimationAction(int repeatCount) {
+        return new Animation(this, repeatCount);
+    }
+
     public int getAnimationPeriod() {
         return this.animationPeriod;
-    };
-    public void scheduleAction (EventScheduler eventScheduler, WorldModel world, ImageStore imageStore) {
+    }
+
+    public void scheduleAction(EventScheduler eventScheduler, WorldModel world, ImageStore imageStore) {
         eventScheduler.scheduleEvent(this,
-                this.createAnimationAction(0),
-                this.getAnimationPeriod());
+                new Animation(this, 0), animationPeriod);
+    }
+
+    public void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler) {
+
     }
 
 }

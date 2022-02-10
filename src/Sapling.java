@@ -2,7 +2,7 @@ import processing.core.PImage;
 
 import java.util.List;
 
-public class Sapling implements Active, ActivityEnjoyer, Transformable {
+public class Sapling implements Plant, Transformable {
     private String id;
     private Point position;
     private List<PImage> images;
@@ -56,6 +56,9 @@ public class Sapling implements Active, ActivityEnjoyer, Transformable {
         return health;
     }
 
+    @Override
+    public void decrementHealth() { health--;}
+
     public Point getPosition() {
         return position;
     }
@@ -65,6 +68,14 @@ public class Sapling implements Active, ActivityEnjoyer, Transformable {
     }
 
     public void setImageIndex(int index) { this.imageIndex = index; }
+
+    public Action createAnimationAction(int repeatCount) {
+        return new Animation(this, repeatCount);
+    }
+
+    public Action createActivityAction(WorldModel world, ImageStore imageStore) {
+        return new Activity(this, world, imageStore);
+    }
 
     public int getAnimationPeriod() {
         return this.animationPeriod;
@@ -90,24 +101,22 @@ public class Sapling implements Active, ActivityEnjoyer, Transformable {
             ImageStore imageStore)
     {
         if (this.getHealth() <= 0) {
-            Entity stump = this.getPosition().createStump(this.getId(), imageStore.getImageList(Functions.STUMP_KEY));
+            Entity stump = new Stump(this.getId(), this.getPosition(), imageStore.getImageList(Functions.STUMP_KEY));
 
             world.removeEntity(this);
             scheduler.unscheduleAllEvents(this);
 
             world.addEntity(stump);
-            if (stump instanceof Active)
-                ((Active)stump).scheduleAction(scheduler, world, imageStore);
 
             return true;
         }
         else if (this.getHealth() >= this.getHealthLimit())
         {
-            Entity tree = this.getPosition().createTree("tree_" + this.getId(),
+            Entity tree = new Tree("tree_" + this.getId(), this.getPosition(),
+                    imageStore.getImageList(Functions.TREE_KEY),
                     Entity.getNumFromRange(Functions.TREE_ACTION_MAX, Functions.TREE_ACTION_MIN),
                     Entity.getNumFromRange(Functions.TREE_ANIMATION_MAX, Functions.TREE_ANIMATION_MIN),
-                    Entity.getNumFromRange(Functions.TREE_HEALTH_MAX, Functions.TREE_HEALTH_MIN),
-                    imageStore.getImageList(Functions.TREE_KEY));
+                    Entity.getNumFromRange(Functions.TREE_HEALTH_MAX, Functions.TREE_HEALTH_MIN), 0);
 
             world.removeEntity(this);
             scheduler.unscheduleAllEvents( this);
@@ -120,5 +129,15 @@ public class Sapling implements Active, ActivityEnjoyer, Transformable {
         }
 
         return false;
+    }
+
+    public void scheduleAction (EventScheduler eventScheduler, WorldModel world, ImageStore imageStore) {
+        eventScheduler.scheduleEvent(this,
+                this.createActivityAction(world, imageStore),
+                this.getActionPeriod());
+
+        eventScheduler.scheduleEvent(this,
+                this.createAnimationAction(0),
+                this.getAnimationPeriod());
     }
 }

@@ -10,12 +10,9 @@ interface Entity {
 
     int getImageIndex();
 
-    void setImageIndex(int index);
-
     Point getPosition();
 
     void setPosition(Point newPosition);
-
 
     static int getNumFromRange(int max, int min) {
         Random rand = new Random();
@@ -24,4 +21,8 @@ interface Entity {
 
     default PImage getCurrentImage() { return this.getImages().get(this.getImageIndex());}
 
+    //Execute various kinds of activities
+//    void executeActivity(WorldModel world,
+//                         ImageStore imageStore,
+//                         EventScheduler scheduler);
 }
