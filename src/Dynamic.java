@@ -9,8 +9,6 @@ public interface Dynamic extends Entity {
         this.setImageIndex((this.getImageIndex() + 1) % this.getImages().size());
     }
 
-    //additional problems created by casting animated entities to active ones
-
     void scheduleAction (EventScheduler eventScheduler, WorldModel world, ImageStore imageStore);
 
 }

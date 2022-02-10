@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class Fairy implements Movable {
+public class Fairy implements Mobile {
     private String id;
     private Point position;
     private List<PImage> images;
@@ -137,7 +137,6 @@ public class Fairy implements Movable {
         return newPos;
     }
 
-    @Override
     public void scheduleAction(EventScheduler eventScheduler, WorldModel world, ImageStore imageStore) {
         eventScheduler.scheduleEvent(this,
                 this.createActivityAction(world, imageStore),
@@ -146,13 +145,5 @@ public class Fairy implements Movable {
         eventScheduler.scheduleEvent(this,
                 this.createAnimationAction(0),
                 0);
-    }
-
-    public int getResourceLimit() {
-        return 0;
-    }
-
-    public int getResourceCount() {
-        return 0;
     }
 }

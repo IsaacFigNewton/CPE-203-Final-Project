@@ -1,4 +1,4 @@
-public interface Movable extends Active{
+public interface Mobile extends Active{
     boolean moveTo(
             WorldModel world,
             Entity target,

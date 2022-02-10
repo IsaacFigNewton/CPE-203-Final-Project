@@ -5,13 +5,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class DudeFull implements Transformable, Movable {
+public class DudeFull implements Transformable, Mobile {
     private String id;
     private Point position;
     private List<PImage> images;
     private int imageIndex;
     private int resourceLimit;
-    private int resourceCount;
     private int actionPeriod;
     private int animationPeriod;
 
@@ -20,7 +19,6 @@ public class DudeFull implements Transformable, Movable {
             Point position,
             List<PImage> images,
             int resourceLimit,
-            int resourceCount,
             int actionPeriod,
             int animationPeriod)
     {
@@ -29,7 +27,6 @@ public class DudeFull implements Transformable, Movable {
         this.images = images;
         this.imageIndex = 0;
         this.resourceLimit = resourceLimit;
-        this.resourceCount = resourceCount;
         this.actionPeriod = actionPeriod;
         this.animationPeriod = animationPeriod;
     }
@@ -44,14 +41,6 @@ public class DudeFull implements Transformable, Movable {
 
     public int getImageIndex() {
         return imageIndex;
-    }
-
-    public int getResourceLimit() {
-        return resourceLimit;
-    }
-
-    public int getResourceCount() {
-        return resourceCount;
     }
 
     public int getActionPeriod() {
@@ -74,6 +63,12 @@ public class DudeFull implements Transformable, Movable {
         return new Activity(this, world, imageStore);
     }
 
+    public void setImageIndex(int index) { this.imageIndex = index; }
+
+    public int getAnimationPeriod() {
+        return this.animationPeriod;
+    }
+
     public void scheduleAction(EventScheduler eventScheduler, WorldModel world, ImageStore imageStore) {
         eventScheduler.scheduleEvent(this,
                 this.createActivityAction(world, imageStore),
@@ -82,12 +77,6 @@ public class DudeFull implements Transformable, Movable {
         eventScheduler.scheduleEvent(this,
                 this.createAnimationAction(0),
                 0);
-    }
-
-    public void setImageIndex(int index) { this.imageIndex = index; }
-
-    public int getAnimationPeriod() {
-        return this.animationPeriod;
     }
 
     public void executeActivity(

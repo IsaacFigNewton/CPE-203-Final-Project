@@ -40,14 +40,4 @@ public class House implements Entity {
         this.position = newPosition;
     }
 
-    public void scheduleAction(EventScheduler eventScheduler, WorldModel world, ImageStore imageStore) {
-
-    }
-
-    public void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler) {
-
-    }
-
-    public void setImageIndex(int index) { this.imageIndex = index; }
-
 }

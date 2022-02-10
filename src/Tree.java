@@ -10,7 +10,6 @@ public class Tree implements Plant, Transformable {
     private int actionPeriod;
     private int animationPeriod;
     private int health;
-    private int healthLimit;
 
     public Tree(
     String id,
@@ -18,8 +17,7 @@ public class Tree implements Plant, Transformable {
     List<PImage> images,
     int actionPeriod,
     int animationPeriod,
-    int health,
-    int healthLimit)
+    int health)
     {
         this.id = id;
         this.position = position;
@@ -28,7 +26,6 @@ public class Tree implements Plant, Transformable {
         this.actionPeriod = actionPeriod;
         this.animationPeriod = animationPeriod;
         this.health = health;
-        this.healthLimit = healthLimit;
     }
 
 
@@ -43,6 +40,8 @@ public class Tree implements Plant, Transformable {
     public int getImageIndex() {
         return imageIndex;
     }
+
+    public void setImageIndex(int index) { this.imageIndex = index; }
 
     public int getActionPeriod() {
         return actionPeriod;
@@ -62,8 +61,6 @@ public class Tree implements Plant, Transformable {
 
     public void decrementHealth() { health--; }
 
-    public void setImageIndex(int index) { this.imageIndex = index; }
-
     public int getAnimationPeriod() {
         return this.animationPeriod;
     }
@@ -76,7 +73,6 @@ public class Tree implements Plant, Transformable {
         return new Activity(this, world, imageStore);
     }
 
-    @Override
     public void scheduleAction(EventScheduler eventScheduler, WorldModel world, ImageStore imageStore) {
         eventScheduler.scheduleEvent(this,
                 this.createActivityAction(world, imageStore),
@@ -86,7 +82,6 @@ public class Tree implements Plant, Transformable {
                 this.createAnimationAction(0),
                 this.getAnimationPeriod());
     }
-
 
     public void executeActivity(
             WorldModel world,

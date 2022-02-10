@@ -36,14 +36,4 @@ public class Stump implements Entity {
     public void setPosition(Point newPosition) {
         this.position = newPosition;
     }
-
-//    public void scheduleAction(EventScheduler eventScheduler, WorldModel world, ImageStore imageStore) {
-//
-//    }
-//
-//    public void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler) {
-//
-//    }
-//
-//    public void setImageIndex(int index) { }
 }

@@ -18,7 +18,6 @@ public class Obstacle implements Dynamic {
         this.id = id;
         this.position = position;
         this.images = images;
-        this.imageIndex = 0;
         this.animationPeriod = animationPeriod;
     }
 
@@ -55,10 +54,6 @@ public class Obstacle implements Dynamic {
     public void scheduleAction(EventScheduler eventScheduler, WorldModel world, ImageStore imageStore) {
         eventScheduler.scheduleEvent(this,
                 new Animation(this, 0), animationPeriod);
-    }
-
-    public void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler) {
-
     }
 
 }

@@ -114,9 +114,9 @@ public class Sapling implements Plant, Transformable {
         {
             Entity tree = new Tree("tree_" + this.getId(), this.getPosition(),
                     imageStore.getImageList(Functions.TREE_KEY),
-                    Entity.getNumFromRange(Functions.TREE_ACTION_MAX, Functions.TREE_ACTION_MIN),
-                    Entity.getNumFromRange(Functions.TREE_ANIMATION_MAX, Functions.TREE_ANIMATION_MIN),
-                    Entity.getNumFromRange(Functions.TREE_HEALTH_MAX, Functions.TREE_HEALTH_MIN), 0);
+                    Plant.getNumFromRange(Functions.TREE_ACTION_MAX, Functions.TREE_ACTION_MIN),
+                    Plant.getNumFromRange(Functions.TREE_ANIMATION_MAX, Functions.TREE_ANIMATION_MIN),
+                    Plant.getNumFromRange(Functions.TREE_HEALTH_MAX, Functions.TREE_HEALTH_MIN));
 
             world.removeEntity(this);
             scheduler.unscheduleAllEvents( this);

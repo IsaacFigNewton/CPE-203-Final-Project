@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class DudeNotFull implements Transformable, Movable {
+public class DudeNotFull implements Transformable, Mobile {
     private String id;
     private Point position;
     private List<PImage> images;
@@ -44,14 +44,6 @@ public class DudeNotFull implements Transformable, Movable {
 
     public int getImageIndex() {
         return imageIndex;
-    }
-
-    public int getResourceLimit() {
-        return resourceLimit;
-    }
-
-    public int getResourceCount() {
-        return resourceCount;
     }
 
     public int getActionPeriod() {
@@ -162,7 +154,7 @@ public class DudeNotFull implements Transformable, Movable {
                     this.id,
                     this.position,
                     this.images,
-                    this.resourceLimit, 0,
+                    this.resourceLimit,
                     this.actionPeriod,
                     this.animationPeriod);
 

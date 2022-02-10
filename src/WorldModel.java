@@ -272,7 +272,7 @@ public final class WorldModel
                     imageStore.getImageList(Functions.TREE_KEY),
                     Integer.parseInt(properties[Functions.TREE_ACTION_PERIOD]),
                     Integer.parseInt(properties[Functions.TREE_ANIMATION_PERIOD]),
-                    Integer.parseInt(properties[Functions.TREE_HEALTH]), 0);
+                    Integer.parseInt(properties[Functions.TREE_HEALTH]));
             this.tryAddEntity(entity);
         }
 
