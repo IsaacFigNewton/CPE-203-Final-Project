@@ -6,13 +6,13 @@ import java.util.List;
 import java.util.Optional;
 
 public class DudeFull implements Transformable, Mobile {
-    private String id;
+    private final String id;
     private Point position;
-    private List<PImage> images;
+    private final List<PImage> images;
     private int imageIndex;
-    private int resourceLimit;
-    private int actionPeriod;
-    private int animationPeriod;
+    private final int resourceLimit;
+    private final int actionPeriod;
+    private final int animationPeriod;
 
     public DudeFull(
             String id,

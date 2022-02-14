@@ -3,9 +3,9 @@ import processing.core.PImage;
 import java.util.List;
 
 public class Stump implements Entity {
-    private String id;
+    private final String id;
     private Point position;
-    private List<PImage> images;
+    private final List<PImage> images;
 
     public Stump(
     String id,

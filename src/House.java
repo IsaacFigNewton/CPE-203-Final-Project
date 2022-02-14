@@ -3,10 +3,10 @@ import processing.core.PImage;
 import java.util.List;
 
 public class House implements Entity {
-    private String id;
+    private final String id;
     private Point position;
-    private List<PImage> images;
-    private int imageIndex;
+    private final List<PImage> images;
+    private final int imageIndex;
 
     public House(
     String id,

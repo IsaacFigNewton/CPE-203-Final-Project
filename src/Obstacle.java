@@ -3,11 +3,11 @@ import processing.core.PImage;
 import java.util.List;
 
 public class Obstacle implements Dynamic {
-    private String id;
+    private final String id;
     private Point position;
-    private List<PImage> images;
+    private final List<PImage> images;
     private int imageIndex;
-    private int animationPeriod;
+    private final int animationPeriod;
 
     public Obstacle(
     String id,
@@ -53,7 +53,8 @@ public class Obstacle implements Dynamic {
 
     public void scheduleAction(EventScheduler eventScheduler, WorldModel world, ImageStore imageStore) {
         eventScheduler.scheduleEvent(this,
-                new Animation(this, 0), animationPeriod);
+                this.createAnimationAction(0),
+                this.getAnimationPeriod());
     }
 
 }

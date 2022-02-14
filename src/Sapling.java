@@ -5,12 +5,12 @@ import java.util.List;
 public class Sapling implements Plant, Transformable {
     private String id;
     private Point position;
-    private List<PImage> images;
+    private final List<PImage> images;
     private int imageIndex;
-    private int actionPeriod;
-    private int animationPeriod;
+    private final int actionPeriod;
+    private final int animationPeriod;
     private int health;
-    private int healthLimit;
+    private final int healthLimit;
 
     public Sapling(
     String id,

@@ -3,12 +3,12 @@ import processing.core.PImage;
 import java.util.List;
 
 public class Tree implements Plant, Transformable {
-    private String id;
+    private final String id;
     private Point position;
-    private List<PImage> images;
+    private final List<PImage> images;
     private int imageIndex;
-    private int actionPeriod;
-    private int animationPeriod;
+    private final int actionPeriod;
+    private final int animationPeriod;
     private int health;
 
     public Tree(
