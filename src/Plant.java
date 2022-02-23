@@ -1,9 +1,11 @@
 import java.util.Random;
 
-public interface Plant extends Active{
-    int getHealth();
+abstract class Plant implements Active{
+    protected int health;
 
-    void decrementHealth();
+    public int getHealth() {
+        return health;
+    }
 
     static int getNumFromRange(int max, int min) {
         Random rand = new Random();

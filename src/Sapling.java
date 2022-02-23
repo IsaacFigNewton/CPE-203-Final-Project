@@ -2,14 +2,13 @@ import processing.core.PImage;
 
 import java.util.List;
 
-public class Sapling implements Plant, Transformable {
+public class Sapling  extends Plant implements Transformable {
     private String id;
     private Point position;
     private final List<PImage> images;
     private int imageIndex;
     private final int actionPeriod;
     private final int animationPeriod;
-    private int health;
     private final int healthLimit;
 
     public Sapling(
@@ -48,16 +47,7 @@ public class Sapling implements Plant, Transformable {
         return actionPeriod;
     }
 
-    public int getHealthLimit() {
-        return healthLimit;
-    }
-
-    public int getHealth() {
-        return health;
-    }
-
-    @Override
-    public void decrementHealth() { health--;}
+    public int getHealthLimit() { return healthLimit; }
 
     public Point getPosition() {
         return position;

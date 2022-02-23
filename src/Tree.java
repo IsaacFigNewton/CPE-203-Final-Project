@@ -2,14 +2,13 @@ import processing.core.PImage;
 
 import java.util.List;
 
-public class Tree implements Plant, Transformable {
+public class Tree extends Plant implements Transformable {
     private final String id;
     private Point position;
     private final List<PImage> images;
     private int imageIndex;
     private final int actionPeriod;
     private final int animationPeriod;
-    private int health;
 
     public Tree(
     String id,
@@ -47,10 +46,6 @@ public class Tree implements Plant, Transformable {
         return actionPeriod;
     }
 
-    public int getHealth() {
-        return health;
-    }
-
     public Point getPosition() {
         return position;
     }
@@ -59,8 +54,6 @@ public class Tree implements Plant, Transformable {
         this.position = newPosition;
     }
 
-    public void decrementHealth() { health--; }
-
     public int getAnimationPeriod() {
         return this.animationPeriod;
     }
@@ -68,6 +61,8 @@ public class Tree implements Plant, Transformable {
     public Action createAnimationAction(int repeatCount) {
         return new Animation(this, repeatCount);
     }
+
+    public void decrementHealth() { health--; }
 
     public Action createActivityAction(WorldModel world, ImageStore imageStore) {
         return new Activity(this, world, imageStore);
