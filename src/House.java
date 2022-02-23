@@ -6,7 +6,6 @@ public class House implements Entity {
     private final String id;
     private Point position;
     private final List<PImage> images;
-    private final int imageIndex;
 
     public House(
     String id,
@@ -16,7 +15,6 @@ public class House implements Entity {
         this.id = id;
         this.position = position;
         this.images = images;
-        this.imageIndex = 0;
     }
 
 
@@ -28,9 +26,7 @@ public class House implements Entity {
         return images;
     }
 
-    public int getImageIndex() {
-        return imageIndex;
-    }
+    public int getImageIndex() { return 0;}
 
     public Point getPosition() {
         return position;
