@@ -5,12 +5,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class DudeNotFull implements Transformable, Mobile {
+public class DudeNotFull extends Dude implements Transformable {
     private final String id;
-    private Point position;
     private final List<PImage> images;
     private int imageIndex;
-    private final int resourceLimit;
     private int resourceCount;
     private final int actionPeriod;
     private final int animationPeriod;
@@ -58,14 +56,6 @@ public class DudeNotFull implements Transformable, Mobile {
         return new Activity(this, world, imageStore);
     }
 
-    public Point getPosition() {
-        return position;
-    }
-
-    public void setPosition(Point newPosition) {
-        this.position = newPosition;
-    }
-
     public void scheduleAction(EventScheduler eventScheduler, WorldModel world, ImageStore imageStore) {
         eventScheduler.scheduleEvent(this,
                 this.createActivityAction(world, imageStore),
@@ -101,47 +91,14 @@ public class DudeNotFull implements Transformable, Mobile {
         }
     }
 
-    public boolean moveTo(
+    public boolean moveToActivity(
             WorldModel world,
             Entity target,
-            EventScheduler scheduler)
-    {
-        if (this.position.adjacent(target.getPosition())) {
-            this.resourceCount++;
-                if (target.getClass() == Tree.class)
-                    ((Tree)target).decrementHealth();
-            return true;
-        }
-        else {
-            Point nextPos = this.nextPosition(world, target.getPosition());
-
-            if (!this.position.equals(nextPos)) {
-                Optional<Entity> occupant = world.getOccupant(nextPos);
-                if (occupant.isPresent()) {
-                    scheduler.unscheduleAllEvents(occupant.get());
-                }
-
-                world.moveEntity(this, nextPos);
-            }
-            return false;
-        }
-    }
-
-    public Point nextPosition(WorldModel world, Point destPos)
-    {
-        int horiz = Integer.signum(destPos.getX() - this.position.getX());
-        Point newPos = new Point(this.position.getX() + horiz, this.position.getY());
-
-        if (horiz == 0 || world.isOccupied(newPos) && !(world.getOccupancyCell(newPos) instanceof Stump)) {
-            int vert = Integer.signum(destPos.getY() - this.position.getY());
-            newPos = new Point(this.position.getX(), this.position.getY() + vert);
-
-            if (vert == 0 || world.isOccupied(newPos) &&  !(world.getOccupancyCell(newPos) instanceof Stump)) {
-                newPos = this.position;
-            }
-        }
-
-        return newPos;
+            EventScheduler scheduler) {
+        this.resourceCount++;
+        if (target.getClass() == Tree.class)
+            ((Tree)target).decrementHealth();
+        return true;
     }
 
     public boolean transform(

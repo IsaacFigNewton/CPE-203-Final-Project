@@ -5,9 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class Fairy implements Mobile {
+public class Fairy extends Mobile {
     private final String id;
-    private Point position;
     private final List<PImage> images;
     private int imageIndex;
     private final int actionPeriod;
@@ -44,13 +43,6 @@ public class Fairy implements Mobile {
         return actionPeriod;
     }
 
-    public Point getPosition() {
-        return position;
-    }
-
-    public void setPosition(Point newPosition) {
-        this.position = newPosition;
-    }
     public void setImageIndex(int index) { this.imageIndex = index; }
 
     public Action createAnimationAction(int repeatCount) {
@@ -95,29 +87,14 @@ public class Fairy implements Mobile {
                 this.actionPeriod);
     }
 
-    public boolean moveTo(
+    public boolean moveToActivity(
             WorldModel world,
             Entity target,
             EventScheduler scheduler)
     {
-        if (this.position.adjacent(target.getPosition())) {
             world.removeEntity(target);
             scheduler.unscheduleAllEvents(target);
             return true;
-        }
-        else {
-            Point nextPos = this.nextPosition(world, target.getPosition());
-
-            if (!this.position.equals(nextPos)) {
-                Optional<Entity> occupant = world.getOccupant(nextPos);
-                if (occupant.isPresent()) {
-                    scheduler.unscheduleAllEvents(occupant.get());
-                }
-
-                world.moveEntity(this, nextPos);
-            }
-            return false;
-        }
     }
 
     public Point nextPosition(WorldModel world, Point destPos)
