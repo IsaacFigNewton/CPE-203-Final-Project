@@ -13,10 +13,4 @@ public class Obstacle extends Dynamic {
         super(id, position, images, animationPeriod);
     }
 
-    public void scheduleAction(EventScheduler eventScheduler, WorldModel world, ImageStore imageStore) {
-        eventScheduler.scheduleEvent(this,
-                this.createAnimationAction(0),
-                this.getAnimationPeriod());
-    }
-
 }

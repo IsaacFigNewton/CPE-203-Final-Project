@@ -17,22 +17,4 @@ public class Tree extends Plant {
 
     public void decrementHealth() { health--; }
 
-    public boolean transform(
-            WorldModel world,
-            EventScheduler scheduler,
-            ImageStore imageStore)
-    {
-        if (this.getHealth() <= 0) {
-            Entity stump = new Stump(this.getId(), this.getPosition(), imageStore.getImageList(Functions.STUMP_KEY));
-
-            world.removeEntity(this);
-            scheduler.unscheduleAllEvents(this);
-
-            world.addEntity(stump);
-
-            return true;
-        }
-
-        return false;
-    }
 }

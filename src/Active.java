@@ -1,5 +1,6 @@
 import processing.core.PImage;
 
+import java.util.ArrayList;
 import java.util.List;
 
 abstract class Active extends Dynamic {
@@ -21,6 +22,10 @@ abstract class Active extends Dynamic {
     public abstract void executeActivity(WorldModel world,
                          ImageStore imageStore,
                          EventScheduler scheduler);
+
+//    public boolean checkTargetPresence(WorldModel world, ArrayList<Class<? extends Entity>> targetTypes) {
+//        return world.findNearest(this.position, targetTypes).isPresent();
+//    }
 
     public Action createActivityAction(WorldModel world, ImageStore imageStore) {
         return new Activity(this, world, imageStore);

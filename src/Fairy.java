@@ -38,7 +38,7 @@ public class Fairy extends Mobile {
 
                 world.addEntity(sapling);
                 if (sapling instanceof Active)
-                    ((Active)sapling).scheduleAction(scheduler, world, imageStore);
+                    sapling.scheduleAction(scheduler, world, imageStore);
             }
         }
 

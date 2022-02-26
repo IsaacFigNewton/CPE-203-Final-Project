@@ -32,17 +32,7 @@ public class Sapling extends Plant {
             EventScheduler scheduler,
             ImageStore imageStore)
     {
-        if (this.getHealth() <= 0) {
-            Entity stump = new Stump(this.getId(), this.getPosition(), imageStore.getImageList(Functions.STUMP_KEY));
-
-            world.removeEntity(this);
-            scheduler.unscheduleAllEvents(this);
-
-            world.addEntity(stump);
-
-            return true;
-        }
-        else if (this.getHealth() >= this.healthLimit)
+        if (this.getHealth() >= this.healthLimit)
         {
             Entity tree = new Tree("tree_" + this.getId(), this.getPosition(),
                     imageStore.getImageList(Functions.TREE_KEY),
@@ -60,7 +50,7 @@ public class Sapling extends Plant {
             return true;
         }
 
-        return false;
+        return super.transform(world, scheduler, imageStore);
     }
 
 }

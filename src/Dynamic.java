@@ -29,6 +29,10 @@ abstract class Dynamic extends Entity {
         return new Animation(this, repeatCount);
     }
 
-    public abstract void scheduleAction (EventScheduler eventScheduler, WorldModel world, ImageStore imageStore);
+    public void scheduleAction(EventScheduler eventScheduler, WorldModel world, ImageStore imageStore) {
+        eventScheduler.scheduleEvent(this,
+                this.createAnimationAction(0),
+                this.getAnimationPeriod());
+    }
 
 }

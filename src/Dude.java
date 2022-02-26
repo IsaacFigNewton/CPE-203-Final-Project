@@ -2,7 +2,7 @@ import processing.core.PImage;
 
 import java.util.List;
 
-abstract class Dude extends Mobile implements Transformable {
+abstract class Dude extends Mobile {
     protected int resourceLimit;
 
     public Dude(
@@ -16,6 +16,14 @@ abstract class Dude extends Mobile implements Transformable {
         super(id, position, images, animationPeriod, actionPeriod);
         this.resourceLimit = resourceLimit;
     }
+
+    public Dude(Dude other)
+    {
+        super(other.getId(), other.getPosition(), other.getImages(), other.getAnimationPeriod(), other.getActionPeriod());
+        this.resourceLimit = other.getResourceLimit();
+    }
+
+    public int getResourceLimit () { return this.resourceLimit;}
 
     public Point nextPosition(WorldModel world, Point destPos)
     {
@@ -33,4 +41,38 @@ abstract class Dude extends Mobile implements Transformable {
 
         return newPos;
     }
+
+    protected abstract boolean executeActivityCondition(
+            WorldModel world,
+            ImageStore imageStore,
+            EventScheduler scheduler);
+
+    public void executeActivity(
+            WorldModel world,
+            ImageStore imageStore,
+            EventScheduler scheduler)
+    {
+        if (this.executeActivityCondition(world, imageStore, scheduler))
+        {
+            scheduler.scheduleEvent(this,
+                    this.createActivityAction(world, imageStore),
+                    this.actionPeriod);
+        }
+    }
+
+    public boolean transform(
+            WorldModel world,
+            EventScheduler scheduler,
+            ImageStore imageStore,
+            Dude dude)
+    {
+        world.removeEntity(this);
+        scheduler.unscheduleAllEvents(this);
+
+        world.addEntity(dude);
+        dude.scheduleAction(scheduler, world, imageStore);
+
+        return true;
+    }
+
 }

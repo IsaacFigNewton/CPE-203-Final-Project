@@ -18,24 +18,25 @@ public class DudeFull extends Dude {
         super(id, position, images, animationPeriod, actionPeriod, resourceLimit);
     }
 
-    public void executeActivity(
+    public DudeFull(Dude other)
+    {
+        super(other);
+    }
+
+    public boolean executeActivityCondition(
             WorldModel world,
             ImageStore imageStore,
             EventScheduler scheduler)
     {
-        Optional<Entity> fullTarget =
+        Optional<Entity> target =
                 world.findNearest(this.position, new ArrayList<>(Arrays.asList(House.class)));
 
-        if (fullTarget.isPresent() && this.moveTo(world,
-                fullTarget.get(), scheduler))
-        {
+        if (target.isPresent() && this.moveTo(world, target.get(), scheduler)) {
             this.transform(world, scheduler, imageStore);
+            return false;
         }
-        else {
-            scheduler.scheduleEvent(this,
-                    this.createActivityAction(world, imageStore),
-                    this.actionPeriod);
-        }
+
+        return true;
     }
 
     public boolean moveToActivity(
@@ -50,20 +51,9 @@ public class DudeFull extends Dude {
             ImageStore imageStore)
     {
         // need resource count, though it always starts at 0
-        Dynamic dudeNotFull = new DudeNotFull(
-                this.id,
-                this.position,
-                this.images,
-                this.animationPeriod,
-                this.actionPeriod,
-                this.resourceLimit, 0);
 
-        world.removeEntity(this);
-        scheduler.unscheduleAllEvents(this);
+        Dude dudeNotFull = new DudeNotFull(this, 0);
 
-        world.addEntity(dudeNotFull);
-            dudeNotFull.scheduleAction(scheduler, world, imageStore);
-
-        return true;
+        return super.transform(world, scheduler, imageStore, dudeNotFull);
     }
 }

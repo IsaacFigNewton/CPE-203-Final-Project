@@ -21,7 +21,15 @@ public class DudeNotFull extends Dude {
         this.resourceCount = resourceCount;
     }
 
-    public void executeActivity(
+    public DudeNotFull(Dude other, int resourceCount)
+    {
+        super(other);
+        this.resourceCount = resourceCount;
+    }
+
+    public int getResourceCount() { return this.resourceCount; }
+
+    public boolean executeActivityCondition(
             WorldModel world,
             ImageStore imageStore,
             EventScheduler scheduler)
@@ -29,15 +37,13 @@ public class DudeNotFull extends Dude {
         Optional<Entity> target =
                 world.findNearest(this.position, new ArrayList<>(Arrays.asList(Tree.class, Sapling.class)));
 
-        if (!target.isPresent() || !this.moveTo(world,
-                target.get(),
-                scheduler)
+        if (!(target.isPresent() && this.moveTo(world, target.get(), scheduler))
                 || !this.transform(world, scheduler, imageStore))
         {
-            scheduler.scheduleEvent(this,
-                    this.createActivityAction(world, imageStore),
-                    this.actionPeriod);
+            return true;
         }
+
+        return false;
     }
 
     public boolean moveToActivity(
@@ -56,21 +62,9 @@ public class DudeNotFull extends Dude {
             ImageStore imageStore)
     {
         if (this.resourceCount >= this.resourceLimit) {
-            Dynamic dudeFull = new DudeFull(
-                    this.id,
-                    this.position,
-                    this.images,
-                    this.animationPeriod,
-                    this.actionPeriod,
-                    this.resourceLimit);
+            Dude dudeFull = new DudeFull(this);
 
-            world.removeEntity(this);
-            scheduler.unscheduleAllEvents(this);
-
-            world.addEntity(dudeFull);
-            dudeFull.scheduleAction(scheduler, world, imageStore);
-
-            return true;
+            return super.transform(world, scheduler, imageStore, dudeFull);
         }
 
         return false;
