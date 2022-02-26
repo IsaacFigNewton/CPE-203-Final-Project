@@ -237,9 +237,9 @@ public final class WorldModel
                     Integer.parseInt(properties[Functions.DUDE_ROW]));
             Entity entity = new DudeNotFull(properties[Functions.DUDE_ID], pt,
                     imageStore.getImageList(Functions.DUDE_KEY),
-                    Integer.parseInt(properties[Functions.DUDE_LIMIT]), 0,
+                    Integer.parseInt(properties[Functions.DUDE_ANIMATION_PERIOD]),
                     Integer.parseInt(properties[Functions.DUDE_ACTION_PERIOD]),
-                    Integer.parseInt(properties[Functions.DUDE_ANIMATION_PERIOD]));
+                    Integer.parseInt(properties[Functions.DUDE_LIMIT]), 0);
             this.tryAddEntity(entity);
         }
 
@@ -254,8 +254,8 @@ public final class WorldModel
                     Integer.parseInt(properties[Functions.FAIRY_ROW]));
             Entity entity = new Fairy(properties[Functions.FAIRY_ID], pt,
                     imageStore.getImageList(Functions.FAIRY_KEY),
-                    Integer.parseInt(properties[Functions.FAIRY_ACTION_PERIOD]),
-                    Integer.parseInt(properties[Functions.FAIRY_ANIMATION_PERIOD]));
+                    Integer.parseInt(properties[Functions.FAIRY_ANIMATION_PERIOD]),
+                    Integer.parseInt(properties[Functions.FAIRY_ACTION_PERIOD]));
             this.tryAddEntity(entity);
         }
 
@@ -270,8 +270,8 @@ public final class WorldModel
                     Integer.parseInt(properties[Functions.TREE_ROW]));
             Entity entity = new Tree(properties[Functions.TREE_ID], pt,
                     imageStore.getImageList(Functions.TREE_KEY),
-                    Integer.parseInt(properties[Functions.TREE_ACTION_PERIOD]),
                     Integer.parseInt(properties[Functions.TREE_ANIMATION_PERIOD]),
+                    Integer.parseInt(properties[Functions.TREE_ACTION_PERIOD]),
                     Integer.parseInt(properties[Functions.TREE_HEALTH]));
             this.tryAddEntity(entity);
         }

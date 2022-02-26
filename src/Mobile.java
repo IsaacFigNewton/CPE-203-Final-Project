@@ -1,17 +1,19 @@
+import processing.core.PImage;
+
+import java.util.List;
 import java.util.Optional;
 
-abstract class Mobile implements Active{
-    protected Point position;
+abstract class Mobile extends Active{
 
-    public Point getPosition() {
-        return position;
+    public Mobile(String id,
+                  Point position,
+                  List<PImage> images,
+                  int animationPeriod,
+                  int actionPeriod) {
+        super(id, position, images, animationPeriod, actionPeriod);
     }
 
-    public void setPosition(Point newPosition) {
-        this.position = newPosition;
-    }
-
-    boolean moveTo(
+    public boolean moveTo(
             WorldModel world,
             Entity target,
             EventScheduler scheduler)
@@ -34,10 +36,10 @@ abstract class Mobile implements Active{
         }
     }
 
-    abstract protected boolean moveToActivity(
+    protected abstract boolean moveToActivity(
             WorldModel world,
             Entity target,
             EventScheduler scheduler);
 
-    abstract Point nextPosition(WorldModel world, Point destPos);
+    public abstract Point nextPosition(WorldModel world, Point destPos);
 }

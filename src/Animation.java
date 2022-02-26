@@ -11,6 +11,7 @@ public class Animation implements Action{
     }
 
     public void executeAction(EventScheduler scheduler) {
+//        if (entity instanceof Dynamic)
         this.entity.nextImage();
 
         if (this.repeatCount != 1) {

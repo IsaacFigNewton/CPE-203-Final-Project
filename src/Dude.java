@@ -1,5 +1,21 @@
-abstract class Dude extends Mobile{
+import processing.core.PImage;
+
+import java.util.List;
+
+abstract class Dude extends Mobile implements Transformable {
     protected int resourceLimit;
+
+    public Dude(
+            String id,
+            Point position,
+            List<PImage> images,
+            int animationPeriod,
+            int actionPeriod,
+            int resourceLimit)
+    {
+        super(id, position, images, animationPeriod, actionPeriod);
+        this.resourceLimit = resourceLimit;
+    }
 
     public Point nextPosition(WorldModel world, Point destPos)
     {

@@ -1,18 +1,41 @@
 import processing.core.PImage;
 import java.util.*;
 
-interface Entity {
+abstract class Entity {
+    protected String id;
+    protected Point position;
+    protected List<PImage> images;
+    protected int imageIndex;
 
-    String getId();
+    public Entity(
+            String id,
+            Point position,
+            List<PImage> images)
+    {
+        this.id = id;
+        this.position = position;
+        this.images = images;
+        this.imageIndex = 0;
+    }
 
-    List<PImage> getImages();
+    public String getId() {
+        return id;
+    }
 
-    int getImageIndex();
+    public List<PImage> getImages() {
+        return images;
+    }
 
-    Point getPosition();
+    public int getImageIndex() { return imageIndex;}
 
-    void setPosition(Point newPosition);
+    public Point getPosition() {
+        return position;
+    }
 
-    default PImage getCurrentImage() { return this.getImages().get(this.getImageIndex());}
+    public void setPosition(Point newPosition) {
+        this.position = newPosition;
+    }
+
+    public PImage getCurrentImage() { return this.getImages().get(this.getImageIndex());}
 
 }

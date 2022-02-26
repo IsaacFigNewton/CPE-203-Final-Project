@@ -2,12 +2,7 @@ import processing.core.PImage;
 
 import java.util.List;
 
-public class Obstacle implements Dynamic {
-    private final String id;
-    private Point position;
-    private final List<PImage> images;
-    private int imageIndex;
-    private final int animationPeriod;
+public class Obstacle extends Dynamic {
 
     public Obstacle(
     String id,
@@ -15,40 +10,7 @@ public class Obstacle implements Dynamic {
     List<PImage> images,
     int animationPeriod)
     {
-        this.id = id;
-        this.position = position;
-        this.images = images;
-        this.animationPeriod = animationPeriod;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public List<PImage> getImages() {
-        return images;
-    }
-
-    public int getImageIndex() {
-        return imageIndex;
-    }
-
-    public Point getPosition() {
-        return position;
-    }
-
-    public void setPosition(Point newPosition) {
-        this.position = newPosition;
-    }
-
-    public void setImageIndex(int index) { this.imageIndex = index; }
-
-    public Action createAnimationAction(int repeatCount) {
-        return new Animation(this, repeatCount);
-    }
-
-    public int getAnimationPeriod() {
-        return this.animationPeriod;
+        super(id, position, images, animationPeriod);
     }
 
     public void scheduleAction(EventScheduler eventScheduler, WorldModel world, ImageStore imageStore) {

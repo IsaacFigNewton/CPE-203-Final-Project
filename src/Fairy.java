@@ -6,55 +6,15 @@ import java.util.List;
 import java.util.Optional;
 
 public class Fairy extends Mobile {
-    private final String id;
-    private final List<PImage> images;
-    private int imageIndex;
-    private final int actionPeriod;
-    private final int animationPeriod;
 
     public Fairy(
             String id,
             Point position,
             List<PImage> images,
-            int actionPeriod,
-            int animationPeriod)
+            int animationPeriod,
+            int actionPeriod)
     {
-        this.id = id;
-        this.position = position;
-        this.images = images;
-        this.imageIndex = 0;
-        this.actionPeriod = actionPeriod;
-        this.animationPeriod = animationPeriod;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public List<PImage> getImages() {
-        return images;
-    }
-
-    public int getImageIndex() {
-        return imageIndex;
-    }
-
-    public int getActionPeriod() {
-        return actionPeriod;
-    }
-
-    public void setImageIndex(int index) { this.imageIndex = index; }
-
-    public Action createAnimationAction(int repeatCount) {
-        return new Animation(this, repeatCount);
-    }
-
-    public Action createActivityAction(WorldModel world, ImageStore imageStore) {
-        return new Activity(this, world, imageStore);
-    }
-
-    public int getAnimationPeriod() {
-        return this.animationPeriod;
+        super(id, position, images, animationPeriod, actionPeriod);
     }
 
     public void executeActivity(
@@ -70,7 +30,7 @@ public class Fairy extends Mobile {
 
             if (this.moveTo(world, fairyTarget.get(), scheduler)) {
                 // health starts at 0 and builds up until ready to convert to Tree
-                Entity sapling = new Sapling("sapling_" + this.id, tgtPos,
+                Active sapling = new Sapling("sapling_" + this.id, tgtPos,
                         imageStore.getImageList(Functions.SAPLING_KEY),
                         Functions.SAPLING_ACTION_ANIMATION_PERIOD,
                         Functions.SAPLING_ACTION_ANIMATION_PERIOD,
@@ -114,13 +74,4 @@ public class Fairy extends Mobile {
         return newPos;
     }
 
-    public void scheduleAction(EventScheduler eventScheduler, WorldModel world, ImageStore imageStore) {
-        eventScheduler.scheduleEvent(this,
-                this.createActivityAction(world, imageStore),
-                this.getActionPeriod());
-
-        eventScheduler.scheduleEvent(this,
-                this.createAnimationAction(0),
-                0);
-    }
 }

@@ -2,73 +2,20 @@ import processing.core.PImage;
 
 import java.util.List;
 
-public class Sapling  extends Plant implements Transformable {
-    private String id;
-    private Point position;
-    private final List<PImage> images;
-    private int imageIndex;
-    private final int actionPeriod;
-    private final int animationPeriod;
+public class Sapling extends Plant {
     private final int healthLimit;
 
     public Sapling(
     String id,
     Point position,
     List<PImage> images,
-    int actionPeriod,
     int animationPeriod,
+    int actionPeriod,
     int health,
     int healthLimit)
     {
-        this.id = id;
-        this.position = position;
-        this.images = images;
-        this.imageIndex = 0;
-        this.actionPeriod = actionPeriod;
-        this.animationPeriod = animationPeriod;
-        this.health = health;
+        super(id, position, images, animationPeriod, actionPeriod, health);
         this.healthLimit = healthLimit;
-    }
-
-
-    public String getId() {
-        return id;
-    }
-
-    public List<PImage> getImages() {
-        return images;
-    }
-
-    public int getImageIndex() {
-        return imageIndex;
-    }
-
-    public int getActionPeriod() {
-        return actionPeriod;
-    }
-
-    public int getHealthLimit() { return healthLimit; }
-
-    public Point getPosition() {
-        return position;
-    }
-
-    public void setPosition(Point newPosition) {
-        this.position = newPosition;
-    }
-
-    public void setImageIndex(int index) { this.imageIndex = index; }
-
-    public Action createAnimationAction(int repeatCount) {
-        return new Animation(this, repeatCount);
-    }
-
-    public Action createActivityAction(WorldModel world, ImageStore imageStore) {
-        return new Activity(this, world, imageStore);
-    }
-
-    public int getAnimationPeriod() {
-        return this.animationPeriod;
     }
 
     public void executeActivity(
@@ -77,12 +24,7 @@ public class Sapling  extends Plant implements Transformable {
             EventScheduler scheduler)
     {
         this.health++;
-        if (!this.transform(world, scheduler, imageStore)) {
-
-            scheduler.scheduleEvent(this,
-                    this.createActivityAction(world, imageStore),
-                    this.actionPeriod);
-        }
+        super.executeActivity(world, imageStore, scheduler);
     }
 
     public boolean transform(
@@ -100,12 +42,12 @@ public class Sapling  extends Plant implements Transformable {
 
             return true;
         }
-        else if (this.getHealth() >= this.getHealthLimit())
+        else if (this.getHealth() >= this.healthLimit)
         {
             Entity tree = new Tree("tree_" + this.getId(), this.getPosition(),
                     imageStore.getImageList(Functions.TREE_KEY),
-                    Plant.getNumFromRange(Functions.TREE_ACTION_MAX, Functions.TREE_ACTION_MIN),
                     Plant.getNumFromRange(Functions.TREE_ANIMATION_MAX, Functions.TREE_ANIMATION_MIN),
+                    Plant.getNumFromRange(Functions.TREE_ACTION_MAX, Functions.TREE_ACTION_MIN),
                     Plant.getNumFromRange(Functions.TREE_HEALTH_MAX, Functions.TREE_HEALTH_MIN));
 
             world.removeEntity(this);
@@ -121,13 +63,4 @@ public class Sapling  extends Plant implements Transformable {
         return false;
     }
 
-    public void scheduleAction (EventScheduler eventScheduler, WorldModel world, ImageStore imageStore) {
-        eventScheduler.scheduleEvent(this,
-                this.createActivityAction(world, imageStore),
-                this.getActionPeriod());
-
-        eventScheduler.scheduleEvent(this,
-                this.createAnimationAction(0),
-                this.getAnimationPeriod());
-    }
 }

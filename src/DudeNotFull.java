@@ -5,72 +5,21 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class DudeNotFull extends Dude implements Transformable {
-    private final String id;
-    private final List<PImage> images;
-    private int imageIndex;
+public class DudeNotFull extends Dude {
     private int resourceCount;
-    private final int actionPeriod;
-    private final int animationPeriod;
 
     public DudeNotFull(
             String id,
             Point position,
             List<PImage> images,
-            int resourceLimit,
-            int resourceCount,
+            int animationPeriod,
             int actionPeriod,
-            int animationPeriod)
+            int resourceLimit,
+            int resourceCount)
     {
-        this.id = id;
-        this.position = position;
-        this.images = images;
-        this.imageIndex = 0;
-        this.resourceLimit = resourceLimit;
+        super(id, position, images, animationPeriod, actionPeriod, resourceLimit);
         this.resourceCount = resourceCount;
-        this.actionPeriod = actionPeriod;
-        this.animationPeriod = animationPeriod;
     }
-
-    public String getId() {
-        return id;
-    }
-
-    public List<PImage> getImages() {
-        return images;
-    }
-
-    public int getImageIndex() {
-        return imageIndex;
-    }
-
-    public int getActionPeriod() {
-        return actionPeriod;
-    }
-
-    public Action createAnimationAction(int repeatCount) {
-        return new Animation(this, repeatCount);
-    }
-
-    public Action createActivityAction(WorldModel world, ImageStore imageStore) {
-        return new Activity(this, world, imageStore);
-    }
-
-    public void scheduleAction(EventScheduler eventScheduler, WorldModel world, ImageStore imageStore) {
-        eventScheduler.scheduleEvent(this,
-                this.createActivityAction(world, imageStore),
-                this.getActionPeriod());
-
-        eventScheduler.scheduleEvent(this,
-                this.createAnimationAction(0),
-                0);
-    }
-
-    public void setImageIndex(int index) { this.imageIndex = index; }
-
-    public int getAnimationPeriod() {
-        return this.animationPeriod;
-    };
 
     public void executeActivity(
             WorldModel world,
@@ -111,9 +60,9 @@ public class DudeNotFull extends Dude implements Transformable {
                     this.id,
                     this.position,
                     this.images,
-                    this.resourceLimit,
+                    this.animationPeriod,
                     this.actionPeriod,
-                    this.animationPeriod);
+                    this.resourceLimit);
 
             world.removeEntity(this);
             scheduler.unscheduleAllEvents(this);

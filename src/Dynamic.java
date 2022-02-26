@@ -1,14 +1,34 @@
-public interface Dynamic extends Entity {
-    int getAnimationPeriod();
+import processing.core.PImage;
 
-    Action createAnimationAction(int repeatCount);
+import java.util.List;
 
-    void setImageIndex(int index);
+abstract class Dynamic extends Entity {
 
-    default void nextImage() {
+    protected int animationPeriod;
+
+    public Dynamic(
+            String id,
+            Point position,
+            List<PImage> images,
+            int animationPeriod) {
+        super(id, position, images);
+        this.animationPeriod = animationPeriod;
+    }
+
+    public void setImageIndex(int index) { this.imageIndex = index; }
+
+    public void nextImage() {
         this.setImageIndex((this.getImageIndex() + 1) % this.getImages().size());
     }
 
-    void scheduleAction (EventScheduler eventScheduler, WorldModel world, ImageStore imageStore);
+    public int getAnimationPeriod() {
+        return this.animationPeriod;
+    }
+
+    public Action createAnimationAction(int repeatCount) {
+        return new Animation(this, repeatCount);
+    }
+
+    public abstract void scheduleAction (EventScheduler eventScheduler, WorldModel world, ImageStore imageStore);
 
 }

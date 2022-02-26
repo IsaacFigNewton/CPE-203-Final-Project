@@ -1,10 +1,38 @@
-public interface Active extends Dynamic {
+import processing.core.PImage;
 
-    void executeActivity(WorldModel world,
+import java.util.List;
+
+abstract class Active extends Dynamic {
+    protected int actionPeriod;
+
+    public Active(String id,
+                  Point position,
+                  List<PImage> images,
+                  int animationPeriod,
+                  int actionPeriod) {
+        super(id, position, images, animationPeriod);
+        this.actionPeriod = actionPeriod;
+    }
+
+    public int getActionPeriod() {
+        return actionPeriod;
+    }
+
+    public abstract void executeActivity(WorldModel world,
                          ImageStore imageStore,
                          EventScheduler scheduler);
 
-    int getActionPeriod();
+    public Action createActivityAction(WorldModel world, ImageStore imageStore) {
+        return new Activity(this, world, imageStore);
+    }
 
-    Action createActivityAction(WorldModel world, ImageStore imageStore);
+    public void scheduleAction (EventScheduler eventScheduler, WorldModel world, ImageStore imageStore) {
+        eventScheduler.scheduleEvent(this,
+                this.createActivityAction(world, imageStore),
+                this.getActionPeriod());
+
+        eventScheduler.scheduleEvent(this,
+                this.createAnimationAction(0),
+                this.getAnimationPeriod());
+    }
 }
