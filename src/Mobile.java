@@ -1,9 +1,13 @@
 import processing.core.PImage;
 
+import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 abstract class Mobile extends Active{
+    protected PathingStrategy strategy = new AStarPathingStrategy();
+    protected List<Point> path = new ArrayList<>();
 
     public Mobile(String id,
                   Point position,

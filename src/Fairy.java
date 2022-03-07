@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class Fairy extends Mobile {
+    protected PathingStrategy strategy = new AStarPathingStrategy();
 
     public Fairy(
             String id,
@@ -59,19 +60,39 @@ public class Fairy extends Mobile {
 
     public Point nextPosition(WorldModel world, Point destPos)
     {
-        int horiz = Integer.signum(destPos.getX() - this.position.getX());
-        Point newPos = new Point(this.position.getX() + horiz, this.position.getY());
+//        if (horiz == 0 || world.isOccupied(newPos) && !(world.getOccupancyCell(newPos) instanceof Stump)) {
+//            int vert = Integer.signum(destPos.getY() - this.position.getY());
+//            newPos = new Point(this.position.getX(), this.position.getY() + vert);
+//
+//            if (vert == 0 || world.isOccupied(newPos) &&  !(world.getOccupancyCell(newPos) instanceof Stump)) {
+//                newPos = this.position;
 
-        if (horiz == 0 || world.isOccupied(newPos)) {
-            int vert = Integer.signum(destPos.getY() - this.position.getY());
-            newPos = new Point(this.position.getX(), this.position.getY() + vert);
+//        int horiz = Integer.signum(destPos.getX() - this.position.getX());
+//        Point newPos = new Point(this.position.getX() + horiz, this.position.getY());
+//
+//        if (horiz == 0 || world.isOccupied(newPos)) {
+//            int vert = Integer.signum(destPos.getY() - this.position.getY());
+//            newPos = new Point(this.position.getX(), this.position.getY() + vert);
+//
+//            if (vert == 0 || world.isOccupied(newPos)) {
+//                newPos = this.position;
+//            }
+//        }
+//
+//        return newPos;
+//
+        //recalculate path every step
+        this.path = strategy.computePath(this.position,
+                destPos,
+                p -> world.withinBounds(p)
+                && !(world.isOccupied(p)),              // canPassThrough
+                (p1, p2) -> p1.adjacent(p2),            // withinReach
+                PathingStrategy.CARDINAL_NEIGHBORS);    // potentialNeighbours
 
-            if (vert == 0 || world.isOccupied(newPos)) {
-                newPos = this.position;
-            }
-        }
-
-        return newPos;
+        //return the next position in the path
+        if (this.path.size() > 0)
+            return this.path.remove(0);
+        return this.position;
     }
 
 }
