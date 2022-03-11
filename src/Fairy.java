@@ -92,6 +92,7 @@ public class Fairy extends Mobile {
         //return the next position in the path
         if (this.path.size() > 0)
             return this.path.remove(0);
+
         return this.position;
     }
 

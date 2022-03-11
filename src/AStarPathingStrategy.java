@@ -35,7 +35,7 @@ public class AStarPathingStrategy implements PathingStrategy {
         Point currentPoint = start;
 
         //while there are still unchecked nodes and the goal hasn't been reached
-        while (!openList.isEmpty() && world.getOccupant(currentPoint) != world.getOccupant(end)) {
+        while (!openList.isEmpty() && !currentPoint.adjacent(end)) {
             pos = openList.remove();
             currentPoint = pos.getPoint();
 
@@ -58,10 +58,16 @@ public class AStarPathingStrategy implements PathingStrategy {
                 Point neighborPoint = neighbor.getPoint();
 
                 //test if this is a valid grid cell
-                if (world.withinBounds(neighborPoint) &&
-                        world.isOccupied(neighborPoint) &&
-                        !closedList.contains(neighbor)) {
+                if (world.withinBounds(neighborPoint)
+                        && !(world.isOccupied(neighborPoint))
+                        && !closedList.contains(neighbor)) {
 
+                    //causing out of memory errors
+                    //if a node is already in the open list and the new value is less than the previous value
+                    if (openList.contains(neighbor))
+                        openList.remove(neighbor);
+
+                    //add the neighbor node to the open list
                     openList.add(neighbor);
                 }
             }
@@ -88,51 +94,4 @@ public class AStarPathingStrategy implements PathingStrategy {
 //                .limit(1)                       //return 1 neighbor that matched all criteria (or the first checked one)
 //                .collect(Collectors.toList());  //return a list of that 1 neighbor
     }
-//
-//    private boolean adjacent(Point p1, Point p2) {
-//        int absXDist = Math.abs(p1.getX() - p2.getX());
-//        int absYDist = Math.abs(p1.getY() - p2.getY());
-//
-//        if (absXDist <= 1 && absYDist <= 1 && absXDist + absYDist == 1)
-//            return true;
-//
-//        return false;
-//    }
-//
-//    private static ArrayList<Point> buildPath(WorldNode end) {
-//        ArrayList<Point> path = new ArrayList<>();
-//        WorldNode currentNode = end;
-//
-//        while (currentNode != null) {
-//            path.add(currentNode.getPoint());
-//            currentNode = currentNode.getPreviousNode();
-//        }
-//
-//        return path;
-//    }
-//
-//    private boolean isValidPath(ArrayList<Point> path, int expectedLeng, Point start, Point end) {
-//        //check endpoints
-//        System.out.println(path.get(0) + " should be the same as " + start);
-//        System.out.println(path.get(path.size() - 1) + " should be the same as " + end);
-//        if (!path.get(0).equals(start) || !path.get(path.size() - 1).equals(end))
-//            return false;
-//
-//        //check adjacency
-//        Point prevPt = path.get(0);
-//        for (Point currentPt : path) {
-//            //if there are 2 points that aren't adjacent
-//            if (!adjacent(currentPt, prevPt))
-//                return false;
-//
-//            prevPt = currentPt;
-//        }
-//
-//        System.out.println("The path is " + path.size() + " points long and should be " + expectedLeng + "points long.");
-//        //check path length
-//        if (path.size() == expectedLeng)
-//            return true;
-//
-//        return false;
-//    }
 }

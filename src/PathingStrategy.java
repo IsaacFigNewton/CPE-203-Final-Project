@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.function.BiPredicate;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -16,8 +13,6 @@ interface PathingStrategy {
      *
      * The prefix includes neither the start point nor the end point.
      */
-
-    static List<Point> path = new ArrayList<>();
 
     static final Function<Point, Stream<Point>> CARDINAL_NEIGHBORS =
             point ->
@@ -68,20 +63,24 @@ interface PathingStrategy {
         return false;
     }
 
+//    static PriorityQueue<WorldNode> removeNode()
+
      static ArrayList<Point> buildPath(WorldNode end) {
         ArrayList<Point> path = new ArrayList<>();
+        //truncate the path before the end node
         WorldNode currentNode = end;
 
-        while (currentNode != null) {
-            path.add(currentNode.getPoint());
+        //truncate the path after the first node
+        while (currentNode.getPreviousNode() != null) {
+            path.add(0, currentNode.getPoint());
             currentNode = currentNode.getPreviousNode();
         }
 
-        String pathToPrint = "{";
-        for (Point pt : path)
-            pathToPrint += " " + pt;
-        pathToPrint += "}";
-        System.out.println(pathToPrint);
+//        String pathToPrint = "{";
+//        for (Point pt : path)
+//            pathToPrint += " " + pt;
+//        pathToPrint += "}";
+//        System.out.println(pathToPrint);
 
         return path;
     }
