@@ -19,48 +19,49 @@ public class AStarPathingStrategy implements PathingStrategy {
         return false;
     }
 
-    public List<Point> computePath(WorldModel world, Point start, Point end) {
-//                                   Predicate<Point> canPassThrough,
-//                                   BiPredicate<Point, Point> withinReach,
-//                                   Function<Point, Stream<Point>> potentialNeighbors) {
+    public List<Point> computePath(WorldModel world,
+                                   Point start,
+                                   Point end,
+                                   Predicate<Point> canPassThrough,
+                                   BiPredicate<Point, Point> withinReach,
+                                   Function<Point, Stream<Point>> potentialNeighbors) {
 
-        PriorityQueue<WorldNode> openList = new PriorityQueue<>(
+        PriorityQueue<Point> openList = new PriorityQueue<>(
             (p1, p2) -> (int) (p1.totalDist(end) - p2.totalDist(end))
         );
-        HashSet<WorldNode> closedList = new HashSet<>();
 
-        WorldNode startNode = new WorldNode(start);
-        openList.add(startNode);
-        WorldNode pos = startNode;
+        HashSet<Point> closedList = new HashSet<>();
+
+        openList.add(start);
+        Point pos = start;
         Point currentPoint = start;
 
         //while there are still unchecked nodes and the goal hasn't been reached
-        while (!openList.isEmpty() && !currentPoint.adjacent(end)) {
+        while (!openList.isEmpty() && !withinReach.test(currentPoint, end)) {
             pos = openList.remove();
-            currentPoint = pos.getPoint();
+            currentPoint = pos;
 
             //if the current point is within reach of the goal point
-            if (PathingStrategy.adjacent(currentPoint, end))
+            if (withinReach.test(currentPoint, end))
                 break;
 
             closedList.add(pos);
 
             //compose a list of possible points around the current point
-            List<WorldNode> neighbors = Arrays.asList(
-                    new WorldNode(new Point(currentPoint.getX() + 1, currentPoint.getY()), pos),
-                    new WorldNode(new Point(currentPoint.getX(), currentPoint.getY() + 1), pos),
-                    new WorldNode(new Point(currentPoint.getX() - 1, currentPoint.getY()), pos),
-                    new WorldNode(new Point(currentPoint.getX(), currentPoint.getY() - 1), pos));
+            List<Point> neighbors = Arrays.asList(
+                    new Point(currentPoint.getX() + 1, currentPoint.getY(), pos),
+                    new Point(currentPoint.getX(), currentPoint.getY() + 1, pos),
+                    new Point(currentPoint.getX() - 1, currentPoint.getY(), pos),
+                    new Point(currentPoint.getX(), currentPoint.getY() - 1, pos));
 
             //for each neighbor in the list of neighbors
-            for (WorldNode neighbor : neighbors) {
+
+            for (Point neighbor : neighbors) {
                 //access the neighbor's point
-                Point neighborPoint = neighbor.getPoint();
+                Point neighborPoint = neighbor;
 
                 //test if this is a valid grid cell
-                if (world.withinBounds(neighborPoint)
-                        && !(world.isOccupied(neighborPoint))
-                        && !closedList.contains(neighbor)) {
+                if (canPassThrough.test(neighborPoint) && !closedList.contains(neighbor)) {
 
                     //causing out of memory errors
                     //if a node is already in the open list and the new value is less than the previous value
@@ -74,24 +75,14 @@ public class AStarPathingStrategy implements PathingStrategy {
 
         }
 
-
-//        ArrayList<Point> path = buildPath(openList.peek());
-//        int desiredPathLength = 5;
-//        if (isValidPath(path, desiredPathLength, start, end))
-//            return path;
-//        else
-//            System.out.println("A Star might've failed");
-//
-//        return new ArrayList<>();
-
         //Recurse through the top GridNode (which is at the goal) to compose the shortest path
-            return PathingStrategy.buildPath(pos);
-        
-//        //returns a list consisting of the next point according to the heuristic above
-//        return potentialNeighbors.apply(start)  //get the neighboring cells around the starting point
-//                .filter(canPassThrough)         //filter out any neighbors that have an obstacle or something in them
-//                .filter((pt) -> heuristic(pt, start, end))  //heuristic
-//                .limit(1)                       //return 1 neighbor that matched all criteria (or the first checked one)
-//                .collect(Collectors.toList());  //return a list of that 1 neighbor
+        ArrayList<Point> path = PathingStrategy.buildPath(pos);
+//        int desiredPathLength = 5;
+        if (PathingStrategy.isValidPath(path, start, end)) //desiredPathLength, start, end))
+            return path;
+        else
+            System.out.println("The path generated failed the isValid() test.");
+
+        return new ArrayList<>();
     }
 }

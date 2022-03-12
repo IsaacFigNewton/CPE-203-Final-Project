@@ -11,6 +11,22 @@ public final class Point
     private final int x;
     private final int y;
 
+    private Point previousNode;
+    private int startDist;
+
+    private Point (int x, int y, Point prev, int startDist) {
+        assert(prev != null);
+
+        this.x = x;
+        this.y = y;
+        this.previousNode = prev;
+        this.startDist = startDist;
+    }
+
+    public Point (int x, int y, Point prev) {
+        this(x, y, prev, prev.startDist + 1);
+    }
+
     public Point(int x, int y) {
         this.x = x;
         this.y = y;
@@ -18,6 +34,10 @@ public final class Point
 
     public int getX() { return x;}
     public int getY() { return y;}
+
+    public Point getPreviousNode() {
+        return previousNode;
+    }
 
     public Optional<Entity> nearestEntity(List<Entity> entities)
     {
@@ -51,6 +71,15 @@ public final class Point
     public boolean adjacent(Point other) {
         return (this.x == other.x && Math.abs(this.y - other.y) == 1) || (this.y == other.y
                 && Math.abs(this.x - other.x) == 1);
+    }
+
+    //manhattan distance from the current point to the end point
+    public int endDist(Point goalLoc) {
+        return Math.abs(this.x - goalLoc.x) + Math.abs(this.y - goalLoc.y);
+    };
+
+    public double totalDist(Point goalLoc) {
+        return this.startDist + this.endDist(goalLoc);
     }
 
     public String toString() {

@@ -27,52 +27,21 @@ interface PathingStrategy {
 
 //    abstract boolean heuristic(Point pt, Point start, Point end);
 
-//    List<Point> computePath(Point start,
-//                            Point end,
-//                            Predicate<Point> canPassThrough,
-//                            BiPredicate<Point, Point> withinReach,
-//                            Function<Point, Stream<Point>> potentialNeighbors);
+    List<Point> computePath(WorldModel world,
+                            Point start,
+                            Point end,
+                            Predicate<Point> canPassThrough,
+                            BiPredicate<Point, Point> withinReach,
+                            Function<Point, Stream<Point>> potentialNeighbors);
 
-
-    List<Point> computePath(WorldModel world, Point start, Point end);
-//                                           Predicate<Point> canPassThrough,
-//                                           BiPredicate<Point, Point> withinReach,
-//                                           Function<Point, Stream<Point>> potentialNeighbors) {
-//        /* Does not check withinReach.  Since only a single step is taken
-//         * on each call, the caller will need to check if the destination
-//         * has been reached.
-//         */
-//
-//        //returns a list consisting of the next point according to the heuristic above
-//        return potentialNeighbors.apply(start)  //get the neighboring cells around the starting point
-//                .filter(canPassThrough)         //filter out any neighbors that have an obstacle or something in them
-//                .filter((p1) -> p1.equals(new Point(0,0)))  //?
-//                    // (when implementing A*, you'll need to compare all available points)
-//                .limit(1)                       //return 1 neighbor that matched all criteria (or the first checked one)
-//                .collect(Collectors.toList());  //return a list of that 1 neighbor
-//    }
-
-
-    static boolean adjacent(Point p1, Point p2) {
-        int absXDist = Math.abs(p1.getX() - p2.getX());
-        int absYDist = Math.abs(p1.getY() - p2.getY());
-
-        if (absXDist <= 1 && absYDist <= 1 && absXDist + absYDist == 1)
-            return true;
-
-        return false;
-    }
-
-//    static PriorityQueue<WorldNode> removeNode()
-
-     static ArrayList<Point> buildPath(WorldNode end) {
+     static ArrayList<Point> buildPath(Point end) {
         ArrayList<Point> path = new ArrayList<>();
         //truncate the path before the end node
-        WorldNode currentNode = end;
+        Point currentNode = end;
 
         //truncate the path after the first node
         while (currentNode.getPreviousNode() != null) {
-            path.add(0, currentNode.getPoint());
+            path.add(0, currentNode);
             currentNode = currentNode.getPreviousNode();
         }
 
@@ -85,29 +54,33 @@ interface PathingStrategy {
         return path;
     }
 
-    static boolean isValidPath(ArrayList<Point> path, int expectedLeng, Point start, Point end) {
+    static boolean isValidPath(ArrayList<Point> path, Point start, Point end) {     //int expectedLeng, Point start, Point end) {
         //check endpoints
-        System.out.println(path.get(0) + " should be the same as " + start);
-        System.out.println(path.get(path.size() - 1) + " should be the same as " + end);
-        if (!path.get(0).equals(start) || !path.get(path.size() - 1).equals(end))
+//        System.out.println(path.get(0) + " should be adjacent to " + start);
+//        System.out.println(path.get(path.size() - 1) + " should be adjacent to " + end);
+        if (!(path.get(0).adjacent(start) && path.get(path.size() - 1).adjacent(end))) {
+            System.out.println("A start or end point in the path was not adjacent to the starting position or goal.");
             return false;
+        }
 
         //check adjacency
         Point prevPt = path.get(0);
         for (Point currentPt : path) {
             //if there are 2 points that aren't adjacent
-            if (!adjacent(currentPt, prevPt))
+            if (!currentPt.adjacent(prevPt)) {
+                System.out.println("Not all intermediate points in the path were not adjacent to eachother.");
                 return false;
+            }
 
             prevPt = currentPt;
         }
 
-        System.out.println("The path is " + path.size() + " points long and should be " + expectedLeng + "points long.");
-        //check path length
-        if (path.size() == expectedLeng)
-            return true;
+//        System.out.println("The path is " + path.size() + " points long and should be " + expectedLeng + "points long.");
+//        //check path length
+//        if (path.size() == expectedLeng)
+//            return true;
 
-        return false;
+        return true;
     }
 
 }

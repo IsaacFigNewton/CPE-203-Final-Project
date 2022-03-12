@@ -42,20 +42,24 @@ abstract class Dude extends Mobile {
 //
 //        return newPos;
 
-        //recalculate path every step
+        //recalculate path every step - what I want it to do but what it refuses to do
         this.path = strategy.computePath(world, this.position,
-                destPos);
-//                p -> world.withinBounds(p)
-//                        && !(world.isOccupied(p)
-//                        || world.getOccupant(p).getClass().equals(Stump.class)),    // canPassThrough
-//                (p1, p2) -> p1.adjacent(p2),                                        // withinReach
-//                PathingStrategy.CARDINAL_NEIGHBORS);                                // potentialNeighbours
+                destPos,
+                p -> world.withinBounds(p)
+                        && (!world.isOccupied(p)
+                            || world.getOccupant(p).getClass().equals(Stump.class)),    // canPassThrough
+                (p1, p2) -> p1.adjacent(p2),                                        // withinReach
+                PathingStrategy.CARDINAL_NEIGHBORS);                                // potentialNeighbours
 
         //return the next position in the path
-        if (this.path.size() > 0)
-            return this.path.remove(0);
-
-        return this.position;
+        if (this.path.size() > 0) {
+            Point nextStep = this.path.remove(0);
+            System.out.println(nextStep);
+            return nextStep;
+        }
+        else {
+            return this.position;
+        }
     }
 
     protected abstract boolean executeActivityCondition(
