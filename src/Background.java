@@ -5,7 +5,7 @@ import processing.core.PImage;
 /**
  * Represents a background for the 2D world.
  */
-public final class Background
+public final class Background //add the k back in for it to work again
 {
     private String id;
     private List<PImage> images;

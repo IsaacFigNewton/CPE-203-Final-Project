@@ -52,7 +52,6 @@ public class AStarPathingStrategy implements PathingStrategy {
                     //add the neighbor node to the open list
                     openList.add(neighbor);
             }
-
         }
 
         //Recurse through the top GridNode (which is at the goal) to compose the shortest path
