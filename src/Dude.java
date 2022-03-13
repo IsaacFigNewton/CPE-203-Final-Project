@@ -26,7 +26,7 @@ abstract class Dude extends Mobile {
 
     public int getResourceLimit () { return this.resourceLimit;}
 
-    public Point nextPosition(WorldModel world, Point destPos)
+    protected void getPath(WorldModel world, Point destPos)
     {
         //recalculate path every step
         this.path = strategy.computePath(
@@ -37,14 +37,6 @@ abstract class Dude extends Mobile {
                         || world.getOccupant(p).getClass().equals(Stump.class)),    // canPassThrough
                 (p1, p2) -> p1.adjacent(p2),                                        // withinReach
                 PathingStrategy.CARDINAL_NEIGHBORS);                                // potentialNeighbours
-
-        //return the next position in the path
-        if (this.path.size() > 0) {
-            return this.path.remove(0);
-        }
-        else {
-            return this.position;
-        }
     }
 
     protected abstract boolean executeActivityCondition(

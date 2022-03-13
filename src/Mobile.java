@@ -4,6 +4,8 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.BiPredicate;
+import java.util.function.Predicate;
 
 abstract class Mobile extends Active{
     protected PathingStrategy strategy = new AStarPathingStrategy();
@@ -45,5 +47,18 @@ abstract class Mobile extends Active{
             Entity target,
             EventScheduler scheduler);
 
-    public abstract Point nextPosition(WorldModel world, Point destPos);
+    protected abstract void getPath(WorldModel world, Point destPos);
+
+    public Point nextPosition(WorldModel world, Point destPos)
+    {
+        //recalculate path every step
+        this.getPath(world, destPos);
+
+        //return the next position in the path
+        if (this.path.size() > 0)
+            return this.path.remove(0);
+
+        return this.position;
+    }
+
 }
