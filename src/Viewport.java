@@ -11,8 +11,8 @@ public final class Viewport
     }
 
     public boolean contains(Point p) {
-        return p.getY() >= this.getRow() && p.getY() < this.getRow() + this.getNumRows()
-                && p.getX() >= this.getCol() && p.getX() < this.getCol() + this.getNumCols();
+        return p.y >= this.getRow() && p.y < this.getRow() + this.getNumRows()
+                && p.x >= this.getCol() && p.x < this.getCol() + this.getNumCols();
     }
 
     public int getRow() {

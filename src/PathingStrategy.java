@@ -17,10 +17,10 @@ interface PathingStrategy {
     static final Function<Point, Stream<Point>> CARDINAL_NEIGHBORS =
             point ->
                     Stream.<Point>builder()
-                            .add(new Point(point.getX(), point.getY() - 1, point))
-                            .add(new Point(point.getX(), point.getY() + 1, point))
-                            .add(new Point(point.getX() - 1, point.getY(), point))
-                            .add(new Point(point.getX() + 1, point.getY(), point))
+                            .add(new Point(point.x, point.y - 1, point))
+                            .add(new Point(point.x, point.y + 1, point))
+                            .add(new Point(point.x - 1, point.y, point))
+                            .add(new Point(point.x + 1, point.y, point))
                             .build();
 
 
@@ -55,7 +55,7 @@ interface PathingStrategy {
         System.out.println(stringToPrint + "}");
 
         //check path length
-        int minPathLength = Math.abs(end.getX() - start.getX()) + Math.abs(end.getY() - start.getY()) - 1;
+        int minPathLength = Math.abs(end.x - start.x) + Math.abs(end.y - start.y) - 1;
         if (path.size() < minPathLength) {
             System.out.println("The path is " + path.size() + " points long but should be at least "
                     + minPathLength + " points long.");

@@ -9,8 +9,8 @@ import java.util.Optional;
  */
 public final class Point
 {
-    private final int x;
-    private final int y;
+    public final int x;
+    public final int y;
 
     private Point previousNode;
     private int startDist;
@@ -32,9 +32,6 @@ public final class Point
         this.x = x;
         this.y = y;
     }
-
-    public int getX() { return x;}
-    public int getY() { return y;}
 
     public Point getPreviousNode() {
         return previousNode;
