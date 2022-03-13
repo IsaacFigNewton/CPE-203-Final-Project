@@ -324,6 +324,7 @@
 //      PriorityQueue<GridNode> openList = new PriorityQueue<>(comparePointHeuristics);
 //      HashSet<GridNode> closedList = new HashSet<>();
 //
+//
 //      openList.add(new GridNode(wPos));
 //      GridNode pos;
 //      Point currentPoint = wPos;
@@ -374,7 +375,6 @@
 //      buildPath(openList.peek());
 //   }
 //
-//
 //   private boolean adjacent(Point p1, Point p2) {
 //      int absXDist = Math.abs(p1.x - p2.x);
 //      int absYDist = Math.abs(p1.y - p2.y);
@@ -390,23 +390,6 @@
 //         buildPath(end.getPreviousNode());
 //         path.add(end.getPoint());
 //      }
-//   }
-//
-//   private boolean isValidPath(int expectedLeng, Point start, Point end) {
-//      Point prevPt = wPos;
-//      for (Point currentPt : path) {
-//         //if there are 2 points that aren't adjacent
-//         if (!adjacent(currentPt, prevPt))
-//            return false;
-//
-//         prevPt = currentPt;
-//      }
-//
-//      //if all points in the path are adjacent to the previous points
-//      //and the length of the path is the same as the expected shortest path length
-//      if (path.size() == expectedLeng)
-//         return true;
-//      return false;
 //   }
 //
 //   private static boolean withinBounds(Point p, GridValues[][] grid)

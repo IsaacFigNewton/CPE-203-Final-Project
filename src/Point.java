@@ -1,6 +1,7 @@
 import processing.core.PImage;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -39,6 +40,18 @@ public final class Point
         return previousNode;
     }
 
+    public void setPreviousNode(Point previousNode) {
+        this.previousNode = previousNode;
+    }
+
+    public int getStartDist() {
+        return startDist;
+    }
+
+    public void setStartDist(int startDist) {
+        this.startDist = startDist;
+    }
+
     public Optional<Entity> nearestEntity(List<Entity> entities)
     {
         if (entities.isEmpty()) {
@@ -74,12 +87,12 @@ public final class Point
     }
 
     //manhattan distance from the current point to the end point
-    public int endDist(Point goalLoc) {
-        return Math.abs(this.x - goalLoc.x) + Math.abs(this.y - goalLoc.y);
+    public int endDist(Point targetPt) {
+        return  Math.abs(this.x - targetPt.x) + Math.abs(this.y - targetPt.y); //this.distanceSquared(targetPt); //
     };
 
-    public double totalDist(Point goalLoc) {
-        return this.startDist + this.endDist(goalLoc);
+    public double totalDist(Point targetPt) {
+        return this.startDist + this.endDist(targetPt);
     }
 
     public String toString() {
@@ -97,4 +110,17 @@ public final class Point
         result = result * 31 + y;
         return result;
     }
+
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (o == null || getClass() != o.getClass()) return false;
+//        Point point = (Point) o;
+//        return x == point.x && y == point.y;
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        return Objects.hash(x, y);
+//    }
 }

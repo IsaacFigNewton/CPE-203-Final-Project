@@ -61,10 +61,11 @@ public class Fairy extends Mobile {
     public Point nextPosition(WorldModel world, Point destPos)
     {
         //recalculate path every step
-        this.path = strategy.computePath(world, this.position,
+        this.path = strategy.computePath(
+                this.position,
                 destPos,
                 p -> world.withinBounds(p)
-                && !(world.isOccupied(p)),              // canPassThrough
+                    && !(world.isOccupied(p)),              // canPassThrough
                 (p1, p2) -> p1.adjacent(p2),            // withinReach
                 PathingStrategy.CARDINAL_NEIGHBORS);    // potentialNeighbours
 

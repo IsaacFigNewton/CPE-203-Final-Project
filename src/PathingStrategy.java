@@ -17,68 +17,65 @@ interface PathingStrategy {
     static final Function<Point, Stream<Point>> CARDINAL_NEIGHBORS =
             point ->
                     Stream.<Point>builder()
-                            .add(new Point(point.getX(), point.getY() - 1))
-                            .add(new Point(point.getX(), point.getY() + 1))
-                            .add(new Point(point.getX() - 1, point.getY()))
-                            .add(new Point(point.getX() + 1, point.getY()))
+                            .add(new Point(point.getX(), point.getY() - 1, point))
+                            .add(new Point(point.getX(), point.getY() + 1, point))
+                            .add(new Point(point.getX() - 1, point.getY(), point))
+                            .add(new Point(point.getX() + 1, point.getY(), point))
                             .build();
 
 
-
-//    abstract boolean heuristic(Point pt, Point start, Point end);
-
-    List<Point> computePath(WorldModel world,
-                            Point start,
+    List<Point> computePath(Point start,
                             Point end,
                             Predicate<Point> canPassThrough,
                             BiPredicate<Point, Point> withinReach,
-                            Function<Point, Stream<Point>> potentialNeighbors);
+                            Function<Point,Stream<Point>> potentialNeighbors);
 
      static ArrayList<Point> buildPath(Point end) {
         ArrayList<Point> path = new ArrayList<>();
-        //truncate the path before the end node
         Point currentNode = end;
 
-        //truncate the path after the first node
         while (currentNode.getPreviousNode() != null) {
             path.add(0, currentNode);
             currentNode = currentNode.getPreviousNode();
         }
 
-//        String pathToPrint = "{";
-//        for (Point pt : path)
-//            pathToPrint += " " + pt;
-//        pathToPrint += "}";
-//        System.out.println(pathToPrint);
-
         return path;
     }
 
     static boolean isValidPath(ArrayList<Point> path, Point start, Point end) {     //int expectedLeng, Point start, Point end) {
-        //check endpoints
-//        System.out.println(path.get(0) + " should be adjacent to " + start);
-//        System.out.println(path.get(path.size() - 1) + " should be adjacent to " + end);
-        if (!(path.get(0).adjacent(start) && path.get(path.size() - 1).adjacent(end))) {
-            System.out.println("A start or end point in the path was not adjacent to the starting position or goal.");
+//        System.out.println("\nChecking path validity:");
+//
+//        System.out.println("Start point:" + start);
+//        System.out.println("End point:" + end);
+//        System.out.println("Path:");
+//        String stringToPrint = "{\n";
+//        for (int i = 0; i < path.size(); i++) {
+//            stringToPrint += path.get(i) + ",\n";
+//        }
+//        System.out.println(stringToPrint + "}");
+
+        //check path length
+        int minPathLength = Math.abs(end.getX() - start.getX()) + Math.abs(end.getY() - start.getY()) - 1;
+        if (path.size() < minPathLength) {
+//            System.out.println("The path is " + path.size() + " points long but should be at least "
+//                    + minPathLength + " points long.");
             return false;
         }
 
-        //check adjacency
-        Point prevPt = path.get(0);
-        for (Point currentPt : path) {
-            //if there are 2 points that aren't adjacent
-            if (!currentPt.adjacent(prevPt)) {
-                System.out.println("Not all intermediate points in the path were not adjacent to eachother.");
-                return false;
-            }
-
-            prevPt = currentPt;
+        //check endpoints
+        if (path.size() > 0 && !(path.get(0).adjacent(start) && path.get(path.size() - 1).adjacent(end))) {
+//            System.out.println("A start or end point in the path was not adjacent to the starting position or goal.");
+            return false;
         }
 
-//        System.out.println("The path is " + path.size() + " points long and should be " + expectedLeng + "points long.");
-//        //check path length
-//        if (path.size() == expectedLeng)
-//            return true;
+        //check intermediate points' adjacency
+        for (int i = 1; i < path.size(); i++) {
+            //if there are 2 points that aren't adjacent
+            if (!path.get(i).adjacent(path.get(i-1))) {
+//                System.out.println("Not all intermediate points in the path were adjacent to eachother.");
+                return false;
+            }
+        }
 
         return true;
     }
