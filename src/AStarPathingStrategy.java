@@ -36,24 +36,21 @@ public class AStarPathingStrategy implements PathingStrategy {
             closedList.add(currentPoint);
 
             //compose a list of possible neighbors around the current point
-            List<Point> neighbors = potentialNeighbors.apply(currentPoint).collect(Collectors.toList());
+            List<Point> neighbors = potentialNeighbors.apply(currentPoint)              //get the potential neighbors of a point
+                    .filter(p -> canPassThrough.test(p) && !closedList.contains(p))     //only use valid grid cells
+                    .collect(Collectors.toList());
 
             //for each neighbor in the list of neighbors
             for (Point neighbor : neighbors) {
+                //if a node is already in the open list
+                if (openList.contains(neighbor))
+                    //try replacing it
+                    openList = replacePQNode(openList, neighbor, end);
 
-                //test if this is a valid grid cell
-                if (canPassThrough.test(neighbor) && !closedList.contains(neighbor)) {
-
-                    //if a node is already in the open list
-                    if (openList.contains(neighbor))
-                        //try replacing it
-                        openList = replacePQNode(openList, neighbor, end);
-
-                    //if it's not
-                    else
-                        //add the neighbor node to the open list
-                        openList.add(neighbor);
-                }
+                //if it's not
+                else
+                    //add the neighbor node to the open list
+                    openList.add(neighbor);
             }
 
         }
