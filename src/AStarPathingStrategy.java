@@ -5,21 +5,8 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-//design A* in lab 7 and import code to use for compute path
-//refactor imported code into stream format
-
 public class AStarPathingStrategy implements PathingStrategy {
 
-    public boolean heuristic(Point pt, Point start, Point end) {
-        if (!pt.equals(start)                                                               //if the candidate point isn't the starting point
-                && !pt.equals(end)                                                          //... or the end point
-                && Math.abs(end.getX() - pt.getX()) <= Math.abs(end.getX() - start.getX())  //... and it's closer to the end point's x
-                && Math.abs(end.getY() - pt.getY()) <= Math.abs(end.getY() - start.getY())) //... and y values than to the start point.
-            return true;
-        return false;
-    }
-
-    //produces paths that go backwards before forwards sometimes //ex path with starting point (38, 29), ending point (35, 27)
     public List<Point> computePath(Point start,
                                    Point end,
                                    Predicate<Point> canPassThrough,
@@ -27,6 +14,7 @@ public class AStarPathingStrategy implements PathingStrategy {
                                    Function<Point, Stream<Point>> potentialNeighbors) {
 
         //clean data for the previous node and start distance for the start and end nodes
+        //this was the bug that took me like 4 hours or something to find
         start.setPreviousNode(null);
         start.setStartDist(0);
         end.setPreviousNode(null);
@@ -73,10 +61,10 @@ public class AStarPathingStrategy implements PathingStrategy {
         //Recurse through the top GridNode (which is at the goal) to compose the shortest path
         ArrayList<Point> path = PathingStrategy.buildPath(currentPoint);
 
-        if (PathingStrategy.isValidPath(path, start, end))
+//        if (PathingStrategy.isValidPath(path, start, end))
             return path;
 
-        return new ArrayList<>();
+//        return new ArrayList<>();
     }
 
     private static PriorityQueue<Point> replacePQNode (PriorityQueue<Point> oldPQ, Point replacementPoint, Point end) {

@@ -43,28 +43,28 @@ interface PathingStrategy {
     }
 
     static boolean isValidPath(ArrayList<Point> path, Point start, Point end) {     //int expectedLeng, Point start, Point end) {
-//        System.out.println("\nChecking path validity:");
-//
-//        System.out.println("Start point:" + start);
-//        System.out.println("End point:" + end);
-//        System.out.println("Path:");
-//        String stringToPrint = "{\n";
-//        for (int i = 0; i < path.size(); i++) {
-//            stringToPrint += path.get(i) + ",\n";
-//        }
-//        System.out.println(stringToPrint + "}");
+        System.out.println("\nChecking path validity:");
+
+        System.out.println("Start point:" + start);
+        System.out.println("End point:" + end);
+        System.out.println("Path:");
+        String stringToPrint = "{\n";
+        for (int i = 0; i < path.size(); i++) {
+            stringToPrint += path.get(i) + ",\n";
+        }
+        System.out.println(stringToPrint + "}");
 
         //check path length
         int minPathLength = Math.abs(end.getX() - start.getX()) + Math.abs(end.getY() - start.getY()) - 1;
         if (path.size() < minPathLength) {
-//            System.out.println("The path is " + path.size() + " points long but should be at least "
-//                    + minPathLength + " points long.");
+            System.out.println("The path is " + path.size() + " points long but should be at least "
+                    + minPathLength + " points long.");
             return false;
         }
 
         //check endpoints
         if (path.size() > 0 && !(path.get(0).adjacent(start) && path.get(path.size() - 1).adjacent(end))) {
-//            System.out.println("A start or end point in the path was not adjacent to the starting position or goal.");
+            System.out.println("A start or end point in the path was not adjacent to the starting position or goal.");
             return false;
         }
 
@@ -72,7 +72,7 @@ interface PathingStrategy {
         for (int i = 1; i < path.size(); i++) {
             //if there are 2 points that aren't adjacent
             if (!path.get(i).adjacent(path.get(i-1))) {
-//                System.out.println("Not all intermediate points in the path were adjacent to eachother.");
+                System.out.println("Not all intermediate points in the path were adjacent to eachother.");
                 return false;
             }
         }
