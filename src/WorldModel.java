@@ -96,7 +96,8 @@ public final class WorldModel
     }
 
     public boolean isOccupied(Point pos) {
-        return this.withinBounds(pos) && this.getOccupancyCell(pos) != null;
+        //modified to allow everything to pass over swamp entities/tiles
+        return this.withinBounds(pos) && !(this.getOccupancyCell(pos) == null || this.getOccupancyCell(pos).getClass().equals(Swamp.class));
     }
 
     public Optional<Entity> findNearest(Point pos, List<Class<? extends Entity>> kinds)
@@ -166,7 +167,7 @@ public final class WorldModel
         }
     }
 
-    private void setBackground(Point pos, Background background)
+    public void setBackground(Point pos, Background background)
     {
         if (this.withinBounds(pos)) {
             this.setBackgroundCell(pos, background);

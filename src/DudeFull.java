@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 
 public class DudeFull extends Dude {
 
@@ -50,8 +51,21 @@ public class DudeFull extends Dude {
             EventScheduler scheduler,
             ImageStore imageStore)
     {
-        // need resource count, though it always starts at 0
+        //find a potentially valid spawn point around the point where the DudeFull is becoming a DudeNotFull
+        Function<Integer, Integer> diff = (i) -> (int)(Math.random() * 2) - 1;
+        Point potentialSpawnPoint = new Point(this.position.x + diff.apply(0), this.position.y + diff.apply(0));
 
+        //make sure the point is valid
+        while (world.isOccupied(potentialSpawnPoint)) {
+            potentialSpawnPoint = new Point(this.position.x + diff.apply(0), this.position.y + diff.apply(0));
+        }
+
+        //bring daBaby into this world
+        DudeNotFull daBaby = new DudeNotFull(this, 0);
+        world.addEntity(daBaby);
+        daBaby.scheduleAction(scheduler, world, imageStore);
+
+        // need resource count, though it always starts at 0
         Dude dudeNotFull = new DudeNotFull(this, 0);
 
         return super.transform(world, scheduler, imageStore, dudeNotFull);

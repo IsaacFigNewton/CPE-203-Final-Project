@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class DudeNotFull extends Dude {
-    private int resourceCount;
+    private int resourceCount = 0;
 
     public DudeNotFull(
             String id,

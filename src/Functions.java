@@ -45,6 +45,15 @@ public final class Functions
     public static final int DUDE_ACTION_PERIOD = 5;
     public static final int DUDE_ANIMATION_PERIOD = 6;
 
+    public static final String DUDESCARED_KEY = "dude_scared";
+    public static final int DUDESCARED_NUM_PROPERTIES = 7;
+    public static final int DUDESCARED_ID = 1;
+    public static final int DUDESCARED_COL = 2;
+    public static final int DUDESCARED_ROW = 3;
+    public static final int DUDESCARED_LIMIT = 4;
+    public static final int DUDESCARED_ACTION_PERIOD = 5;
+    public static final int DUDESCARED_ANIMATION_PERIOD = 6;
+
     public static final String HOUSE_KEY = "house";
     public static final int HOUSE_NUM_PROPERTIES = 4;
     public static final int HOUSE_ID = 1;
@@ -59,7 +68,17 @@ public final class Functions
     public static final int FAIRY_ANIMATION_PERIOD = 4;
     public static final int FAIRY_ACTION_PERIOD = 5;
 
+    public static final String SHREK_KEY = "shrek";
+    public static final int SHREK_NUM_PROPERTIES = 6;
+    public static final int SHREK_ID = 1;
+    public static final int SHREK_COL = 2;
+    public static final int SHREK_ROW = 3;
+    public static final int SHREK_ANIMATION_PERIOD = 4;
+    public static final int SHREK_ACTION_PERIOD = 5;
+
     public static final String STUMP_KEY = "stump";
+
+    public static final String SWAMP_KEY = "swamp";
 
     public static final String TREE_KEY = "tree";
     public static final int TREE_NUM_PROPERTIES = 7;
