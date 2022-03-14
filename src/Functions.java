@@ -47,7 +47,7 @@ public final class Functions
     public static final int DUDE_ACTION_PERIOD = 5;
     public static final int DUDE_ANIMATION_PERIOD = 6;
 
-    public static final String DUDESCARED_KEY = "dude_scared";
+    public static final String DUDESCARED_KEY = "dudescared";
     public static final int DUDESCARED_NUM_PROPERTIES = 7;
     public static final int DUDESCARED_ID = 1;
     public static final int DUDESCARED_COL = 2;

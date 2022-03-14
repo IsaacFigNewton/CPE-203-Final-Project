@@ -14,9 +14,14 @@ public class DudeScared extends Dude{
         super(id, position, images, animationPeriod, actionPeriod, resourceLimit);
     }
 
-    public DudeScared(Dude other)
+    public DudeScared(
+            String id,
+            List<PImage> images,
+            Dude other)
     {
         super(other);
+        this.id = id;
+        this.images = images;
     }
 
 

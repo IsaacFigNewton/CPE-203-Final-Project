@@ -92,7 +92,7 @@ abstract class Dude extends Mobile {
             Dude dude, Point nextPos)
     {
         this.lastPos = nextPos;
-        Dude dudeScared = new DudeScared(dude);
+        Dude dudeScared = new DudeScared(Functions.DUDESCARED_KEY, imageStore.getImageList(Functions.DUDESCARED_KEY), dude);
         dudeScared.scheduleAction(scheduler, world, imageStore);
 
         return transform(world, scheduler, imageStore, dudeScared);
