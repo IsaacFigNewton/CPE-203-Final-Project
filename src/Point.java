@@ -87,6 +87,19 @@ public final class Point
     public int endDist(Point targetPt) {
         return  Math.abs(this.x - targetPt.x) + Math.abs(this.y - targetPt.y); //this.distanceSquared(targetPt); //
     };
+    public static int distanceSquared2(Point p1, Point p2) {
+        int deltaX = p1.getX() - p2.getX();
+        int deltaY = p1.getY() - p2.getY();
+
+        return deltaX * deltaX + deltaY * deltaY;
+    }
+
+    int getX() {
+        return this.x;
+    }
+    int getY() {
+        return this.y;
+    }
 
     public double totalDist(Point targetPt) {
         return this.startDist + this.endDist(targetPt);

@@ -4,7 +4,7 @@ import java.util.List;
 
 abstract class Dude extends Mobile {
     protected int resourceLimit;
-    protected PathingStrategy strategy = new AStarPathingStrategy();
+    protected PathingStrategy strategy = new AStarPathingStrategy2();
     protected Point lastPos;
     public Dude(
             String id,

@@ -9,8 +9,8 @@ import java.util.*;
  */
 public final class WorldModel
 {
-    private int numRows;
-    private int numCols;
+    private static int numRows;
+    private static int numCols;
     private Background background[][];
     private Entity occupancy[][];
     public Set<Entity> entities;
@@ -27,8 +27,8 @@ public final class WorldModel
         }
     }
 
-    public int getNumCols() { return this.numCols;}
-    public int getNumRows() { return this.numRows;}
+    public static int getNumCols() { return numCols;}
+    public static int getNumRows() { return numRows;}
 
     public void load(
             Scanner in, ImageStore imageStore)
@@ -92,9 +92,9 @@ public final class WorldModel
         this.addEntity(entity);
     }
 
-    public boolean withinBounds(Point pos) {
-        return pos.y >= 0 && pos.y < this.numRows && pos.x >= 0
-                && pos.x < this.numCols;
+    protected static boolean withinBounds(Point pos) {
+        return pos.getY() >= 0 && pos.getY() < getNumRows() && pos.getX() >= 0
+                && pos.getX() < getNumCols();
     }
 
     public boolean isOccupied(Point pos) {

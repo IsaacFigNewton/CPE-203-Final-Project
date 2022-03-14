@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class Shrek extends Mobile {
-    private PathingStrategy strategy = new AStarPathingStrategy();
+    private PathingStrategy strategy = new AStarPathingStrategy2();
     private boolean hungie = true;
 
     public Shrek(

@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 
 public class Fairy extends Mobile {
-    protected PathingStrategy strategy = new AStarPathingStrategy();
+    protected PathingStrategy strategy = new AStarPathingStrategy2();
 
     public Fairy(
             String id,
