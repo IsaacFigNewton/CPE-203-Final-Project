@@ -55,9 +55,13 @@ public final class VirtualWorld extends PApplet
         size(VIEW_WIDTH, VIEW_HEIGHT);
     }
 
+    public ImageStore getImageStore() {
+        return imageStore;
+    }
+
     /*
-       Processing entry point for "sketch" setup.
-    */
+           Processing entry point for "sketch" setup.
+        */
     public void setup() {
         this.imageStore = new ImageStore(
                 createImageColored(TILE_WIDTH, TILE_HEIGHT,
@@ -74,6 +78,7 @@ public final class VirtualWorld extends PApplet
         scheduleActions(world, scheduler, imageStore);
 
         nextTime = System.currentTimeMillis() + TIMER_ACTION_PERIOD;
+        world.addEntity(new Swamp(Functions.SWAMP_KEY, new Point(0,0), imageStore.getImageList(Functions.SWAMP_KEY)));
     }
 
     public void draw() {
@@ -105,25 +110,35 @@ public final class VirtualWorld extends PApplet
 
 
         //set swamp backgrounds randomly around where the user clicked
-        int radius = 7;
-        int numTiles = 10;   //max number of tiles = round(radius / 2) ^ 2 ()
-        Function<Integer, Integer> diff = (i) -> (int)(Math.random() * radius) - radius/2;
-        ArrayList<Point> spawnPoints = new ArrayList<>();
-
-        //generate 7 unique, valid spawn points around the point where the user clicked within the defined radius
-        while (spawnPoints.size() < numTiles) {
-            Point potentialSpawnPoint = new Point(pressed.x + diff.apply(0), pressed.y + diff.apply(0));
-            if (world.withinBounds(potentialSpawnPoint) && !spawnPoints.contains(potentialSpawnPoint))
-                spawnPoints.add(potentialSpawnPoint);
-        }
-
-        for (Point point : spawnPoints)
-            System.out.println(point);
-        System.out.println();
-
-        //if a dude or a fairy runs over a swamp tile, shrek spawns and hunts them down to eat them
-
-        //once shrek has eaten a dude or fairy, he returns to the nearest swamp
+//        int radius = 7;
+//        int numTiles = 10;   //max number of tiles = round(radius / 2) ^ 2 ()
+//        Function<Integer, Integer> diff = (i) -> (int)(Math.random() * radius) - radius/2;
+//        ArrayList<Point> spawnPoints = new ArrayList<>();
+//
+//        //generate 7 unique, valid spawn points around the point where the user clicked within the defined radius
+//        while (spawnPoints.size() < numTiles) {
+//            Point potentialSpawnPoint = new Point(pressed.x + diff.apply(0), pressed.y + diff.apply(0));
+//            if (world.withinBounds(potentialSpawnPoint)
+//                    && !spawnPoints.contains(potentialSpawnPoint)
+//                    && !world.isOccupied(potentialSpawnPoint))
+//                spawnPoints.add(potentialSpawnPoint);
+//        }
+//
+//        for (Point point : spawnPoints) {
+//            //set background tiles at those points to swamp tiles
+//            world.setBackground(point,
+//                    new Background("swamp",
+//                    imageStore.getImageList(Functions.SWAMP_KEY)));
+//
+//            //set swamp entities on those tiles
+//            //add swamp with transparent image so that it doesn't go over dude
+//            world.addEntity(new Swamp(Functions.SWAMP_KEY, point, imageStore.getImageList(Functions.SWAMP_KEY)));        }
+////            System.out.println(point);
+////        System.out.println();
+//
+//        //if a dude or a fairy runs over a swamp tile, shrek spawns and hunts them down to eat them
+//
+//        //once shrek has eaten a dude or fairy, he returns to the nearest swamp
 
     }
 

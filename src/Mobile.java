@@ -42,6 +42,37 @@ abstract class Mobile extends Active{
         }
     }
 
+    public boolean moveToDude(
+            WorldModel world,
+            Entity target,
+            EventScheduler scheduler,
+            ImageStore imageStore)
+    {
+        if (this.position.adjacent(target.getPosition())) {
+            return this.moveToActivity(world, target, scheduler);
+        }
+
+        else {
+            Point nextPos = this.nextPosition(world, target.getPosition());
+            //System.out.println("test2");
+            if(world.getOccupant(nextPos).isPresent()) {
+                System.out.println("test3");
+                if (world.getOccupant(nextPos).get().getClass().equals(Swamp.class) && (this instanceof Dude)) {
+                    ((Dude) this).transformScared(world, scheduler, imageStore, (Dude) this);
+                }
+            }
+            if (!this.position.equals(nextPos)) {
+                Optional<Entity> occupant = world.getOccupant(nextPos);
+                if (occupant.isPresent()) {
+                    scheduler.unscheduleAllEvents(occupant.get());
+                }
+
+                world.moveEntity(this, nextPos);
+            }
+            return false;
+        }
+    }
+
     protected abstract boolean moveToActivity(
             WorldModel world,
             Entity target,

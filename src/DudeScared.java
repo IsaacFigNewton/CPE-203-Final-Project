@@ -1,13 +1,9 @@
 import processing.core.PImage;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
-public class DudeFull extends Dude {
-
-    public DudeFull(
+public class DudeScared extends Dude{
+    public DudeScared(
             String id,
             Point position,
             List<PImage> images,
@@ -18,23 +14,25 @@ public class DudeFull extends Dude {
         super(id, position, images, animationPeriod, actionPeriod, resourceLimit);
     }
 
-    public DudeFull(Dude other)
+    public DudeScared(Dude other)
     {
         super(other);
     }
 
+
+    //Moves in a random 3x3 grid like a chicken with their head cut off.
     public boolean executeActivityCondition(
             WorldModel world,
             ImageStore imageStore,
             EventScheduler scheduler)
     {
-        Optional<Entity> target =
-                world.findNearest(this.position, new ArrayList<>(Arrays.asList(House.class)));
+        Random random = new Random();
+        Point target =  new Point(this.position.x + random.nextInt(-3, 3),this.position.y + random.nextInt(-3, 3));
 
-        if (target.isPresent() && this.moveToDude(world, target.get(), scheduler,imageStore)) {
-            this.transform(world, scheduler, imageStore);
-            return false;
+        while(!world.withinBounds(target)) {
+            target = new Point(this.position.x + random.nextInt(-3, 3), this.position.y + random.nextInt(-3, 3));
         }
+        world.moveEntity(this,target);
 
         return true;
     }
@@ -44,16 +42,15 @@ public class DudeFull extends Dude {
             Entity target,
             EventScheduler scheduler) { return true; }
 
-    //transform into a doodNotFull
+    //Remove dude when eaten
     public boolean transform(
             WorldModel world,
             EventScheduler scheduler,
             ImageStore imageStore)
     {
-        // need resource count, though it always starts at 0
 
-        Dude dudeNotFull = new DudeNotFull(this, 0);
-
-        return super.transform(world, scheduler, imageStore, dudeNotFull);
+        world.removeEntity(this);
+        scheduler.unscheduleAllEvents(this);
+        return true;
     }
 }

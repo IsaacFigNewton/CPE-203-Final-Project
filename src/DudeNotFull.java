@@ -37,7 +37,7 @@ public class DudeNotFull extends Dude {
         Optional<Entity> target =
                 world.findNearest(this.position, new ArrayList<>(Arrays.asList(Tree.class, Sapling.class)));
 
-        if (!(target.isPresent() && this.moveTo(world, target.get(), scheduler))
+        if (!(target.isPresent() && this.moveToDude(world, target.get(), scheduler,imageStore))
                 || !this.transform(world, scheduler, imageStore))
         {
             return true;

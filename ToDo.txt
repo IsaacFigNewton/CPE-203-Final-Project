@@ -1,0 +1,7 @@
+- Add new Dude when deposit wood
+- Make Shrek return to his swamp after eating Dude
+
+- When DudeFull or DudeNotFull passes over swamp tile, spawn Shrek
+- When Dude is targeted change him to DudeScared
+    - DudeScared has new animation from Dudes
+    - DudeScared runs around in a 5x5, like chicken with head cutoff

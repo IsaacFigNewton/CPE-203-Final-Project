@@ -72,4 +72,14 @@ abstract class Dude extends Mobile {
         return true;
     }
 
+    public boolean transformScared(
+            WorldModel world,
+            EventScheduler scheduler,
+            ImageStore imageStore,
+            Dude dude)
+    {
+        Dude dudeScared = new DudeScared(this);
+
+        return transform(world, scheduler, imageStore, dudeScared);
+    }
 }
