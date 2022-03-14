@@ -78,7 +78,7 @@ public final class VirtualWorld extends PApplet
         scheduleActions(world, scheduler, imageStore);
 
         nextTime = System.currentTimeMillis() + TIMER_ACTION_PERIOD;
-        world.addEntity(new Swamp(Functions.SWAMP_KEY, new Point(0,0), imageStore.getImageList(Functions.SWAMP_KEY)));
+        //world.addEntity(new Swamp(Functions.SWAMP_KEY, new Point(0,1), imageStore.getImageList(Functions.SWAMP_KEY)));
     }
 
     public void draw() {
