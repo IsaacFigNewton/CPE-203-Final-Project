@@ -176,16 +176,17 @@ public class Shrek extends Mobile {
             world.removeEntity(target);
             scheduler.unscheduleAllEvents(target);
 
-            Optional<Entity> newtarget =
-                    world.findNearest(this.position, new ArrayList<>(Arrays.asList(Swamp.class)));
-
-            if (!(newtarget.isPresent() && this.moveTo(world, newtarget.get(), scheduler))) {
-                world.removeEntity(this);
-                scheduler.unscheduleAllEvents(this);
-                Swamp newnewtarget = (Swamp)newtarget.get();
-//                world.removeEntity();
-                newnewtarget.setHasShrek(false);
-            }
+//            Optional<Entity> newtarget =
+//                    world.findNearest(this.position, new ArrayList<>(Arrays.asList(Swamp.class)));
+//
+//            if (!(newtarget.isPresent() && this.moveTo(world, newtarget.get(), scheduler))) {
+//                world.removeEntity(this);
+//                scheduler.unscheduleAllEvents(this);
+//                Swamp newnewtarget = (Swamp)newtarget.get();
+//                world.removeEntity(newtarget.get());
+//                newnewtarget.setHasShrek(false);
+//                world.addEntity(newnewtarget);
+//            }
         }
         return true;
     }

@@ -1,9 +1,6 @@
 import processing.core.PImage;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
@@ -74,45 +71,45 @@ public class DudeFull extends Dude {
             EventScheduler scheduler,
             ImageStore imageStore){
         //bring daBaby into this world
-        Point babyLoco = world.findNearest(this.position,new ArrayList<>(Arrays.asList(House.class))).get().getPosition();
+        Point babyLoco = this.position;
+//
+//        int[] difs = {-1, 0, 1};
+//        Function<Point, List<Point>> getPossibleSpawnPoints = (p) -> Arrays.asList(
+//                new Point(babyLoco.x-1,babyLoco.y),
+//                new Point(babyLoco.x+1,babyLoco.y),
+//                new Point(babyLoco.x,babyLoco.y+1),
+//                new Point(babyLoco.x,babyLoco.y-1),
+//                new Point(babyLoco.x+1,babyLoco.y+1),
+//                new Point(babyLoco.x+1,babyLoco.y-1),
+//                new Point(babyLoco.x-1,babyLoco.y+1),
+//                new Point(babyLoco.x-1,babyLoco.y-1)
+//        );
+//
+//        Point spawnPoint = getPossibleSpawnPoints.apply(babyLoco).stream()
+//                .filter((p) -> !world.isOccupied(p))
+//                .limit(1)
+//                .findFirst()
+//                .orElse(null);
+//
+//        if (spawnPoint != null) {
+//            DudeNotFull daBaby = new DudeNotFull("dude", spawnPoint, this.images, this.animationPeriod, this.actionPeriod, this.resourceLimit, 0);
+//            super.transform(world, scheduler, imageStore, daBaby);
+//        }
 
-        int[] difs = {-1, 0, 1};
-        Function<Point, List<Point>> getPossibleSpawnPoints = (p) -> {return Arrays.asList(
-                new Point(babyLoco.x-1,babyLoco.y),
-                new Point(babyLoco.x+1,babyLoco.y),
-                new Point(babyLoco.x,babyLoco.y+1),
-                new Point(babyLoco.x,babyLoco.y-1),
-                new Point(babyLoco.x+1,babyLoco.y+1),
-                new Point(babyLoco.x+1,babyLoco.y-1),
-                new Point(babyLoco.x-1,babyLoco.y+1),
-                new Point(babyLoco.x-1,babyLoco.y-1)
-        );};
-
-        Point spawnPoint = getPossibleSpawnPoints.apply(babyLoco).stream()
-                .filter((p) -> !world.isOccupied(p))
-                .limit(1)
-                .findFirst()
-                .orElse(null);
-
-        if (spawnPoint != null) {
-            DudeNotFull daBaby = new DudeNotFull("dude", spawnPoint, this.images, this.animationPeriod, this.actionPeriod, this.resourceLimit, 0);
-            super.transform(world, scheduler, imageStore, daBaby);
-        }
-
-//        if(!world.isOccupied(this.position)){
-//            DudeNotFull daBaby = new DudeNotFull("dude",this.position,this.images,this.animationPeriod,this.actionPeriod,this.resourceLimit, 0);
-//            super.transform(world, scheduler, imageStore, daBaby);}
-//        else if(!world.isOccupied(new Point(babyLoco.x+1,babyLoco.y))){
-//            DudeNotFull daBaby = new DudeNotFull("dude",(new Point(babyLoco.x+1,babyLoco.y)),this.images,this.animationPeriod,this.actionPeriod,this.resourceLimit, 0);
-//            super.transform(world, scheduler, imageStore, daBaby);}
-//        else if(!world.isOccupied(new Point(babyLoco.x-1,babyLoco.y))){
-//            DudeNotFull daBaby = new DudeNotFull("dude",(new Point(babyLoco.x-1,babyLoco.y)),this.images,this.animationPeriod,this.actionPeriod,this.resourceLimit, 0);
-//            super.transform(world, scheduler, imageStore, daBaby);}
-//        else if(!world.isOccupied(new Point(babyLoco.x,babyLoco.y+1))){
-//            DudeNotFull daBaby = new DudeNotFull("dude",(new Point(babyLoco.x,babyLoco.y+1)),this.images,this.animationPeriod,this.actionPeriod,this.resourceLimit, 0);
-//            super.transform(world, scheduler, imageStore, daBaby);}
-//        else if(!world.isOccupied(new Point(babyLoco.x,babyLoco.y-1))){
-//            DudeNotFull daBaby = new DudeNotFull("dude",(new Point(babyLoco.x,babyLoco.y-1)),this.images,this.animationPeriod,this.actionPeriod,this.resourceLimit, 0);
+        if(!world.isOccupied(this.position)){
+            DudeNotFull daBaby = new DudeNotFull("dude",this.position,this.images,this.animationPeriod,this.actionPeriod,this.resourceLimit, 0);
+            super.transform(world, scheduler, imageStore, daBaby);}
+        else if(!world.isOccupied(new Point(babyLoco.x+1,babyLoco.y))){
+            DudeNotFull daBaby = new DudeNotFull("dude",(new Point(babyLoco.x+1,babyLoco.y)),this.images,this.animationPeriod,this.actionPeriod,this.resourceLimit, 0);
+            super.transform(world, scheduler, imageStore, daBaby);}
+        else if(!world.isOccupied(new Point(babyLoco.x-1,babyLoco.y))){
+            DudeNotFull daBaby = new DudeNotFull("dude",(new Point(babyLoco.x-1,babyLoco.y)),this.images,this.animationPeriod,this.actionPeriod,this.resourceLimit, 0);
+            super.transform(world, scheduler, imageStore, daBaby);}
+        else if(!world.isOccupied(new Point(babyLoco.x,babyLoco.y+1))){
+            DudeNotFull daBaby = new DudeNotFull("dude",(new Point(babyLoco.x,babyLoco.y+1)),this.images,this.animationPeriod,this.actionPeriod,this.resourceLimit, 0);
+            super.transform(world, scheduler, imageStore, daBaby);}
+        else if(!world.isOccupied(new Point(babyLoco.x,babyLoco.y-1))){
+            DudeNotFull daBaby = new DudeNotFull("dude",(new Point(babyLoco.x,babyLoco.y-1)),this.images,this.animationPeriod,this.actionPeriod,this.resourceLimit, 0);
 //            super.transform(world, scheduler, imageStore, daBaby);}
 //        else if(!world.isOccupied(new Point(babyLoco.x+1,babyLoco.y+1))){
 //            DudeNotFull daBaby = new DudeNotFull("dude",(new Point(babyLoco.x+1,babyLoco.y+1)),this.images,this.animationPeriod,this.actionPeriod,this.resourceLimit, 0);
@@ -129,5 +126,5 @@ public class DudeFull extends Dude {
         System.out.println("test1");
 
     }
-}
+}}
 

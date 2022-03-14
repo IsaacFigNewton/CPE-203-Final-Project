@@ -237,6 +237,7 @@ public final class VirtualWorld extends PApplet
 
             }
         }
+
         for (String arg : args) {
             switch (arg) {
                 case FAST_FLAG:
