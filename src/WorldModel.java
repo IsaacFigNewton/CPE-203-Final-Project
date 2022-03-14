@@ -74,6 +74,8 @@ public final class WorldModel
                     return this.parseTree(properties, imageStore);
                 case Functions.SAPLING_KEY:
                     return this.parseSapling(properties, imageStore);
+                case Functions.SWAMP_KEY:
+                    return this.parseSwamp(properties, imageStore);
             }
         }
 
@@ -97,7 +99,7 @@ public final class WorldModel
 
     public boolean isOccupied(Point pos) {
         //modified to allow everything to pass over swamp entities/tiles
-        return this.withinBounds(pos) && !(this.getOccupancyCell(pos) == null || this.getOccupancyCell(pos).getClass().equals(Swamp.class));
+        return this.withinBounds(pos) && !(this.getOccupancyCell(pos) == null);// || this.getOccupancyCell(pos).getClass().equals(Swamp.class));
     }
 
     public Optional<Entity> findNearest(Point pos, List<Class<? extends Entity>> kinds)
@@ -307,5 +309,19 @@ public final class WorldModel
         }
 
         return properties.length == Functions.HOUSE_NUM_PROPERTIES;
+    }
+
+    private boolean parseSwamp(
+            String[] properties, ImageStore imageStore)
+    {
+        if (properties.length == Functions.SWAMP_NUM_PROPERTIES) {
+            Point pt = new Point(Integer.parseInt(properties[Functions.SWAMP_COL]),
+                    Integer.parseInt(properties[Functions.SWAMP_ROW]));
+            Entity entity = new Swamp(properties[Functions.SWAMP_ID], pt,
+                    imageStore.getImageList(Functions.SWAMP_KEY));
+            this.tryAddEntity(entity);
+        }
+
+        return properties.length == Functions.SWAMP_NUM_PROPERTIES;
     }
 }

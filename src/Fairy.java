@@ -66,7 +66,7 @@ public class Fairy extends Mobile {
                 this.position,
                 destPos,
                 p -> world.withinBounds(p)
-                        && !(world.isOccupied(p)),              // canPassThrough
+                        && (!(world.isOccupied(p))|| world.getOccupancyCell(p).getClass().equals(Swamp.class)),              // canPassThrough
                 (p1, p2) -> p1.adjacent(p2),            // withinReach
                 PathingStrategy.CARDINAL_NEIGHBORS);    // potentialNeighbours
     }

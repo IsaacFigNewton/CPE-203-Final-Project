@@ -79,6 +79,12 @@ public final class Functions
     public static final String STUMP_KEY = "stump";
 
     public static final String SWAMP_KEY = "swamp";
+    public static final int SWAMP_NUM_PROPERTIES = 6;
+    public static final int SWAMP_ID = 1;
+    public static final int SWAMP_COL = 2;
+    public static final int SWAMP_ROW = 3;
+    public static final int SWAMP_ANIMATION_PERIOD = 4;
+    public static final int SWAMP_ACTION_PERIOD = 5;
 
     public static final String TREE_KEY = "tree";
     public static final int TREE_NUM_PROPERTIES = 7;

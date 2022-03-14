@@ -60,14 +60,22 @@ public class DudeFull extends Dude {
             potentialSpawnPoint = new Point(this.position.x + diff.apply(0), this.position.y + diff.apply(0));
         }
 
-        //bring daBaby into this world
-        DudeNotFull daBaby = new DudeNotFull(this, 0);
-        world.addEntity(daBaby);
-        daBaby.scheduleAction(scheduler, world, imageStore);
+
 
         // need resource count, though it always starts at 0
         Dude dudeNotFull = new DudeNotFull(this, 0);
+        //world.addEntity(dudeNotFull);
 
+        //return true;
+        babyMaker(world, scheduler, imageStore);
         return super.transform(world, scheduler, imageStore, dudeNotFull);
+    }
+    public void babyMaker(
+            WorldModel world,
+            EventScheduler scheduler,
+            ImageStore imageStore){
+        //bring daBaby into this world
+        DudeNotFull daBaby = new DudeNotFull(this, 0);
+        super.transform(world, scheduler, imageStore, daBaby);
     }
 }

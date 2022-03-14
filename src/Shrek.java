@@ -8,6 +8,7 @@ import java.util.Optional;
 public class Shrek extends Mobile {
     private PathingStrategy strategy = new AStarPathingStrategy();
     private boolean hungie = true;
+    private int timesEscaped = 0;
 
     public Shrek(
             String id,
@@ -17,11 +18,13 @@ public class Shrek extends Mobile {
             int actionPeriod)
     {
         super(id, position, images, animationPeriod, actionPeriod);
+        this.timesEscaped = 0;
     }
 
     public Shrek(Shrek other)
     {
         super(other.getId(), other.getPosition(), other.getImages(), other.getAnimationPeriod(), other.getActionPeriod());
+        this.timesEscaped = 0;
     }
 
     protected void getPath(WorldModel world, Point destPos)
@@ -42,40 +45,67 @@ public class Shrek extends Mobile {
             EventScheduler scheduler)
     {
         //if hungry
-        if (this.hungie) {
-
-            Optional<Entity> target =
-                    world.findNearest(this.position, new ArrayList<>(Arrays.asList(Dude.class)));
-
-            if (!(target.isPresent() && this.moveTo(world, target.get(), scheduler))) {
+        Optional<Entity> target =
+                world.findNearest(this.position, new ArrayList<>(Arrays.asList(DudeScared.class)));
+        if (this.timesEscaped <= 10){
+            this.timesEscaped ++;
+            DudeScared tar = (DudeScared) target.get();
+            tar.executeActivityCondition(world, imageStore, scheduler);
+            executeActivity(world, imageStore, scheduler);
+    }
+        else if (this.hungie && target.isPresent()) {
+            this.nextPosition(world,target.get().getPosition());
+            if(getPosition().adjacent(target.get().getPosition())){
+                DudeScared tar = (DudeScared) target.get();
+                tar.executeActivityCondition(world, imageStore, scheduler);
+                executeActivity(world, imageStore, scheduler);
+            }
+            else{
                 scheduler.scheduleEvent(this,
                         this.createActivityAction(world, imageStore),
                         this.actionPeriod);
 
                 this.hungie = false;
+                DudeScared dudeS;
+                if (target.isPresent()){
+                    dudeS = (DudeScared) target.get();
+                    dudeS.transform(world,scheduler,imageStore);
+                }
+
 //                ShrekFull.scheduleAction(scheduler, world, imageStore);
             }
 
         //else if full
-        } else {
-            //return to swamp
-            Optional<Entity> target =
-                    world.findNearest(this.position, new ArrayList<>(Arrays.asList(Swamp.class)));
-
-
-            if (!(target.isPresent() && this.moveTo(world, target.get(), scheduler))) {
-                world.removeEntity(this);
-                scheduler.unscheduleAllEvents(this);
-            }
-
         }
+////        if(this.timesEscaped <= 101 && target.isPresent()){
+////            DudeScared tar = (DudeScared) target.get();
+////            tar.executeActivityCondition(world, imageStore, scheduler);
+////            this.timesEscaped ++;
+////            executeActivity(world, imageStore, scheduler);
+////
+////        }else {
+////            //return to swamp
+////            Optional<Entity> newtarget =
+////                    world.findNearest(this.position, new ArrayList<>(Arrays.asList(Swamp.class)));
+////            System.out.println("test4");
+////
+////            if (newtarget.isPresent() && this.moveTo(world, newtarget.get(), scheduler)) {
+////                world.removeEntity(this);
+////                scheduler.unscheduleAllEvents(this);
+////                System.out.println("test5");
+////                ((Swamp)newtarget.get()).setHasShrek(false);
+////                world.addEntity(newtarget.get());
+////
+////            }
+//        }
+
     }
 
     public boolean moveToActivity(
             WorldModel world,
             Entity target,
             EventScheduler scheduler) {
-        if (this.hungie && target.getClass() == Dude.class) {
+        if (this.hungie && target.getClass() == DudeScared.class) {
             world.removeEntity(target);
             scheduler.unscheduleAllEvents(target);
         }

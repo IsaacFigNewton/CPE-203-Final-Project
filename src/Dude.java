@@ -5,7 +5,7 @@ import java.util.List;
 abstract class Dude extends Mobile {
     protected int resourceLimit;
     protected PathingStrategy strategy = new AStarPathingStrategy();
-
+    protected Point lastPos;
     public Dude(
             String id,
             Point position,
@@ -16,8 +16,9 @@ abstract class Dude extends Mobile {
     {
         super(id, position, images, animationPeriod, actionPeriod);
         this.resourceLimit = resourceLimit;
+        this.lastPos = null;
     }
-
+    public String getId(){return this.id;}
     public Dude(Dude other)
     {
         super(other.getId(), other.getPosition(), other.getImages(), other.getAnimationPeriod(), other.getActionPeriod());
@@ -34,7 +35,8 @@ abstract class Dude extends Mobile {
                 destPos,
                 p -> world.withinBounds(p)
                     && (!world.isOccupied(p)
-                        || world.getOccupant(p).getClass().equals(Stump.class)),    // canPassThrough
+                        || world.getOccupancyCell(p).getClass().equals(Stump.class)
+                            || world.getOccupancyCell(p).getClass().equals(Swamp.class)),    // canPassThrough
                 (p1, p2) -> p1.adjacent(p2),                                        // withinReach
                 PathingStrategy.CARDINAL_NEIGHBORS);                                // potentialNeighbours
     }
@@ -69,6 +71,16 @@ abstract class Dude extends Mobile {
         world.addEntity(dude);
         dude.scheduleAction(scheduler, world, imageStore);
 
+        if(dude instanceof DudeScared){
+            dude.executeActivityCondition(world, imageStore, scheduler);
+            dude.executeActivityCondition(world, imageStore, scheduler);
+            dude.executeActivityCondition(world, imageStore, scheduler);
+
+            Shrek shrek = new Shrek("shrek",this.lastPos, imageStore.getImageList(Functions.SHREK_KEY),Functions.SHREK_ANIMATION_PERIOD,Functions.SHREK_ACTION_PERIOD);
+            world.addEntity(shrek);
+            shrek.scheduleAction(scheduler, world, imageStore);
+        }
+
         return true;
     }
 
@@ -76,9 +88,11 @@ abstract class Dude extends Mobile {
             WorldModel world,
             EventScheduler scheduler,
             ImageStore imageStore,
-            Dude dude)
+            Dude dude, Point nextPos)
     {
-        Dude dudeScared = new DudeScared(this);
+        this.lastPos = nextPos;
+        Dude dudeScared = new DudeScared(dude);
+        dudeScared.scheduleAction(scheduler, world, imageStore);
 
         return transform(world, scheduler, imageStore, dudeScared);
     }

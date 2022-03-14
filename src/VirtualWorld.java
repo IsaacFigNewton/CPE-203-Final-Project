@@ -96,14 +96,15 @@ public final class VirtualWorld extends PApplet
     public void mousePressed() {
         Point pressed = mouseToPoint(mouseX, mouseY);
 
-        Optional<Entity> entityOptional = world.getOccupant(pressed);
+
+    Optional<Entity> entityOptional = world.getOccupant(pressed);
 
         if (entityOptional.isPresent())
         {
             //System.out.println("test1");
 
             Entity entity = entityOptional.get();
-            System.out.println(entity.getId() + ": " + entity.getClass());
+            System.out.println(entity.getId() + ": " + entity.getClass() + ": " + entity.getId());
             //System.out.print(entity.getClass());
 //            if (entity instanceof Plant){
 //                System.out.println(" : " + ((Plant)entity).getHealth());
@@ -112,31 +113,35 @@ public final class VirtualWorld extends PApplet
 //                System.out.println(" Resources: " + ((Dude)entity).getResourceCount() + "/" + ((Dude)entity).getResourceLimit());
 //            }
         }
+        world.addEntity(new Swamp(Functions.SWAMP_KEY, pressed, imageStore.getImageList(Functions.SWAMP_KEY)));
 
         //set swamp backgrounds randomly around where the user clicked
-        int radius = 7;
-        int numTiles = 10;   //max number of tiles = round(radius / 2) ^ 2 ()
-        Function<Integer, Integer> diff = (i) -> (int)(Math.random() * radius) - radius/2;
-        ArrayList<Point> spawnPoints = new ArrayList<>();
-
-        //generate 7 unique, valid spawn points around the point where the user clicked within the defined radius
-        while (spawnPoints.size() < numTiles) {
-            Point potentialSpawnPoint = new Point(pressed.x + diff.apply(0), pressed.y + diff.apply(0));
-            if (world.withinBounds(potentialSpawnPoint)
-                    && !spawnPoints.contains(potentialSpawnPoint)
-                    && !world.isOccupied(potentialSpawnPoint))
-                spawnPoints.add(potentialSpawnPoint);
-        }
-
-        for (Point point : spawnPoints) {
-            //set background tiles at those points to swamp tiles
-            world.setBackground(point,
-                    new Background("swamp",
-                    imageStore.getImageList(Functions.SWAMP_KEY)));
-
-            //set swamp entities on those tiles
-            //add swamp with transparent image so that it doesn't go over dude
-            world.addEntity(new Swamp(Functions.SWAMP_KEY, point, imageStore.getImageList(Functions.SWAMP_KEY)));        }
+//        int radius = 7;
+//        int numTiles = 10;   //max number of tiles = round(radius / 2) ^ 2 ()
+//        Function<Integer, Integer> diff = (i) -> (int)(Math.random() * radius) - radius/2;
+//        ArrayList<Point> spawnPoints = new ArrayList<>();
+//
+//        //generate 7 unique, valid spawn points around the point where the user clicked within the defined radius
+//        int attempts = 0;
+//        while (spawnPoints.size() < numTiles || attempts > 1000) {
+//            Point potentialSpawnPoint = new Point(pressed.x + diff.apply(0), pressed.y + diff.apply(0));
+//            if (world.withinBounds(potentialSpawnPoint)
+//                    && !spawnPoints.contains(potentialSpawnPoint)
+//                    && !world.isOccupied(potentialSpawnPoint))
+//                spawnPoints.add(potentialSpawnPoint);
+//            attempts++;
+//
+//        }
+//
+//        for (Point point : spawnPoints) {
+//            //set background tiles at those points to swamp tiles
+//            world.setBackground(point,
+//                    new Background("swamp",
+//                    imageStore.getImageList(Functions.SWAMP_KEY)));
+//
+//            //set swamp entities on those tiles
+//            //add swamp with transparent image so that it doesn't go over dude
+//            world.addEntity(new Swamp(Functions.SWAMP_KEY, point, imageStore.getImageList(Functions.SWAMP_KEY)));        }
 //            System.out.println(point);
 //        System.out.println();
 //
