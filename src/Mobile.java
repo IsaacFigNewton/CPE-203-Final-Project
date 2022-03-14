@@ -67,7 +67,6 @@ abstract class Mobile extends Active{
             if (!this.position.equals(nextPos)) {
                 Optional<Entity> occupant = world.getOccupant(nextPos);
                 if (occupant.isPresent()) {
-                    System.out.println("test6");
                     scheduler.unscheduleAllEvents(occupant.get());
                 }
 

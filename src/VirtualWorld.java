@@ -116,7 +116,7 @@ public final class VirtualWorld extends PApplet
 
         //set swamp backgrounds randomly around where the user clicked
         int radius = 7;
-        int numTiles = 10;   //max number of tiles = round(radius / 2) ^ 2 ()
+        int numTiles = 7;   //max number of tiles = round(radius / 2) ^ 2 ()
         Function<Integer, Integer> diff = (i) -> (int)(Math.random() * radius) - radius/2;
         ArrayList<Point> spawnPoints = new ArrayList<>();
 

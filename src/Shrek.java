@@ -143,7 +143,7 @@ public class Shrek extends Mobile {
         if (this.hungie) {
 
             Optional<Entity> target =
-                    world.findNearest(this.position, new ArrayList<>(Arrays.asList(Dude.class)));
+                    world.findNearest(this.position, new ArrayList<>(Arrays.asList(DudeScared.class)));
 
             if (!(target.isPresent() && this.moveTo(world, target.get(), scheduler))) {
                 scheduler.scheduleEvent(this,
@@ -156,8 +156,8 @@ public class Shrek extends Mobile {
             //else if full
         } else {
             //return to swamp
-            Optional<Entity> target =
-                    world.findNearest(this.position, new ArrayList<>(Arrays.asList(Swamp.class)));
+                Optional<Entity> target =
+                world.findNearest(this.position, new ArrayList<>(Arrays.asList(Swamp.class)));
 
 
             if (!(target.isPresent() && this.moveTo(world, target.get(), scheduler))) {
@@ -175,8 +175,18 @@ public class Shrek extends Mobile {
         if (this.hungie && target.getClass() == DudeScared.class) {
             world.removeEntity(target);
             scheduler.unscheduleAllEvents(target);
+
+            Optional<Entity> newtarget =
+                    world.findNearest(this.position, new ArrayList<>(Arrays.asList(Swamp.class)));
+
+            if (!(newtarget.isPresent() && this.moveTo(world, newtarget.get(), scheduler))) {
+                world.removeEntity(this);
+                scheduler.unscheduleAllEvents(this);
+                Swamp newnewtarget = (Swamp)newtarget.get();
+//                world.removeEntity();
+                newnewtarget.setHasShrek(false);
+            }
         }
         return true;
     }
-
 }
