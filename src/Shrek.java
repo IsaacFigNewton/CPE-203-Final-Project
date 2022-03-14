@@ -52,7 +52,7 @@ public class Shrek extends Mobile {
                         this.createActivityAction(world, imageStore),
                         this.actionPeriod);
 
-                this.hungie = true;
+//                this.hungie = true;
             }
 
             //else if full
@@ -78,6 +78,8 @@ public class Shrek extends Mobile {
             //remove the dude scared
             world.removeEntity(target);
             scheduler.unscheduleAllEvents(target);
+
+//            this.hungie = false;
 
             //remove shrek
             world.removeEntity(this);

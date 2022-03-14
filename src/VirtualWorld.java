@@ -144,13 +144,7 @@ public final class VirtualWorld extends PApplet
 //            System.out.println(point);
         }
 
-
         System.out.println();
-
-        //if a dude or a fairy runs over a swamp tile, shrek spawns and hunts them down to eat them
-
-        //once shrek has eaten a dude or fairy, he returns to the nearest swamp
-
     }
 
     private Point mouseToPoint(int x, int y)
