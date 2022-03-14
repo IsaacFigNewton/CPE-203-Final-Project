@@ -27,17 +27,20 @@ public class DudeScared extends Dude{
             EventScheduler scheduler)
     {
         Random random = new Random();
-        Point scaredPos = new Point(random.nextInt(-1, 1),
-                random.nextInt(-1, 1));
-        while(!world.withinBounds(scaredPos)) {
-            scaredPos = new Point(random.nextInt(-1, 1),
-                    random.nextInt(-1, 1));
-        }
-        scaredPos =  new Point(this.position.x + random.nextInt(-1, 1),
+        Point scaredPos = new Point(this.position.x + random.nextInt(-1, 1),
                 this.position.y + random.nextInt(-1, 1));
 
+        //while the scaredPos is occupied and not
+        while(!(!world.isOccupied(scaredPos)
+                //make sure a new Swamp can be added on top of an old one to avoid the program breaking
+                || world.getOccupant(scaredPos).stream()
+                .findFirst()
+                .orElse(null) instanceof Swamp)) {
+            scaredPos = new Point(this.position.x + random.nextInt(-1, 1),
+                    this.position.y + random.nextInt(-1, 1));
+        }
 
-        world.moveEntity(this,scaredPos);
+        world.moveEntity(this, scaredPos);
 
         return true;
     }
