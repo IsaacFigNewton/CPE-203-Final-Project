@@ -77,8 +77,9 @@ abstract class Dude extends Mobile {
             dude.executeActivityCondition(world, imageStore, scheduler);
 
             Shrek shrek = new Shrek("shrek",this.lastPos, imageStore.getImageList(Functions.SHREK_KEY),Functions.SHREK_ANIMATION_PERIOD,Functions.SHREK_ACTION_PERIOD);
-            world.addEntity(shrek);
-            shrek.scheduleAction(scheduler, world, imageStore);
+
+            //schedule shrek's birthing
+            scheduler.scheduleEvent(shrek, new SpawnEntity(shrek, world, imageStore), 100);
         }
 
         return true;

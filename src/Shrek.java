@@ -45,6 +45,7 @@ public class Shrek extends Mobile {
             EventScheduler scheduler)
     {
         //if hungry
+        //get the nearest dudeScared
         Optional<Entity> target =
                 world.findNearest(this.position, new ArrayList<>(Arrays.asList(DudeScared.class)));
         if (this.timesEscaped <= 10){
@@ -53,8 +54,10 @@ public class Shrek extends Mobile {
             tar.executeActivityCondition(world, imageStore, scheduler);
             executeActivity(world, imageStore, scheduler);
     }
+        //if the ogre has consumed and is sated
         else if (this.hungie && target.isPresent()) {
             this.nextPosition(world,target.get().getPosition());
+
             if(getPosition().adjacent(target.get().getPosition())){
                 DudeScared tar = (DudeScared) target.get();
                 tar.executeActivityCondition(world, imageStore, scheduler);

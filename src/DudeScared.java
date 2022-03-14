@@ -27,11 +27,14 @@ public class DudeScared extends Dude{
             EventScheduler scheduler)
     {
         Random random = new Random();
-        Point scaredPos = new Point(random.nextInt(-1, 1), random.nextInt(-1, 1));
+        Point scaredPos = new Point(random.nextInt(-1, 1),
+                random.nextInt(-1, 1));
         while(!world.withinBounds(scaredPos)) {
-            scaredPos = new Point(random.nextInt(-1, 1), random.nextInt(-1, 1));
+            scaredPos = new Point(random.nextInt(-1, 1),
+                    random.nextInt(-1, 1));
         }
-        scaredPos =  new Point(this.position.x + random.nextInt(-1, 1),this.position.y + random.nextInt(-1, 1));
+        scaredPos =  new Point(this.position.x + random.nextInt(-1, 1),
+                this.position.y + random.nextInt(-1, 1));
 
 
         world.moveEntity(this,scaredPos);

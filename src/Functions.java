@@ -14,6 +14,8 @@ public final class Functions
     public static final List<String> PATH_KEYS = new ArrayList<>(Arrays.asList("bridge", "dirt", "dirt_horiz", "dirt_vert_left", "dirt_vert_right",
             "dirt_bot_left_corner", "dirt_bot_right_up", "dirt_vert_left_bot"));
 
+    public static final String TRANSPARENT_KEY = "transparent";
+
     public static final String SAPLING_KEY = "sapling";
     public static final int SAPLING_HEALTH_LIMIT = 5;
     public static final int SAPLING_ACTION_ANIMATION_PERIOD = 1000; // have to be in sync since grows and gains health at same time
